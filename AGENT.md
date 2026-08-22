@@ -34,6 +34,10 @@ tiết (màu, component, từng màn hình): xem Blueprint — [link].
   models cạnh nhau.
 - Component dùng cú pháp hàm mới: `input()`/`output()`/`model()`, control
   flow `@if`/`@for`/`@switch`.
+- Setup base/hạ tầng theo nhu cầu: chỉ dựng trước phần cần cho toàn app
+  (scaffold, style token, `environment.ts`, HttpClient). Phần còn lại
+  (interceptor lỗi, guard, v.v.) để `[ ]` trong `ai/setup-base.md` đến
+  khi feature thật sự chạm tới — nhắc trước khi bắt tay, không dựng sẵn.
 
 ## Hiệu suất token
 - Đọc file có mục tiêu: dùng Grep/Glob tìm đúng đoạn/dòng cần trước, tránh

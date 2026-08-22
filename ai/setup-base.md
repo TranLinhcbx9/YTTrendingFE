@@ -1,6 +1,8 @@
 # Setup Base — Checklist (FE)
 
 > Chỉ liệt kê *cái gì*, không nói *làm thế nào*.
+> Chỉ tick khi đã code thật; base chưa đụng tới thì để trống, làm khi
+> feature cần tới đó — có nhắc trước khi bắt tay.
 
 ## Base xong = 2 điều kiện
 - `ng serve` lên được, mở `http://localhost:4200`
@@ -29,6 +31,7 @@
 - [x] `provideHttpClient()` trong `app.config.ts`
 - [ ] 1 `errorInterceptor` — map lỗi Result pattern (bảng ở
       `docs/architecture.md`) → toast PrimeNG
+      *(làm cùng lúc mục 6 — lúc chạm request API thật, chưa làm trước)*
 
 ## 4. Layout
 - [ ] Global Shell component (sidebar 2 mục + top bar) — theo Blueprint §03
