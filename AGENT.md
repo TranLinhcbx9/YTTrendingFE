@@ -35,6 +35,13 @@ tiết (màu, component, từng màn hình): xem Blueprint — [link].
 - Component dùng cú pháp hàm mới: `input()`/`output()`/`model()`, control
   flow `@if`/`@for`/`@switch`.
 
+## Hiệu suất token
+- Đọc file có mục tiêu: dùng Grep/Glob tìm đúng đoạn/dòng cần trước, tránh
+  đọc nguyên file lớn khi chỉ cần 1 phần.
+- Docs/file mới viết ra: ngắn gọn, ưu tiên bullet/bảng thay vì văn xuôi
+  dài; không lặp lại nội dung đã có ở file khác — trỏ link thay vì copy.
+- Không tự tạo file tổng hợp/báo cáo trung gian nếu không được yêu cầu.
+
 ## Tài liệu
 - [`docs/architecture.md`](docs/architecture.md) — cấu trúc folder, nguyên
   tắc kiến trúc, SignalStore ↔ NgRx classic
