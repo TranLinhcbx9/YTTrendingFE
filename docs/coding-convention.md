@@ -42,6 +42,10 @@
 
 ## 3. Service (data-access)
 
+**Trách nhiệm**: owns HTTP communication · defines API endpoint · map
+request/response khi cần (DTO thô ↔ shape khác) · **không** own
+feature/UI state.
+
 - 1 service / feature, chỉ gọi `HttpClient`/`httpResource()`, trả
   `Observable`/`Promise`/resource — **không** giữ state, không `inject`
   ngược Store của chính nó.
@@ -49,10 +53,17 @@
   `createChannel`), không theo HTTP verb (`post`, `get`).
 - Base URL luôn qua `environment.ts` (invariant `AGENT.md`) — service
   không tự ghép string URL rải rác.
+- Cần map response thô → shape khác cho UI (vd gộp field, đổi format) thì
+  map ngay trong Service — Store nhận thẳng shape đã đúng, không tự map
+  lại lần 2.
 - Service của feature nào chỉ Store/component của feature đó dùng — dùng
   chéo thì chuyển lên `shared/`/`core/` (xem `architecture.md`).
 
 ## 4. SignalStore
+
+**Trách nhiệm**: owns feature state · expose state read-only · expose
+feature actions · orchestrate API (qua Service) + state · mutate state
+nội bộ (không cho ngoài mutate trực tiếp).
 
 - 1 store / feature (đã là invariant ở `AGENT.md`); method đặt tên theo
   hành động (`loadChannels`, `addChannel`), không đặt theo cơ chế
@@ -60,13 +71,13 @@
 - Store gọi Service để lấy/ghi data — **không** tự gọi `HttpClient`/
   `httpResource()` thẳng trong store.
 - Đổi state chỉ qua `patchState()` bên trong store — component **không**
-  patch trực tiếp, chỉ gọi method store expose.
+  patch trực tiếp, chỉ gọi method store expose (feature actions).
 - `resource()` (loader gọi method Service) tự quản `value/loading/error`
   — không tự set 3 biến này tay (nguyên tắc đã có ở `architecture.md`,
   nhắc lại ở đây vì hay bị phá khi thêm optimistic update).
 - State/computed expose ra ngoài **luôn** qua `computed()` hoặc field
-  `resource()` gốc — không expose signal ghi được (`WritableSignal`) ra
-  khỏi store.
+  `resource()` gốc (read-only) — không expose signal ghi được
+  (`WritableSignal`) ra khỏi store.
 
 ## 5. Component & Template
 
