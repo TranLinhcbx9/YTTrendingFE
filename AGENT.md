@@ -2,8 +2,8 @@
 
 ## Mục tiêu
 Giao diện Angular cho công cụ theo dõi kênh YouTube Shorts đối thủ, phát
-hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiết kế UI chi
-tiết (màu, component, từng màn hình): xem Blueprint — [https://claude.ai/code/artifact/40b2d738-e4d7-45ea-8ae5-3e93abf46a28?org=227a2499-95c2-4f94-9cc0-683b255f498d].
+hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiết kế UI
+(Blueprint + mockup từng màn hình): xem mục [Tài liệu](#tài-liệu).
 
 ## Stack
 - Angular (bản mới nhất khi tạo dự án), standalone components, Signals
@@ -61,7 +61,10 @@ tiết (màu, component, từng màn hình): xem Blueprint — [https://claude.a
   style component/template/signals
 - [`docs/design-tokens.md`](docs/design-tokens.md) — ý nghĩa token màu/chữ
 - [`docs/components.md`](docs/components.md) — component dùng chung
-- Thiết kế UI đầy đủ: Blueprint — [https://claude.ai/code/artifact/40b2d738-e4d7-45ea-8ae5-3e93abf46a28?via=auto_preview]
+- Thiết kế UI đầy đủ (design system, token, component): Blueprint — [https://claude.ai/code/artifact/40b2d738-e4d7-45ea-8ae5-3e93abf46a28?via=auto_preview]
+- Thiết kế từng màn hình (mockup: Main, FastGrowing, RecentShorts,
+  SavedVideos, VideoDetail, Channels, ChannelsEmpty): Screens —
+  [https://claude.ai/code/artifact/e7696f33-ff84-4761-9a6d-373b3faff025?org=227a2499-95c2-4f94-9cc0-683b255f498d]
 - Tiến độ checklist: `ai/setup-base.md`
 
 ## Cách làm việc

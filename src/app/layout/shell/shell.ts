@@ -14,8 +14,9 @@ export class Shell {
 
   protected readonly pageTitle = toSignal(
     this.router.events.pipe(
-      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      startWith(null),
+      filter((event): event is NavigationEnd =>
+        event instanceof NavigationEnd
+      ),
       map(() => this.deepestTitle())
     ),
     { initialValue: '' }
