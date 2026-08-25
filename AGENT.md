@@ -28,10 +28,18 @@ tiết (màu, component, từng màn hình): xem Blueprint — [https://claude.a
 ## Lệnh
 - `ng serve` — dev server
 - `ng build` — build production
+- `ng lint` — lint
+- Test: Phase 1 CHƯA dùng (hoãn, xem `ai/setup-base.md`) — đừng tự thêm
+  test/CI
+- Commit: conventional commits (`feat:`/`fix:`/`docs:`…); làm trên
+  `develop`, PR về `master` (đồng bộ flow với BE)
 
 ## Quy ước
 - 1 feature = 1 folder (`features/<name>/`), component + `*.store.ts` +
-  models cạnh nhau.
+  `*.service.ts` + models cạnh nhau. Service gọi API (data-access,
+  không giữ state), Store giữ state + gọi Service — không để Store tự
+  gọi `HttpClient`/`httpResource()` thẳng (chi tiết
+  [`docs/architecture.md`](docs/architecture.md)).
 - Component dùng cú pháp hàm mới: `input()`/`output()`/`model()`, control
   flow `@if`/`@for`/`@switch`.
 - Setup base/hạ tầng theo nhu cầu: chỉ dựng trước phần cần cho toàn app
@@ -49,7 +57,13 @@ tiết (màu, component, từng màn hình): xem Blueprint — [https://claude.a
 ## Tài liệu
 - [`docs/architecture.md`](docs/architecture.md) — cấu trúc folder, nguyên
   tắc kiến trúc, SignalStore ↔ NgRx classic
+- [`docs/coding-convention.md`](docs/coding-convention.md) — naming, DI,
+  style component/template/signals
 - [`docs/design-tokens.md`](docs/design-tokens.md) — ý nghĩa token màu/chữ
 - [`docs/components.md`](docs/components.md) — component dùng chung
 - Thiết kế UI đầy đủ: Blueprint — [https://claude.ai/code/artifact/40b2d738-e4d7-45ea-8ae5-3e93abf46a28?via=auto_preview]
-- Tiến độ: `ai/setup-base.md`
+- Tiến độ checklist: `ai/setup-base.md`
+
+## Cách làm việc
+- Đang làm gì / block ở đâu → [`ai/current.md`](ai/current.md) (lịch sử
+  đã xong ở [`ai/history.md`](ai/history.md)).

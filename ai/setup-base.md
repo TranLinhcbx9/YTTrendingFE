@@ -29,13 +29,13 @@
 - [x] `environment.ts` / `environment.development.ts` —
       `apiBaseUrl: 'http://localhost:5118/api'`
 - [x] `provideHttpClient()` trong `app.config.ts`
-- [ ] 1 `errorInterceptor` — map lỗi Result pattern (bảng ở
+- [x] 1 `errorInterceptor` — map lỗi Result pattern (bảng ở
       `docs/architecture.md`) → toast PrimeNG
       *(làm cùng lúc mục 6 — lúc chạm request API thật, chưa làm trước)*
 
 ## 4. Layout
-- [ ] Global Shell component (sidebar 2 mục + top bar) — theo Blueprint §03
-- [ ] `app.routes.ts` — lazy load từng feature (`loadComponent`)
+- [x] Global Shell component (sidebar 2 mục + top bar) — theo Blueprint §03
+- [x] `app.routes.ts` — lazy load từng feature (`loadComponent`)
 
 ## 5. Shared UI (Blueprint §02)
 - [ ] `StatusChip`, `ScoreBadge`, `VideoCard`, `EmptyState`, `Pagination`,
@@ -43,8 +43,10 @@
 - [ ] Pipe: `compactNumber` (1.2M), `relativeTime`
 
 ## 6. Slice nghiệm thu — Channel Management
-- [ ] `ChannelsStore` (SignalStore) — state + `httpResource()`/`resource()`
-      gọi `GET /api/channels`
+- [ ] `ChannelsService` — gọi `GET`/`POST /api/channels` qua `HttpClient`/
+      `httpResource()`, không giữ state
+- [ ] `ChannelsStore` (SignalStore) — state, gọi qua `ChannelsService`
+      (không tự gọi `HttpClient` thẳng)
 - [ ] Trang list (bảng, dùng `Pagination`)
 - [ ] Form Add — 1 ô nhập (Blueprint §06), gọi `POST /api/channels`
 - [ ] Verify tay: thêm kênh thật bằng Channel ID/URL thật → thấy row mới,
