@@ -1,0 +1,46 @@
+<div class="flex h-screen bg-[var(--color-bg)]">
+  <aside
+    class="flex w-16 flex-none flex-col gap-1 border-r border-[var(--color-border)] bg-[var(--color-surface)] p-3 xl:w-60 xl:p-4"
+  >
+    <div
+      class="mb-4 flex items-center gap-2 px-1 font-[family-name:var(--font-display)] text-sm font-bold text-[var(--color-text)]"
+    >
+      <span>📈</span>
+      <span class="hidden xl:inline">Shorts Monitor</span>
+    </div>
+
+    <a
+      routerLink="/dashboard"
+      routerLinkActive="bg-[var(--color-accent-soft)] text-[var(--color-accent)]"
+      class="flex items-center gap-3 rounded-[var(--radius-sm,6px)] px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]"
+    >
+      <i class="pi pi-th-large"></i>
+      <span class="hidden xl:inline">Dashboard</span>
+    </a>
+
+    <a
+      routerLink="/channels"
+      routerLinkActive="bg-[var(--color-accent-soft)] text-[var(--color-accent)]"
+      class="flex items-center gap-3 rounded-[var(--radius-sm,6px)] px-3 py-2 text-sm font-medium text-[var(--color-text-muted)] hover:bg-[var(--color-surface-2)] hover:text-[var(--color-text)]"
+    >
+      <i class="pi pi-video"></i>
+      <span class="hidden xl:inline">Channels</span>
+    </a>
+  </aside>
+
+  <div class="flex min-w-0 flex-1 flex-col">
+    <header
+      class="flex h-11 flex-none items-center justify-between border-b border-[var(--color-border)] px-4 text-sm text-[var(--color-text-muted)]"
+    >
+      <span class="font-medium text-[var(--color-text)]">{{ pageTitle() }}</span>
+      <span class="flex items-center gap-2">
+        <i class="pi pi-sync text-xs"></i>
+        Đồng bộ lần cuối: —
+      </span>
+    </header>
+
+    <main class="min-w-0 flex-1 overflow-y-auto p-4">
+      <router-outlet />
+    </main>
+  </div>
+</div>
