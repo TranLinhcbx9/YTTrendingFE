@@ -22,7 +22,7 @@ tính năng chỉ mở đúng 1 folder
 - **1 SignalStore / feature**, không có 1 store khổng lồ dùng chung.
 - **Service (`*.service.ts`) là tầng data-access duy nhất** gọi
   `HttpClient`/`httpResource()` — trả `Observable`/`Promise`/resource,
-  **không giữ state**, không biết PrimeNG/UI.
+  **không giữ state**, không biết Angular Material/UI.
 - **Store chỉ giữ state**, gọi qua Service (không tự gọi `HttpClient`);
   `resource()`/`httpResource()` dùng Service làm loader — không tự tay
   quản `loading/error/data`.
@@ -47,8 +47,8 @@ tính năng chỉ mở đúng 1 folder
       │  store expose qua `computed()` → template render lại (signal
       │  reactivity)
       │
-      └─ Lỗi → interceptor toàn cục bắt trước, map theo bảng dưới (toast/
-         inline) — đồng thời `resource().error()` vẫn có, dùng khi feature
+      └─ Lỗi → interceptor toàn cục bắt trước, map theo bảng dưới
+         (snackbar/inline) — đồng thời `resource().error()` vẫn có, dùng khi feature
          cần trạng thái lỗi cục bộ (vd disable nút) ngoài phần interceptor
          đã xử lý chung.
 
@@ -66,10 +66,14 @@ tính năng chỉ mở đúng 1 folder
 
 | HTTP / ErrorType | UI |
 |---|---|
-| 400 Validation | Lỗi inline dưới field (map `fields` camelCase) |
-| 404 NotFound | Toast + quay lại trang trước |
-| 409 Conflict | Inline ngay tại hành động gây lỗi |
-| 5xx / network | Toast + nút Thử lại |
+| 400 Validation | Lỗi inline dưới field qua `mat-error` (map `fields` camelCase) |
+| 404 NotFound | Snackbar + quay lại trang trước |
+| 409 Conflict | Inline ngay tại hành động gây lỗi — **không** snackbar |
+| 5xx / network | Snackbar + nút Thử lại |
+
+Interceptor chỉ bắn snackbar cho **404 và 5xx**. 400/409 đi thẳng về
+component để hiện inline — hai lỗi này luôn gắn với 1 field hoặc 1 hành
+động cụ thể, snackbar chung sẽ mất ngữ cảnh.
 
 ## SignalStore ↔ NgRx classic
 
@@ -92,5 +96,12 @@ biến `loading/error/data` tay — `resource()` là bản gọn của đúng pa
 
 ## UI library
 
-PrimeNG + PrimeIcons (đã chốt ở Blueprint — nhiều component sẵn cho
-dashboard nhiều số liệu: table, chart, slider, toast, confirm dialog).
+**Angular Material 20 (Material Design 3)** + Material Symbols. Palette
+generate từ seed teal `#2BD4C2`, dark-first, density −2.
+
+- Chia component "dùng sẵn" vs "tự viết": `docs/components.md`.
+- Token màu/chữ/shape: `docs/design-tokens.md`.
+- Material 20 **không** còn peer-dep `@angular/animations` (animation chạy
+  bằng CSS) → không cần `provideAnimationsAsync()`.
+- Angular Material **không có** component navigation rail — Global Shell tự
+  dựng rail, chỉ `mat-toolbar` là của Material.
