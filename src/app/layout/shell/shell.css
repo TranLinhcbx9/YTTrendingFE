@@ -1,3 +1,13 @@
+/* surface == background trong M3 → rail/toolbar/main cùng màu.
+   Tách vùng bằng divider (outline-variant), đúng cách M3 phân cách layout. */
+.rail {
+  border-right: 1px solid var(--mat-sys-outline-variant);
+}
+
+.app-toolbar {
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
 .rail-item {
   display: flex;
   flex-direction: column;
