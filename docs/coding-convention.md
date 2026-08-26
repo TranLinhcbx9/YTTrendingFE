@@ -40,6 +40,17 @@
   class; `readonly` cho property Angular tự gán.
 - DI: dùng hàm `inject()`, **không** dùng constructor injection.
 
+**Import path** — alias khai ở `tsconfig.json` (`compilerOptions.paths`):
+
+| Import | Cách viết | Ví dụ |
+|---|---|---|
+| Cùng folder | tương đối | `'./problem-details'` |
+| Khác folder | alias, **không** `../../` | `'@core/http/error-interceptor'` |
+
+Alias có sẵn: `@core/*`, `@shared/*`, `@features/*`, `@env/*`. Thêm alias
+mới thì sửa `tsconfig.json` (1 nơi duy nhất, `tsconfig.app.json` extends
+theo).
+
 ## 3. Service (data-access)
 
 **Trách nhiệm**: owns HTTP communication · defines API endpoint · map
