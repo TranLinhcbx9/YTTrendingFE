@@ -9,14 +9,14 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () => import('./features/dashboard/dashboard').then((m) => m.Dashboard),
-        data: { title: 'Dashboard' }
+        data: { title: 'Dashboard' },
       },
       {
         path: 'channels',
         loadComponent: () => import('./features/channels/channels').then((m) => m.Channels),
-        data: { title: 'Channels' }
-      }
-    ]
+        data: { title: 'Channels' },
+      },
+    ],
   },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '**', redirectTo: 'dashboard' },
 ];
