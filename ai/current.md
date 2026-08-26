@@ -5,15 +5,16 @@
 > [`ai/history.md`](history.md).
 
 ## Đang làm
-- **Chuyển UI lib PrimeNG → Angular Material 20 (M3)** — quyết định đổi vì
-  quen Material hơn ở chỗ làm; chi phí đổi lúc này gần như bằng 0 vì code
-  thật mới dính PrimeNG đúng 3 chỗ (`app.config.ts`, 3 icon trong
-  `shell.html`, `error-interceptor.ts`).
-- Plan đầy đủ, code copy được theo từng batch:
-  [`ai/temp/material-redesign-plan.md`](temp/material-redesign-plan.md).
-- Đã xong: docs đồng bộ (mục 0 trong `setup-base.md`) + redesign 2 artifact
-  thiết kế sang M3. **Chưa đụng code** — `package.json` vẫn PrimeNG.
-- Tiếp theo: Batch 0 (gỡ lib, cài Material).
+- **Chuyển UI lib PrimeNG → Angular Material 20 (M3)** — **đã apply hết
+  Batch 0–9** của [`ai/temp/material-redesign-plan.md`](temp/material-redesign-plan.md):
+  gỡ `primeng`/`primeicons`/`@angular/animations`, cài
+  `@angular/material` + `@angular/cdk` 20.2.14; `styles/_theme-colors.scss`
+  + `styles/material-theme.scss` (`mat.theme()`, density −2);
+  `tokens.css` alias sang `--mat-sys-*`; `app.config.ts` gắn
+  `errorInterceptor` + `setDefaultFontSetClass`; interceptor dùng
+  `MatSnackBar`; Shell = nav rail 80dp + `mat-toolbar`; `StatusChip`.
+- `ng build` + `ng lint` pass. Chưa verify bằng mắt trên `ng serve`.
+- Tiếp theo: shared UI còn lại (mục 5) rồi slice Channel Management (mục 6).
 
 ## Block (chờ backend)
 - Mục 7 — Dashboard: chờ `GetDashboardQuery`.
@@ -21,8 +22,8 @@
 - Mục 9 — Saved Ideas: chờ SavedIdeas CRUD.
 
 ## Tiếp theo (chưa bắt đầu, không bị block)
-- Shared UI (mục 5): `StatusChip`, `ScoreBadge`, `VideoCard`,
-  `EmptyState`, `Sparkline` + pipe `compactNumber`/`relativeTime`.
+- Shared UI (mục 5): `ScoreBadge`, `VideoCard`, `EmptyState`,
+  `Sparkline` + pipe `compactNumber`/`relativeTime` (`StatusChip` xong).
   (`Pagination` đã bỏ — dùng `mat-paginator`.)
 - Channel Management slice (mục 6): `ChannelsStore`, trang list
   (`mat-table`), form Add, `ConfirmDialog` — slice nghiệm thu base xong.

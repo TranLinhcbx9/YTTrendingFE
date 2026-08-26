@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+@use './theme-colors' as theme;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: theme.$primary-palette,
+      tertiary: theme.$tertiary-palette,
+    ),
+    typography: (
+      plain-family: (Inter, sans-serif),
+      brand-family: ('Be Vietnam Pro', sans-serif),
+      bold-weight: 700,
+      medium-weight: 600,
+      regular-weight: 400,
+    ),
+    density: -2,
+  ));
+
+  @include mat.theme-overrides((
+    corner-large: 12px,
+    corner-medium: 10px,
+    corner-small: 8px,
+  ));
+
+  // Mặc định: theo hệ điều hành. Toggle trong app thắng (xem tokens.css).
+  color-scheme: light dark;
+}

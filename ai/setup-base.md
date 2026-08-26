@@ -14,9 +14,9 @@
 > (copy được) ở [`ai/temp/material-redesign-plan.md`](temp/material-redesign-plan.md).
 > Các mục bên dưới đã bỏ tick chính là phần phải làm lại.
 
-- [ ] Batch 0–6: gỡ lib, dựng theme, tokens, `app.config.ts`, interceptor
-- [ ] Batch 7: Shell → nav rail + toolbar
-- [ ] Batch 8: shared component trên M3 token
+- [x] Batch 0–6: gỡ lib, dựng theme, tokens, `app.config.ts`, interceptor
+- [x] Batch 7: Shell → nav rail + toolbar
+- [~] Batch 8: `StatusChip` xong; các component còn lại ở mục 5
 - [x] Batch 9: cập nhật docs (`AGENT.md`, `architecture.md`,
       `design-tokens.md`, `components.md`, file này)
 - [x] Redesign artifact Blueprint + Screens sang M3
@@ -24,45 +24,42 @@
 ## 1. Khởi tạo dự án
 - [x] `ng new` (standalone mặc định, `--style=css --routing --strict`, từ
       chối SSR khi CLI hỏi)
-- [ ] Gỡ `primeng` + `primeicons` + `@angular/animations`, cài
+- [x] Gỡ `primeng` + `primeicons` + `@angular/animations`, cài
       `@angular/material@20.2.14` + `@angular/cdk@20.2.14`
-      *(PrimeNG đã cài trước đây — xem mục 0 phía trên)*
 - [x] Cài Tailwind CSS v4
 - [x] Cài `@ngrx/signals`
 - [x] ESLint (`@angular-eslint/schematics`) + Prettier
 
 ## 2. Styles / Token
-- [ ] `styles/_theme-colors.scss` — palette M3 generate từ seed `#2BD4C2`
+- [x] `styles/_theme-colors.scss` — palette M3 generate từ seed `#2BD4C2`
       (máy sinh, không sửa tay)
-- [ ] `styles/material-theme.scss` — `mat.theme()` (color/typography/
+- [x] `styles/material-theme.scss` — `mat.theme()` (color/typography/
       density −2) + `theme-overrides()` cho corner scale
-- [ ] `styles/tokens.css` — viết lại thành lớp alias trỏ vào `--mat-sys-*`
+- [x] `styles/tokens.css` — viết lại thành lớp alias trỏ vào `--mat-sys-*`
       (ý nghĩa ở `docs/design-tokens.md`)
-- [ ] `angular.json` — thêm `material-theme.scss` vào mảng `styles` (cả
+- [x] `angular.json` — thêm `material-theme.scss` vào mảng `styles` (cả
       build lẫn test), trước `styles.css`
 - [x] Thêm Google Fonts link (Be Vietnam Pro, Inter, JetBrains Mono) vào
       `index.html`
-- [ ] Thêm link Material Symbols Outlined + đăng ký
+- [x] Thêm link Material Symbols Outlined + đăng ký
       `setDefaultFontSetClass` trong `app.config.ts`
 
 ## 3. Core
 - [x] `environment.ts` / `environment.development.ts` —
       `apiBaseUrl: 'http://localhost:5118/api'`
 - [x] `provideHttpClient()` trong `app.config.ts`
-- [ ] 1 `errorInterceptor` — map lỗi Result pattern (bảng ở
-      `docs/architecture.md`) → `MatSnackBar`
-      *(file đã viết ở `core/http/error-interceptor.ts` nhưng còn dùng
-      `MessageService` của PrimeNG, và `withInterceptors([])` đang rỗng —
-      chưa gắn vào app)*
+- [x] 1 `errorInterceptor` — map lỗi Result pattern (bảng ở
+      `docs/architecture.md`) → `MatSnackBar`, đã gắn qua
+      `withInterceptors([errorInterceptor])`
 
 ## 4. Layout
 - [x] Global Shell component + routing — khung đã chạy
-- [ ] Dựng lại Shell theo M3: navigation rail 80dp (tự viết, Material
+- [x] Dựng lại Shell theo M3: navigation rail 80dp (tự viết, Material
       không có) + `mat-toolbar` — theo Blueprint §03
 - [x] `app.routes.ts` — lazy load từng feature (`loadComponent`)
 
 ## 5. Shared UI (Blueprint §02)
-- [ ] `StatusChip`, `ScoreBadge`, `VideoCard`, `EmptyState`, `Sparkline`
+- [ ] `ScoreBadge`, `VideoCard`, `EmptyState`, `Sparkline` (`StatusChip` xong)
       (contract đầy đủ ở `docs/components.md`)
       *(`Pagination` đã bỏ — dùng `mat-paginator`)*
 - [ ] Pipe: `compactNumber` (1.2M), `relativeTime`

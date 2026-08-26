@@ -8,12 +8,23 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
-import { filter, map, startWith } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatRipple } from '@angular/material/core';
+import { filter, map } from 'rxjs';
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [
+    RouterLink,
+    RouterLinkActive,
+    RouterOutlet,
+    MatIconModule,
+    MatToolbarModule,
+    MatRipple,
+  ],
   templateUrl: './shell.html',
+  styleUrl: './shell.css',
 })
 export class Shell {
   private readonly router = inject(Router);

@@ -1,97 +1,49 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #0a0e13;
-  --color-surface: #131a21;
-  --color-surface-2: #1b242c;
-  --color-border: #26313a;
-  --color-border-strong: #37454f;
-  --color-text: #e8eef2;
-  --color-text-muted: #8a97a3;
-  --color-text-faint: #5c6873;
-  --color-accent: #2bd4c2;
-  --color-accent-contrast: #052420;
-  --color-accent-soft: #12302c;
-  --color-status-new: #5b9df0;
-  --color-status-tracking: #34d399;
-  --color-status-archived: #6b7785;
-  --color-heat-low: #c99a3e;
-  --color-heat-mid: #e08a3e;
-  --color-heat-high: #e2603f;
-  --color-danger: #e5484d;
+  /* --- Alias sang M3 role token --- */
+  --color-bg: var(--mat-sys-background);
+  --color-surface: var(--mat-sys-surface-container-low);
+  --color-surface-2: var(--mat-sys-surface-container);
+  --color-border: var(--mat-sys-outline-variant);
+  --color-border-strong: var(--mat-sys-outline);
+  --color-text: var(--mat-sys-on-surface);
+  --color-text-muted: var(--mat-sys-outline);
+  --color-text-faint: color-mix(in srgb, var(--mat-sys-outline) 72%, transparent);
+  --color-accent: var(--mat-sys-primary);
+  --color-accent-contrast: var(--mat-sys-on-primary);
+  --color-accent-soft: var(--mat-sys-primary-container);
+  --color-danger: var(--mat-sys-error);
 
-  --font-display: 'Be Vietnam Pro', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  /* --- Extended color: M3 không có role tương ứng --- */
+  --color-status-new: light-dark(#2e6fd1, #6ea8f5);
+  --color-status-tracking: light-dark(#0f7a52, #3ddba0);
+  --color-status-archived: light-dark(#6b7a77, #859490);
+  --color-heat-low: light-dark(#8a6516, #c99a3e);
+  --color-heat-mid: light-dark(#a05518, #e08a3e);
+  --color-heat-high: light-dark(#ad3a1b, #e2603f);
+
+  /* --- Font: trỏ về đúng family đã khai trong mat.theme --- */
+  /* M3 KHÔNG có token *-font-family chung; chỉ có <scale>-font.
+     brand = display / headline / title-large; plain = body / label. */
+  --font-display: var(--mat-sys-title-large-font);
+  --font-body: var(--mat-sys-body-medium-font);
   --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme='dark']) {
-    --color-bg: #f3f6f6;
-    --color-surface: #ffffff;
-    --color-surface-2: #e8eded;
-    --color-border: #d7e0e0;
-    --color-border-strong: #c3cfcf;
-    --color-text: #101820;
-    --color-text-muted: #4b5860;
-    --color-text-faint: #7c8890;
-    --color-accent: #0e9c8e;
-    --color-accent-contrast: #ffffff;
-    --color-accent-soft: #dcf3f0;
-    --color-status-new: #2e6fd1;
-    --color-status-tracking: #10925f;
-    --color-status-archived: #667583;
-    --color-heat-low: #9c701a;
-    --color-heat-mid: #a85a1a;
-    --color-heat-high: #b5401e;
-    --color-danger: #c22a2f;
-  }
-}
-
-:root[data-theme='light'] {
-  --color-bg: #f3f6f6;
-  --color-surface: #ffffff;
-  --color-surface-2: #e8eded;
-  --color-border: #d7e0e0;
-  --color-border-strong: #c3cfcf;
-  --color-text: #101820;
-  --color-text-muted: #4b5860;
-  --color-text-faint: #7c8890;
-  --color-accent: #0e9c8e;
-  --color-accent-contrast: #ffffff;
-  --color-accent-soft: #dcf3f0;
-  --color-status-new: #2e6fd1;
-  --color-status-tracking: #10925f;
-  --color-status-archived: #667583;
-  --color-heat-low: #9c701a;
-  --color-heat-mid: #a85a1a;
-  --color-heat-high: #b5401e;
-  --color-danger: #c22a2f;
-}
-
-:root[data-theme='dark'] {
-  --color-bg: #0a0e13;
-  --color-surface: #131a21;
-  --color-surface-2: #1b242c;
-  --color-border: #26313a;
-  --color-border-strong: #37454f;
-  --color-text: #e8eef2;
-  --color-text-muted: #8a97a3;
-  --color-text-faint: #5c6873;
-  --color-accent: #2bd4c2;
-  --color-accent-contrast: #052420;
-  --color-accent-soft: #12302c;
-  --color-status-new: #5b9df0;
-  --color-status-tracking: #34d399;
-  --color-status-archived: #6b7785;
-  --color-heat-low: #c99a3e;
-  --color-heat-mid: #e08a3e;
-  --color-heat-high: #e2603f;
-  --color-danger: #e5484d;
-}
+/* Toggle thủ công thắng cài đặt hệ điều hành */
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-body);
+  background: var(--mat-sys-background);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+}
+
+/* Snackbar lỗi — render trong CDK overlay nên style phải đặt global */
+.app-snackbar-error {
+  --mat-snack-bar-container-color: var(--mat-sys-error-container);
+  --mat-snack-bar-supporting-text-color: var(--mat-sys-on-error-container);
+  --mat-snack-bar-button-color: var(--mat-sys-on-error-container);
 }
