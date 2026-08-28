@@ -40,6 +40,17 @@
   class; `readonly` cho property Angular tự gán.
 - DI: dùng hàm `inject()`, **không** dùng constructor injection.
 
+**Import path** — alias khai ở `tsconfig.json` (`compilerOptions.paths`):
+
+| Import | Cách viết | Ví dụ |
+|---|---|---|
+| Cùng folder | tương đối | `'./problem-details'` |
+| Khác folder | alias, **không** `../../` | `'@core/http/error-interceptor'` |
+
+Alias có sẵn: `@core/*`, `@shared/*`, `@features/*`, `@env/*`. Thêm alias
+mới thì sửa `tsconfig.json` (1 nơi duy nhất, `tsconfig.app.json` extends
+theo).
+
 ## 3. Service (data-access)
 
 **Trách nhiệm**: owns HTTP communication · defines API endpoint · map
@@ -49,6 +60,11 @@ feature/UI state.
 - 1 service / feature, chỉ gọi `HttpClient`/`httpResource()`, trả
   `Observable`/`Promise`/resource — **không** giữ state, không `inject`
   ngược Store của chính nó.
+- GET dùng làm `stream` cho `rxResource()` (params hay đổi, cần cancel
+  request cũ) → trả `Observable`, **không** `firstValueFrom()`. Mutation
+  (create/update/delete, gọi Promise 1 lần theo click) → trả `Promise`
+  qua `firstValueFrom()` như bình thường. Lý do phân biệt xem mục
+  `resource() vs rxResource()` ở `architecture.md`.
 - Method đặt tên theo hành động trên tài nguyên (`getChannels`,
   `createChannel`), không theo HTTP verb (`post`, `get`).
 - Base URL luôn qua `environment.ts` (invariant `AGENT.md`) — service
@@ -72,12 +88,25 @@ nội bộ (không cho ngoài mutate trực tiếp).
   `httpResource()` thẳng trong store.
 - Đổi state chỉ qua `patchState()` bên trong store — component **không**
   patch trực tiếp, chỉ gọi method store expose (feature actions).
-- `resource()` (loader gọi method Service) tự quản `value/loading/error`
-  — không tự set 3 biến này tay (nguyên tắc đã có ở `architecture.md`,
-  nhắc lại ở đây vì hay bị phá khi thêm optimistic update).
+- `resource()`/`rxResource()` (loader/stream gọi method Service) tự quản
+  `value/loading/error` — không tự set 3 biến này tay (nguyên tắc đã có
+  ở `architecture.md`, nhắc lại ở đây vì hay bị phá khi thêm optimistic
+  update).
 - State/computed expose ra ngoài **luôn** qua `computed()` hoặc field
   `resource()` gốc (read-only) — không expose signal ghi được
   (`WritableSignal`) ra khỏi store.
+- Store của trang list dùng `withPagedResource<T>(() => …)` — expose sẵn
+  `items`/`totalCount`/`totalPages`/`hasNext`/`isLoading`/`loadError` +
+  `setPage`/`reload`/`resetToFirstPage`. Template gọi `store.items()`
+  (tên chung mọi feature), không đặt alias riêng theo domain.
+- Lệnh ghi (create/update/delete) dùng `withMutationState()` — gọi
+  `runFormMutation()` (lệnh từ form → `isSubmitting`/`formError`) hoặc
+  `runActionMutation()` (lệnh từ nút hành động → `isActionRunning`/
+  `actionError`), **không** tự viết `try/catch` + `patchState` ở từng
+  method. Side-effect sau khi thành công (`reload()`,
+  `resetToFirstPage()`) để ở store method, chạy khi kết quả trả `true`.
+- Phần dùng chung tách thành `signalStoreFeature()` ở `shared/store/`,
+  không copy state/logic giữa các store.
 
 ## 5. Component & Template
 
@@ -108,9 +137,9 @@ nội bộ (không cho ngoài mutate trực tiếp).
 
 ## 7. RxJS ↔ Signals
 
-- Ưu tiên `signal()`/`resource()`/`httpResource()`; chỉ dùng RxJS khi cần
-  operator chưa có bản signal-equivalent gọn (debounce, combine nhiều
-  stream phức tạp).
+- Ưu tiên `signal()`/`resource()`/`rxResource()`/`httpResource()`; chỉ
+  dùng RxJS khi cần operator chưa có bản signal-equivalent gọn (debounce,
+  combine nhiều stream phức tạp).
 - Chuyển RxJS → signal ở boundary bằng `toSignal()`, **không** `subscribe()`
   tay trong component (tránh phải tự quản unsubscribe).
 

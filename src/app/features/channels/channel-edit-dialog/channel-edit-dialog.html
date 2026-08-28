@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Sửa kênh</h2>
+
+<mat-dialog-content class="flex flex-col gap-1">
+  <mat-form-field appearance="outline">
+    <mat-label>Tên kênh</mat-label>
+    <input matInput [ngModel]="name()" (ngModelChange)="name.set($event)" />
+    @if (store.formError()?.errors?.['name']?.[0]; as msg) {
+      <mat-error>{{ msg }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>URL</mat-label>
+    <input matInput [ngModel]="url()" (ngModelChange)="url.set($event)" />
+    @if (store.formError()?.errors?.['url']?.[0]; as msg) {
+      <mat-error>{{ msg }}</mat-error>
+    }
+  </mat-form-field>
+
+  @if (store.formErrorMessage(); as msg) {
+    <small class="text-[var(--color-danger)]">{{ msg }}</small>
+  }
+
+  <div class="flex items-center gap-2 py-1">
+    <mat-slide-toggle [checked]="isEnabled()" (change)="isEnabled.set($event.checked)">
+      Đang bật theo dõi
+    </mat-slide-toggle>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button matButton mat-dialog-close [disabled]="store.isSubmitting()">Huỷ</button>
+  <button matButton="filled" (click)="onSave()" [disabled]="store.isSubmitting()">
+    @if (store.isSubmitting()) {
+      <mat-progress-spinner diameter="18" mode="indeterminate" />
+    } @else {
+      Lưu
+    }
+  </button>
+</mat-dialog-actions>

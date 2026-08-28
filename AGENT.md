@@ -9,14 +9,18 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
 - Angular (bản mới nhất khi tạo dự án), standalone components, Signals
 - State: `@ngrx/signals` (SignalStore) — 1 store / feature
 - Data fetching: `resource()` / `httpResource()`
-- UI: PrimeNG + PrimeIcons
+- UI: Angular Material 20 (Material Design 3) + Material Symbols
 - Style: Tailwind CSS v4 (CSS-first config qua `@theme`)
 
 ## Invariant
 - Base URL API: khai trong `environment.ts` — **1 nơi duy nhất**, không
   hardcode URL ở component/service khác.
-- Màu/font: **1 nơi duy nhất** — `styles/tokens.css`. Component không tự
-  khai hex/font riêng.
+- Màu/font: **1 nơi duy nhất** — `styles/tokens.css` (alias ngữ nghĩa của
+  app trỏ vào M3 role `--mat-sys-*`). Component không tự khai hex/font
+  riêng. Palette gốc ở `styles/_theme-colors.scss` — **máy sinh, không sửa
+  tay**; đổi màu thương hiệu = generate lại từ seed.
+- Style component Material chỉnh qua `--mat-*` token của component đó,
+  **không** bằng utility Tailwind (specificity không thắng).
 - VideoId (YouTube cấp) là khóa duy nhất so sánh video — không dùng
   title/thumbnail.
 - ARCHIVED là trạng thái cuối — UI không có action đưa video quay lại
@@ -35,11 +39,15 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
   `develop`, PR về `master` (đồng bộ flow với BE)
 
 ## Quy ước
-- 1 feature = 1 folder (`features/<name>/`), component + `*.store.ts` +
-  `*.service.ts` + models cạnh nhau. Service gọi API (data-access,
-  không giữ state), Store giữ state + gọi Service — không để Store tự
-  gọi `HttpClient`/`httpResource()` thẳng (chi tiết
+- 1 feature = 1 folder (`features/<name>/`), root chứa route component +
+  `*.store.ts` + `*.service.ts` + models; **mỗi component con 1 folder
+  riêng**. Service gọi API (data-access, không giữ state), Store giữ
+  state + gọi Service — không để Store tự gọi
+  `HttpClient`/`httpResource()` thẳng (chi tiết
   [`docs/architecture.md`](docs/architecture.md)).
+- State/logic lặp giữa các store tách thành `signalStoreFeature()` ở
+  `shared/store/` (`withPagedResource`, `withMutationState`) — không copy
+  giữa feature.
 - Component dùng cú pháp hàm mới: `input()`/`output()`/`model()`, control
   flow `@if`/`@for`/`@switch`.
 - Setup base/hạ tầng theo nhu cầu: chỉ dựng trước phần cần cho toàn app
@@ -64,7 +72,9 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
 - Thiết kế UI đầy đủ (design system, token, component): Blueprint — [https://claude.ai/code/artifact/40b2d738-e4d7-45ea-8ae5-3e93abf46a28?via=auto_preview]
 - Thiết kế từng màn hình (mockup: Main, FastGrowing, RecentShorts,
   SavedVideos, VideoDetail, Channels, ChannelsEmpty): Screens —
-  [https://claude.ai/code/artifact/e7696f33-ff84-4761-9a6d-373b3faff025?org=227a2499-95c2-4f94-9cc0-683b255f498d]
+  [https://claude.ai/code/artifact/94ecf789-930b-4515-be6c-b354c5ceb642]
+  (bản Material 3; bản PrimeNG cũ dạng design-canvas vẫn còn ở
+  [https://claude.ai/code/artifact/e7696f33-ff84-4761-9a6d-373b3faff025])
 - Tiến độ checklist: `ai/setup-base.md`
 
 ## Cách làm việc

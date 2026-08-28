@@ -1,0 +1,52 @@
+.status-chip {
+  --mat-chip-container-shape-radius: var(--mat-sys-corner-small);
+  --mat-chip-label-text-size: 0.75rem;
+}
+
+.status-chip--new {
+  --mat-chip-elevated-container-color: color-mix(in srgb, var(--color-status-new) 18%, transparent);
+  --mat-chip-label-text-color: var(--color-status-new);
+}
+
+.status-chip--tracking {
+  --mat-chip-elevated-container-color: color-mix(
+    in srgb,
+    var(--color-status-tracking) 18%,
+    transparent
+  );
+  --mat-chip-label-text-color: var(--color-status-tracking);
+}
+
+.status-chip--archived {
+  --mat-chip-elevated-container-color: color-mix(
+    in srgb,
+    var(--color-status-archived) 18%,
+    transparent
+  );
+  --mat-chip-label-text-color: var(--color-status-archived);
+}
+
+.status-chip__dot {
+  width: 6px;
+  height: 6px;
+  margin-right: 6px;
+  border-radius: 9999px;
+  background: currentColor;
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-chip__dot {
+    animation: none;
+  }
+}

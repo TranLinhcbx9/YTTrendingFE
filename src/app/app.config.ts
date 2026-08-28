@@ -1,17 +1,25 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+  provideEnvironmentInitializer,
+  inject,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { providePrimeNG } from 'primeng/config';
-import Aura from '@primeng/themes/aura';
-import { provideHttpClient, withInterceptors } from '@angular/common/http'
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { MatIconRegistry } from '@angular/material/icon';
 
 import { routes } from './app.routes';
+import { errorInterceptor } from './core/http/error-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
-    providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '[data-theme="dark"]' } } }),
-    provideHttpClient(withInterceptors([]))
-  ]
+    provideHttpClient(withInterceptors([errorInterceptor])),
+    provideEnvironmentInitializer(() => {
+      inject(MatIconRegistry).setDefaultFontSetClass('material-symbols-outlined');
+    }),
+  ],
 };

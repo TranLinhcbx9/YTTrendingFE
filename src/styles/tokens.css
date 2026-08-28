@@ -1,97 +1,71 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-    --color-bg: #0A0E13;
-    --color-surface: #131A21;
-    --color-surface-2: #1B242C;
-    --color-border: #26313A;
-    --color-border-strong: #37454F;
-    --color-text: #E8EEF2;
-    --color-text-muted: #8A97A3;
-    --color-text-faint: #5C6873;
-    --color-accent: #2BD4C2;
-    --color-accent-contrast: #052420;
-    --color-accent-soft: #12302C;
-    --color-status-new: #5B9DF0;
-    --color-status-tracking: #34D399;
-    --color-status-archived: #6B7785;
-    --color-heat-low: #C99A3E;
-    --color-heat-mid: #E08A3E;
-    --color-heat-high: #E2603F;
-    --color-danger: #E5484D;
+  /* --- Alias sang M3 role token --- */
+  --color-bg: var(--mat-sys-background);
+  --color-surface: var(--mat-sys-surface-container-low);
+  --color-surface-2: var(--mat-sys-surface-container);
+  --color-border: var(--mat-sys-outline-variant);
+  --color-border-strong: var(--mat-sys-outline);
+  --color-text: var(--mat-sys-on-surface);
+  --color-text-muted: var(--mat-sys-outline);
+  --color-text-faint: color-mix(in srgb, var(--mat-sys-outline) 72%, transparent);
+  --color-accent: var(--mat-sys-primary);
+  --color-accent-contrast: var(--mat-sys-on-primary);
+  --color-accent-soft: var(--mat-sys-primary-container);
+  --color-danger: var(--mat-sys-error);
 
-    --font-display: "Be Vietnam Pro", sans-serif;
-    --font-body: "Inter", sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
+  /* --- Extended color: M3 không có role tương ứng --- */
+  --color-status-new: light-dark(#2e6fd1, #6ea8f5);
+  --color-status-tracking: light-dark(#0f7a52, #3ddba0);
+  --color-status-archived: light-dark(#6b7a77, #859490);
+  --color-heat-low: light-dark(#8a6516, #c99a3e);
+  --color-heat-mid: light-dark(#a05518, #e08a3e);
+  --color-heat-high: light-dark(#ad3a1b, #e2603f);
+
+  /* --- Font: trỏ về đúng family đã khai trong mat.theme --- */
+  /* M3 KHÔNG có token *-font-family chung; chỉ có <scale>-font.
+     brand = display / headline / title-large; plain = body / label. */
+  --font-display: var(--mat-sys-title-large-font);
+  --font-body: var(--mat-sys-body-medium-font);
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
-@media (prefers-color-scheme: light) {
-    :root:not([data-theme="dark"]) {
-        --color-bg: #F3F6F6;
-        --color-surface: #FFFFFF;
-        --color-surface-2: #E8EDED;
-        --color-border: #D7E0E0;
-        --color-border-strong: #C3CFCF;
-        --color-text: #101820;
-        --color-text-muted: #4B5860;
-        --color-text-faint: #7C8890;
-        --color-accent: #0E9C8E;
-        --color-accent-contrast: #FFFFFF;
-        --color-accent-soft: #DCF3F0;
-        --color-status-new: #2E6FD1;
-        --color-status-tracking: #10925F;
-        --color-status-archived: #667583;
-        --color-heat-low: #9C701A;
-        --color-heat-mid: #A85A1A;
-        --color-heat-high: #B5401E;
-        --color-danger: #C22A2F;
-    }
-}
-
-:root[data-theme="light"] {
-    --color-bg: #F3F6F6;
-    --color-surface: #FFFFFF;
-    --color-surface-2: #E8EDED;
-    --color-border: #D7E0E0;
-    --color-border-strong: #C3CFCF;
-    --color-text: #101820;
-    --color-text-muted: #4B5860;
-    --color-text-faint: #7C8890;
-    --color-accent: #0E9C8E;
-    --color-accent-contrast: #FFFFFF;
-    --color-accent-soft: #DCF3F0;
-    --color-status-new: #2E6FD1;
-    --color-status-tracking: #10925F;
-    --color-status-archived: #667583;
-    --color-heat-low: #9C701A;
-    --color-heat-mid: #A85A1A;
-    --color-heat-high: #B5401E;
-    --color-danger: #C22A2F;
-}
-
-:root[data-theme="dark"] {
-    --color-bg: #0A0E13;
-    --color-surface: #131A21;
-    --color-surface-2: #1B242C;
-    --color-border: #26313A;
-    --color-border-strong: #37454F;
-    --color-text: #E8EEF2;
-    --color-text-muted: #8A97A3;
-    --color-text-faint: #5C6873;
-    --color-accent: #2BD4C2;
-    --color-accent-contrast: #052420;
-    --color-accent-soft: #12302C;
-    --color-status-new: #5B9DF0;
-    --color-status-tracking: #34D399;
-    --color-status-archived: #6B7785;
-    --color-heat-low: #C99A3E;
-    --color-heat-mid: #E08A3E;
-    --color-heat-high: #E2603F;
-    --color-danger: #E5484D;
-}
+/* Toggle thủ công thắng cài đặt hệ điều hành */
+:root[data-theme='light'] { color-scheme: light; }
+:root[data-theme='dark'] { color-scheme: dark; }
 
 body {
-    background: var(--color-bg);
-    color: var(--color-text);
-    font-family: var(--font-body);
+  background: var(--mat-sys-background);
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+}
+
+/* Snackbar lỗi — render trong CDK overlay nên style phải đặt global.
+   Toast thành công KHÔNG có class riêng: giữ nguyên default M3
+   (inverse-surface), vì M3 không có role `success` và primary-container ở
+   theme này là teal thương hiệu — tô vào sẽ đọc ra "brand", không phải
+   "thành công". Dùng `error` đặc (không phải `error-container` nhạt) để 2
+   loại toast cùng độ đậm: cả `inverse-surface` lẫn `error` đều tự lật
+   sáng/tối theo theme nên luôn đồng bộ nhau. */
+.app-snackbar-error {
+  --mat-snack-bar-container-color: var(--mat-sys-error);
+  --mat-snack-bar-supporting-text-color: var(--mat-sys-on-error);
+  --mat-snack-bar-button-color: var(--mat-sys-on-error);
+}
+
+/* Vá lỗi Angular Material 20.2.14: notched-outline chỉ set
+   border-left trong suốt cho hướng LTR (bản compile CSS chỉ có
+   `border-right: transparent` dưới [dir=rtl]) — nên field
+   `appearance="outline"` có giá trị/label nổi luôn bị 1 vạch dọc
+   xuyên ngang ô nhập, bên phải chữ label. Ép border-right-color
+   trong suốt để khớp cách Material tự làm cho border-left.
+   Selector lặp class 7 lần vì rule gốc của Material còn biến thể
+   theo trạng thái, nặng nhất là lỗi + focus
+   (`.mdc-text-field--outlined:not(.mdc-text-field--disabled)
+   .mdc-text-field--invalid.mdc-text-field--focused .mat-mdc-notch-piece`
+   — specificity 5 class); phải cao hơn tất cả biến thể mới thắng ở
+   mọi trạng thái, viết `--mat-*` token không có chỗ nào lo case này. */
+.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch {
+  border-right-color: transparent;
 }
