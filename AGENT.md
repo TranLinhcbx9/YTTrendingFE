@@ -39,11 +39,15 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
   `develop`, PR về `master` (đồng bộ flow với BE)
 
 ## Quy ước
-- 1 feature = 1 folder (`features/<name>/`), component + `*.store.ts` +
-  `*.service.ts` + models cạnh nhau. Service gọi API (data-access,
-  không giữ state), Store giữ state + gọi Service — không để Store tự
-  gọi `HttpClient`/`httpResource()` thẳng (chi tiết
+- 1 feature = 1 folder (`features/<name>/`), root chứa route component +
+  `*.store.ts` + `*.service.ts` + models; **mỗi component con 1 folder
+  riêng**. Service gọi API (data-access, không giữ state), Store giữ
+  state + gọi Service — không để Store tự gọi
+  `HttpClient`/`httpResource()` thẳng (chi tiết
   [`docs/architecture.md`](docs/architecture.md)).
+- State/logic lặp giữa các store tách thành `signalStoreFeature()` ở
+  `shared/store/` (`withPagedResource`, `withMutationState`) — không copy
+  giữa feature.
 - Component dùng cú pháp hàm mới: `input()`/`output()`/`model()`, control
   flow `@if`/`@for`/`@switch`.
 - Setup base/hạ tầng theo nhu cầu: chỉ dựng trước phần cần cho toàn app

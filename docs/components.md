@@ -38,8 +38,32 @@ tương ứng, không nhúng implementation vào docs.
 | EmptyState | `app-empty-state` | `icon`, `title`, `message = input<string>()` | — | Dùng chung cho mọi tab/màn hình rỗng |
 | Sparkline | `app-sparkline` | `points = input.required<number[]>()` | — | SVG polyline thuần |
 | NavRail | trong `layout/shell/` | — | — | Angular Material **không có** nav rail (chỉ có `mat-sidenav` là drawer) |
+| ConfirmDialog | `app-confirm-dialog` | data qua `MAT_DIALOG_DATA`: `{ title, message, confirmLabel?, cancelLabel? }` | `dialogRef.close(true\|undefined)` | `shared/ui/confirm-dialog/` — 1 component dùng chung cho mọi hành động cần xác nhận (vd xoá kênh) |
 
 > `Pagination` tự viết đã **bỏ** — `mat-paginator` làm đúng việc đó.
+
+## Pipes dùng chung (`shared/pipes/`)
+
+| Pipe | Input → Output | Ghi chú |
+|---|---|---|
+| `relativeTime` | `string \| null` (ISO) → `"2 giờ trước"` / `"Vừa xong"` / `"Chưa đồng bộ"` (null) | Dùng cho `lastSyncAt` ở trang Channels |
+| `compactNumber` | chưa làm | Đợi Dashboard/VideoCard chạm tới (view/like/comment) |
+
+## Bảng Channels — cột theo đúng Blueprint §Channels
+
+| Cột | Nội dung | Ghi chú |
+|---|---|---|
+| Kênh | avatar tròn 18px (2 chữ cái đầu tên, nền `--mat-sys-primary`) + tên | Không có cột Channel ID riêng — trùng ý Blueprint |
+| URL | URL bỏ `https://`/`www.` để hiển thị, kèm icon `open_in_new`, `href` vẫn dùng URL gốc | |
+| Trạng thái | `mat-slide-toggle` — không có label cạnh | |
+| Đồng bộ lần cuối | qua pipe `relativeTime` | |
+| Ngày thêm | `createdAt \| date:'dd/MM/yyyy'` | |
+| Thao tác | icon-button Sửa/Xoá | |
+
+> Blueprint có thêm cột **"Video đang theo dõi" (x/100)** — **bỏ**, vì
+> `ChannelDto` hiện tại (`docs/api-contract.md`) không có field nào chứa
+> số liệu này. Thêm lại khi backend bổ sung field tương ứng, không tự
+> chế số hiển thị.
 
 ## Quy tắc style khi dùng Material
 
@@ -53,3 +77,12 @@ tương ứng, không nhúng implementation vào docs.
    tooltip, select) nằm ngoài cây DOM component → style phải đặt global,
    không đặt trong `styleUrl` của component.
 3. Density đã set −2 toàn cục — không chỉnh chiều cao bằng tay.
+4. **`mat-form-field appearance="outline"` bị lỗi vạch dọc khi label nổi**
+   (Material 20.2.14, hướng LTR): bản CSS compile chỉ ẩn `border-left`
+   của `.mdc-notched-outline__notch` bằng màu trong suốt, quên làm tương
+   tự cho `border-right` ở LTR (chỉ có ở `[dir=rtl]`) — nên field có giá
+   trị/label nổi bị 1 vạch xuyên dọc ô nhập. Đã vá 1 lần ở
+   `styles/tokens.css` (`.mdc-notched-outline__notch` lặp 7 lần để thắng
+   specificity 5-class của rule lỗi+focus trong Material) — **không cần
+   vá lại** ở component khác, mọi `mat-form-field appearance="outline"`
+   trong app đều ăn theo global fix này.

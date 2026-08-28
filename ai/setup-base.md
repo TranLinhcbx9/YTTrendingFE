@@ -62,17 +62,22 @@
 - [ ] `ScoreBadge`, `VideoCard`, `EmptyState`, `Sparkline` (`StatusChip` xong)
       (contract đầy đủ ở `docs/components.md`)
       *(`Pagination` đã bỏ — dùng `mat-paginator`)*
-- [ ] Pipe: `compactNumber` (1.2M), `relativeTime`
+- [x] Pipe `relativeTime` — Channels cần nên làm sớm, xem `shared/pipes/relative-time.ts`
+- [ ] Pipe `compactNumber` (1.2M) — chưa feature nào chạm tới
 
-## 6. Slice nghiệm thu — Channel Management
-- [ ] `ChannelsService` — gọi `GET`/`POST /api/channels` qua `HttpClient`/
-      `httpResource()`, không giữ state
-- [ ] `ChannelsStore` (SignalStore) — state, gọi qua `ChannelsService`
-      (không tự gọi `HttpClient` thẳng)
-- [ ] Trang list (`mat-table` + `mat-paginator`)
-- [ ] `ConfirmDialog` dùng chung trên `MatDialog` (Material không có sẵn)
-- [ ] Form Add — 1 ô nhập (Blueprint §06), gọi `POST /api/channels`
-- [ ] Verify tay: thêm kênh thật bằng Channel ID/URL thật → thấy row mới,
+## 6. Slice nghiệm thu — Channel Management ✅
+> CRUD đủ (List/Add/Edit/Toggle/Delete), đã verify tay với backend thật
+> (Batch 9 của [`channel-management-plan.md`](temp/channel-management-plan.md)).
+> `ng build` + `ng lint` pass.
+- [x] `ChannelsService` — `GET`/`POST`/`PUT`/`DELETE /api/channels`, không
+      giữ state. GET trả `Observable` (cho `rxResource`), mutation trả
+      `Promise`
+- [x] `ChannelsStore` (SignalStore) — gọi qua `ChannelsService`, dùng
+      `withPagedResource` + `withMutationState` ở `shared/store/`
+- [x] Trang list (`mat-table` + `mat-paginator`)
+- [x] `ConfirmDialog` dùng chung trên `MatDialog` (Material không có sẵn)
+- [x] Form Add — 1 ô nhập (Blueprint §06), gọi `POST /api/channels`
+- [x] Verify tay: thêm kênh thật bằng Channel ID/URL thật → thấy row mới,
       `isEnabled`/`lastSyncAt` đúng dữ liệu backend trả
 
 ## 7. Dashboard — ⛔ chặn, chờ backend `GetDashboardQuery`

@@ -1,12 +1,12 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, throwError } from 'rxjs';
 
+import { NotificationService } from '@core/ui/notification.service';
 import { ProblemDetails } from './problem-details';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
-  const snackBar = inject(MatSnackBar);
+  const notification = inject(NotificationService);
 
   return next(req).pipe(
     catchError((error: unknown) => {
@@ -15,12 +15,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         if (error.status === 404 || error.status >= 500) {
           const message =
             problem?.detail ?? problem?.title ?? 'Đã có lỗi xảy ra, vui lòng thử lại.';
-          snackBar.open(message, 'Đóng', {
-            duration: 6000,
-            horizontalPosition: 'end',
-            verticalPosition: 'bottom',
-            panelClass: 'app-snackbar-error',
-          });
+          notification.error(message);
         }
         // 400 (validation) & 409 (conflict): không snackbar — component tự đọc
         // problem.errors / problem.detail để hiện lỗi inline
