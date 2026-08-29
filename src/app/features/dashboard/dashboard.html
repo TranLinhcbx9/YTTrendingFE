@@ -5,7 +5,13 @@
     (filterChange)="onFilterChange($event)"
   />
 
-  <mat-tab-group [selectedIndex]="2" (selectedIndexChange)="selectedTab.set($event)">
+  <mat-tab-group
+    [selectedIndex]="2"
+    (selectedIndexChange)="selectedTab.set($event)"
+    mat-align-tabs="start"
+    mat-stretch-tabs="false"
+    fitInkBarToContent
+  >
     <mat-tab label="Trending Shorts" />
     <mat-tab label="Fast Growing" />
     <mat-tab label="Recent Shorts" />
