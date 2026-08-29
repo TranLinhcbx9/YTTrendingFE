@@ -6,6 +6,8 @@
   --mat-chip-label-text-weight: 700;
   --mat-chip-label-text-tracking: 0.02em;
   --mat-chip-outline-width: 0;
+  text-transform: uppercase;
+
 
   /* Token không có sẵn text-transform, phải set thủ công trên label */
 }
