@@ -26,22 +26,38 @@ export const DEFAULT_PAGE_SIZE = 20;
  *
  * `streamFactory` chạy trong injection context của store nên `inject()` được:
  *
+ * Feature nào có filter riêng (videos: `channelIds`/`status`) truyền thêm
+ * `TFilter`; mặc định rỗng nên chỗ gọi cũ không phải sửa gì.
+ *
  * ```ts
  * withPagedResource<Channel>(() => {
  *   const service = inject(ChannelsService);
  *   return (params) => service.getChannels(params);
  * })
+ *
+ * withPagedResource<Video, VideoFilter>(() => {
+ *   const service = inject(VideosService);
+ *   return (params) => service.getVideos(params);
+ * })
  * ```
  */
-export function withPagedResource<T>(streamFactory: () => (params: PageParams) => Observable<PagedResult<T>>) {
+export function withPagedResource<T, TFilter extends object = object>(
+  streamFactory: () => (params: PageParams & TFilter) => Observable<PagedResult<T>>,
+  initialFilter: TFilter = {} as TFilter,
+) {
   return signalStoreFeature(
-    withState({ page: 1, pageSize: DEFAULT_PAGE_SIZE }),
+    withState({ page: 1, pageSize: DEFAULT_PAGE_SIZE, filter: initialFilter }),
     withProps(() => ({
       _pagedStream: streamFactory(),
     })),
     withProps((store) => ({
       _pagedResource: rxResource({
-        params: () => ({ page: store.page(), pageSize: store.pageSize() }),
+        params: () =>
+          ({
+            page: store.page(),
+            pageSize: store.pageSize(),
+            ...store.filter(),
+          }) as PageParams & TFilter,
         stream: ({ params }) => store._pagedStream(params),
       }),
     })),
@@ -73,6 +89,15 @@ export function withPagedResource<T>(streamFactory: () => (params: PageParams) =
         if (alreadyOnFirstPage) {
           store._pagedResource.reload();
         }
+      },
+
+      /**
+       * Đổi filter (merge vào filter hiện có) + về trang 1. Luôn tạo object
+       * `filter` mới nên `params` của `rxResource` chắc chắn đổi → tự refetch,
+       * không cần `reload()` tay như `resetToFirstPage()`.
+       */
+      setFilter(filter: Partial<TFilter>): void {
+        patchState(store, { filter: { ...store.filter(), ...filter } as TFilter, page: 1 });
       },
     })),
   );

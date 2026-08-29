@@ -5,6 +5,32 @@
 > [`ai/history.md`](history.md).
 
 ## Đang làm
+- **Dashboard — Recent Shorts: code xong, `ng build`/`ng lint` pass, CHƯA
+  verify tay với backend thật** (checklist verify ở cuối
+  `ai/temp/dashboard-recent-shorts-plan.md`).
+  - `VideosService` (`features/dashboard/dashboard.service.ts`) gọi
+    `GET /api/videos`; `channelIds` lặp key bằng `HttpParams.append`.
+  - `withPagedResource<T, TFilter>` nay nhận filter (default rỗng nên
+    `ChannelsStore` không phải sửa) + method `setFilter()`.
+  - Shared UI mới: `VideoCard`, `ChannelAvatar`, `EmptyState`, pipe
+    `compactNumber`/`duration`. `StatusChip` hết tự khai `VideoStatus` —
+    dùng chung `VIDEO_STATUS_LABELS` ở `shared/models/video.ts`.
+  - UI dựng **đúng mockup Screens §RecentShorts**: filter bar 5 nhóm (label
+    trên control) + `mat-tab-group` 4 tab + grid 5 cột + card có
+    `ScoreBadge`/bookmark/sparkline. Những gì backend chưa có thì **hiện
+    nhưng disabled/pending**, không phải nút giả bấm được:
+    - Filter thời gian / điểm / views tối thiểu: `disabled` + tooltip
+      ("`VideoFilter` chỉ có `ChannelIds`/`Status`").
+    - Tab Trending / Fast Growing / Saved: hiện `EmptyState` nói rõ chờ gì.
+    - `ScoreBadge` luôn `—` (pending), footer card "chờ dữ liệu", nút
+      bookmark disabled — bật bằng input `score`/`trendPoints`/
+      `bookmarkEnabled` khi có API.
+  - Filter chạy thật: chip-search kênh (`mat-chip-grid` + autocomplete,
+    đúng mockup) và Trạng thái (`VideoFilter.Status` có sẵn ở BE).
+  - Channels: click tên kênh → `/dashboard?channelIds=<id>`; empty state +
+    avatar dùng lại component shared.
+  - Backend đã sửa trước đó: `VideoFilter.ChannelId` → `ChannelIds: int[]?`.
+
 - **Channel Management CRUD — xong, đã verify tay với backend thật** (mục
   6 `ai/setup-base.md` đã tick). Đợt cuối có refactor để ổn định kiến
   trúc trước khi sang feature sau:
@@ -21,23 +47,22 @@
     lặng không báo gì.
   - Bố cục feature: root giữ route component + store + service, mỗi
     component con 1 folder (`channel-edit-dialog/`).
-- **UI lib PrimeNG → Angular Material 20 (M3)**: hạ tầng xong. Batch 8
-  (shared UI) mới có `StatusChip`; `ScoreBadge`, `VideoCard`,
-  `EmptyState`, `Sparkline` chưa làm — thuộc Dashboard/Video Detail đang
-  block, chưa đụng tới nên chưa dựng (nguyên tắc cuốn chiếu ở `AGENT.md`).
+- **UI lib PrimeNG → Angular Material 20 (M3)**: hạ tầng xong. Shared UI
+  hiện có `StatusChip`, `VideoCard`, `ChannelAvatar`, `EmptyState`,
+  `ConfirmDialog`; `ScoreBadge`/`Sparkline` chưa dựng vì chưa có dữ liệu
+  (nguyên tắc cuốn chiếu ở `AGENT.md`).
 
 ## Block (chờ backend)
-- Mục 7 — Dashboard: chờ `GetDashboardQuery`.
-- Mục 8 — Video Detail: chờ `GetVideoDetailQuery`.
-- Mục 9 — Saved Ideas: chờ SavedIdeas CRUD.
+- Tab Trending/Fast Growing + `ScoreBadge`/`Sparkline`: `VideoDto` chưa có
+  field điểm/snapshot nào (đã verify source backend).
+- Tab Saved Videos + nút bookmark trên `VideoCard`: chờ SavedIdeas CRUD.
+- Mục 8 — Video Detail: **hết block** (`GetVideoByIdQuery`/`VideoDto` đã có),
+  chưa làm.
 
 ## Tiếp theo
-- Feature list tiếp theo (Videos/Dashboard khi hết block): dùng lại
-  `withPagedResource()` — `GET /api/videos` có filter `channelId`/`status`
-  nên thêm filter vào params của resource, chỗ này `rxResource` cancel
-  mới phát huy rõ.
-- Shared UI còn lại (mục 5: `ScoreBadge`, `VideoCard`, `EmptyState`,
-  `Sparkline` + pipe `compactNumber`) — để tới khi Dashboard hoặc Video
-  Detail hết block.
+- Verify tay Dashboard với backend thật (8 bước ở cuối
+  `ai/temp/dashboard-recent-shorts-plan.md`), xong mới xoá file plan đó.
+- Video Detail (mục 8) — hết block; `VideoCard` sẽ có thêm `open` output
+  để điều hướng khi có route detail.
 - Chưa tách `withMutationState` cho Videos vì backend chưa có command nào
   cho Video (`api-contract.md` §10) — khi làm SavedIdeas CRUD thì dùng lại.

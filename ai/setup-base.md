@@ -59,11 +59,14 @@
 - [x] `app.routes.ts` — lazy load từng feature (`loadComponent`)
 
 ## 5. Shared UI (Blueprint §02)
-- [ ] `ScoreBadge`, `VideoCard`, `EmptyState`, `Sparkline` (`StatusChip` xong)
-      (contract đầy đủ ở `docs/components.md`)
+- [x] `StatusChip`, `VideoCard`, `ChannelAvatar`, `EmptyState`, `ScoreBadge`,
+      `Sparkline` (contract đầy đủ ở `docs/components.md`)
       *(`Pagination` đã bỏ — dùng `mat-paginator`)*
+      `ScoreBadge`/`Sparkline` đã dựng theo mockup nhưng **chưa có dữ liệu**:
+      `VideoDto` không có field điểm/snapshot → badge luôn `—`, footer card
+      hiện "chờ dữ liệu"
 - [x] Pipe `relativeTime` — Channels cần nên làm sớm, xem `shared/pipes/relative-time.ts`
-- [ ] Pipe `compactNumber` (1.2M) — chưa feature nào chạm tới
+- [x] Pipe `compactNumber` (1.2M), `duration` (0:38) — `VideoCard` dùng
 
 ## 6. Slice nghiệm thu — Channel Management ✅
 > CRUD đủ (List/Add/Edit/Toggle/Delete), đã verify tay với backend thật.
@@ -79,11 +82,19 @@
 - [x] Verify tay: thêm kênh thật bằng Channel ID/URL thật → thấy row mới,
       `isEnabled`/`lastSyncAt` đúng dữ liệu backend trả
 
-## 7. Dashboard — ⛔ chặn, chờ backend `GetDashboardQuery`
-- [ ] `DashboardStore`
-- [ ] Tab Recent Shorts trước (không cần snapshot)
-- [ ] Tab Trending/Fast Growing (cần backend chạy ≥2 chu kỳ Metrics Update
-      Job mới có dữ liệu thật)
+## 7. Dashboard
+- [x] `DashboardStore` + `VideosService` (`dashboard.service.ts`)
+- [x] Recent Shorts — grid `VideoCard`, filter kênh (multi) + trạng thái,
+      phân trang, quick-link từ Channels (`?channelIds=`).
+      `GET /api/videos` luôn sort `PublishedAt` desc nên không cần
+      `GetDashboardQuery`. **Chưa verify tay với backend thật.**
+- [x] `mat-tab-group` 4 tab + filter bar (`video-filter-bar/`) đúng mockup
+- [ ] Tab Trending/Fast Growing — ⛔ chặn, `VideoDto` chưa có field điểm;
+      cần backend chạy ≥2 chu kỳ Metrics Update Job mới có dữ liệu thật
+      (tab đã có, đang hiện `EmptyState`)
+- [ ] Tab Saved Videos — ⛔ chặn, chờ SavedIdeas CRUD (nt)
+- [ ] Bật 3 nhóm filter đang disabled (thời gian / điểm / views tối thiểu)
+      khi `VideoFilter` backend nhận param tương ứng
 
 ## 8. Video Detail — ⛔ chặn, chờ backend `GetVideoDetailQuery`
 

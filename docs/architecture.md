@@ -5,20 +5,24 @@
     src/app/
     ├── core/            # HttpClient wrapper, errorInterceptor, app.config.ts
     ├── shared/
-    │   ├── ui/          # StatusChip, ScoreBadge, VideoCard... (Blueprint §02)
-    │   ├── pipes/       # compactNumber, relativeTime
+    │   ├── ui/          # StatusChip, VideoCard, ChannelAvatar, EmptyState... (Blueprint §02)
+    │   ├── pipes/       # compactNumber, duration, relativeTime
     │   ├── store/       # signalStoreFeature dùng chung (withPagedResource,
     │   │                #   withMutationState)
+    │   ├── data-access/ # Service dùng chéo ≥2 feature (ChannelsService)
     │   └── models/      # interface DTO dùng chung (Channel, Video, PagedResult<T>...)
     ├── layout/          # Global Shell (Blueprint §03)
     └── features/
         ├── channels/
         │   ├── channels.ts/.html         # route component (smart)
         │   ├── channels.store.ts
-        │   ├── channels.service.ts
         │   ├── channels.models.ts        # model riêng feature (nếu có)
         │   └── channel-edit-dialog/      # mỗi component con = 1 folder
         ├── dashboard/
+        │   ├── dashboard.ts/.html        # route component (smart)
+        │   ├── dashboard.store.ts
+        │   ├── dashboard.service.ts      # VideosService — gọi /api/videos
+        │   └── video-filter-bar/
         └── video-detail/
 
 1 feature = 1 folder — component, store, service, model cạnh nhau, sửa
