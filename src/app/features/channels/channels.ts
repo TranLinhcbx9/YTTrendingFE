@@ -42,6 +42,7 @@ import { ChannelEditDialog } from './channel-edit-dialog/channel-edit-dialog';
     EmptyState,
   ],
   templateUrl: './channels.html',
+  styleUrl: './channels.css',
 })
 export class Channels {
   protected readonly store = inject(ChannelsStore);
