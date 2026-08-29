@@ -17,8 +17,10 @@ tương ứng, không nhúng implementation vào docs.
 | Nút | `<button matButton="filled\|tonal\|outlined\|text\|elevated">` | Mặc định là `text` |
 | Thông báo | `MatSnackBar` | Service — không cần thẻ trong template |
 | Dialog | `MatDialog` | Service — xem cảnh báo dưới |
-| Tab Dashboard | `mat-tab-group` | Filter bar nằm **ngoài** tab group |
-| Time Range | `mat-button-toggle-group` | Thay segmented control tự viết |
+| Tab Dashboard | `mat-tab-group` | Filter bar nằm **ngoài** tab group. 4 tab đúng mockup; 3 tab chưa có dữ liệu hiện `EmptyState` nêu rõ chờ gì |
+| Time Range | `mat-button-toggle-group` | Thay segmented control tự viết. Đang `disabled` — `VideoFilter` backend chưa có param thời gian |
+| Chip-search kênh | `mat-chip-grid` + `mat-autocomplete` trong `mat-form-field` | Ô "Kênh" của filter bar |
+| Slider điểm | `mat-slider` (2 thumb) | Đang `disabled` — backend chưa có param điểm |
 
 > **Dialog Material là service, không phải thẻ trong template.** Không có
 > `[(visible)]`: cha gọi `dialog.open(Comp, {data})` rồi đọc
@@ -33,10 +35,11 @@ tương ứng, không nhúng implementation vào docs.
 | Component | Selector | Inputs | Outputs | Ghi chú |
 |---|---|---|---|---|
 | StatusChip | `app-status-chip` | `status = input.required<'New'\|'Tracking'\|'Archived'>()` | — | Bọc `mat-chip`; Archived tĩnh, Tracking có dot pulse (tắt dưới `prefers-reduced-motion`) |
-| ScoreBadge | `app-score-badge` | `score = input<number \| null>()` | — | `null` → hiện `—` + tooltip "chờ đủ 2 lần đồng bộ", **không** hiện `0` |
-| VideoCard | `app-video-card` | `video = input.required<VideoCardDto>()` | `bookmark = output<string>()` | Thumbnail 9:16, sparkline SVG tĩnh (không Chart.js — nhiều card cùng lúc) |
-| EmptyState | `app-empty-state` | `icon`, `title`, `message = input<string>()` | — | Dùng chung cho mọi tab/màn hình rỗng |
-| Sparkline | `app-sparkline` | `points = input.required<number[]>()` | — | SVG polyline thuần |
+| ScoreBadge | `app-score-badge` | `score = input<number \| null>(null)` | — | `null` → hiện `—` + tooltip "chờ đủ 2 lần đồng bộ", **không** hiện `0`. Ngưỡng heat: <75 low, <86 mid, còn lại high |
+| VideoCard | `app-video-card` | `video`, `score`, `trendPoints = input<number[]>([])`, `velocityPerHour`, `note`, `saved`, `bookmarkEnabled` | `bookmarkToggle = output<Video>()` | Đủ layout mockup. Dữ liệu ngoài `Video` truyền qua input riêng vì `VideoDto` chưa có — Recent Shorts để mặc định → badge `—`, footer "chờ dữ liệu", nút bookmark disabled |
+| ChannelAvatar | `app-channel-avatar` | `name = input.required<string>()`, `size = input(18)` | — | Avatar tròn 2 chữ cái đầu; dùng ở bảng Channels + `VideoCard`. Đổi sang ảnh thật khi `ChannelDto` có field avatar |
+| EmptyState | `app-empty-state` | `icon`, `title`, `message = input<string>()` | — | Dùng chung cho mọi tab/màn hình rỗng; `ng-content` để nhét nút hành động |
+| Sparkline | `app-sparkline` | `points = input.required<number[]>()` | — | SVG polyline thuần 46×18, tự chuẩn hoá min/max — không Chart.js vì mỗi trang hàng chục card |
 | NavRail | trong `layout/shell/` | — | — | Angular Material **không có** nav rail (chỉ có `mat-sidenav` là drawer) |
 | ConfirmDialog | `app-confirm-dialog` | data qua `MAT_DIALOG_DATA`: `{ title, message, confirmLabel?, cancelLabel? }` | `dialogRef.close(true\|undefined)` | `shared/ui/confirm-dialog/` — 1 component dùng chung cho mọi hành động cần xác nhận (vd xoá kênh) |
 
@@ -47,7 +50,8 @@ tương ứng, không nhúng implementation vào docs.
 | Pipe | Input → Output | Ghi chú |
 |---|---|---|
 | `relativeTime` | `string \| null` (ISO) → `"2 giờ trước"` / `"Vừa xong"` / `"Chưa đồng bộ"` (null) | Dùng cho `lastSyncAt` ở trang Channels |
-| `compactNumber` | chưa làm | Đợi Dashboard/VideoCard chạm tới (view/like/comment) |
+| `compactNumber` | `number` → `"1.2M"` | View/like/comment ở `VideoCard` |
+| `duration` | `number` (giây) → `"0:38"` | Badge thời lượng trên thumbnail; Shorts < 1 giờ nên không có nhánh `h:mm:ss` |
 
 ## Bảng Channels — cột theo đúng Blueprint §Channels
 
@@ -72,7 +76,12 @@ tương ứng, không nhúng implementation vào docs.
    đi qua `--mat-*` token của chính component đó (vd
    `--mat-chip-elevated-container-color`), hoặc `mat.theme-overrides()`
    cho token hệ thống. Tailwind chỉ dùng cho layout quanh component và
-   markup tự viết.
+   markup tự viết. Hệ quả: **component tự viết không có file `.css`** —
+   `styleUrl` chỉ xuất hiện khi cần override `--mat-*` (`StatusChip`,
+   `VideoFilterBar`) hoặc style layout của Shell.
+   Ngoại lệ duy nhất: `.icon-filled` (`FILL 1` của Material Symbols) khai ở
+   `styles/tokens.css` — giá trị có dấu nháy nên arbitrary property Tailwind
+   bị escape sai khi nằm trong `[class]` binding.
 2. **Component render trong CDK overlay** (dialog, snackbar, menu,
    tooltip, select) nằm ngoài cây DOM component → style phải đặt global,
    không đặt trong `styleUrl` của component.

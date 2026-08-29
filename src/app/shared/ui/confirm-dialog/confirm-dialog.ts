@@ -11,6 +11,8 @@ export interface ConfirmDialogData {
   message: string;
   confirmLabel?: string;
   cancelLabel?: string;
+  /** Hành động phá huỷ (xoá, không hoàn tác) — nút chính tô theo role error, khớp `.btn-danger` ở Blueprint §Snackbar & Dialog. */
+  tone?: 'danger';
 }
 
 @Component({

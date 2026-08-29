@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,7 +15,9 @@ import { firstValueFrom } from 'rxjs';
 
 import { NotificationService } from '@core/ui/notification.service';
 import { Channel } from '@shared/models/channel';
+import { ChannelAvatar } from '@shared/ui/channel-avatar/channel-avatar';
 import { ConfirmDialog } from '@shared/ui/confirm-dialog/confirm-dialog';
+import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { RelativeTimePipe } from '@shared/pipes/relative-time';
 import { ChannelsStore } from './channels.store';
 import { extractYoutubeChannelId } from '@shared/data-access/channels.service';
@@ -35,12 +38,15 @@ import { ChannelEditDialog } from './channel-edit-dialog/channel-edit-dialog';
     MatIconModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
+    ChannelAvatar,
+    EmptyState,
   ],
   templateUrl: './channels.html',
 })
 export class Channels {
   protected readonly store = inject(ChannelsStore);
   private readonly dialog = inject(MatDialog);
+  private readonly router = inject(Router);
   private readonly notification = inject(NotificationService);
 
   protected readonly newChannelInput = signal('');
@@ -53,11 +59,9 @@ export class Channels {
     'actions',
   ];
 
-  protected initials(name: string): string {
-    const words = name.trim().split(/\s+/);
-    return words.length > 1
-      ? (words[0][0] + words[1][0]).toUpperCase()
-      : name.slice(0, 2).toUpperCase();
+  /** Click tên kênh → mở Dashboard đã lọc sẵn theo kênh đó. */
+  protected viewVideos(channel: Channel): void {
+    this.router.navigate(['/dashboard'], { queryParams: { channelIds: [channel.id] } });
   }
 
   protected displayUrl(url: string): string {
@@ -98,10 +102,11 @@ export class Channels {
   protected async confirmDelete(channel: Channel): Promise<void> {
     const ref = this.dialog.open(ConfirmDialog, {
       data: {
-        title: 'Xoá kênh',
-        message: `Xoá kênh "${channel.name}"? Hành động này không thể hoàn tác.`,
+        title: `Xoá kênh ${channel.name}?`,
+        message: 'Toàn bộ video đã theo dõi từ kênh này cũng sẽ bị xoá. Hành động này không thể hoàn tác.',
         confirmLabel: 'Xoá',
         cancelLabel: 'Huỷ',
+        tone: 'danger',
       },
     });
     const confirmed = await firstValueFrom(ref.afterClosed());

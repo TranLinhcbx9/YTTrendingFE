@@ -1,0 +1,84 @@
+<div
+  class="flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
+>
+  <!-- Khoảng thời gian — chưa có param ở backend, để disabled đúng chỗ mockup -->
+  <div class="flex flex-col gap-[7px]" matTooltip="Backend chưa nhận param khoảng thời gian">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Khoảng thời gian</span>
+    <mat-button-toggle-group value="7d" disabled hideSingleSelectionIndicator>
+      <mat-button-toggle value="24h">24 giờ</mat-button-toggle>
+      <mat-button-toggle value="3d">3 ngày</mat-button-toggle>
+      <mat-button-toggle value="7d">7 ngày</mat-button-toggle>
+      <mat-button-toggle value="30d">30 ngày</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <div class="flex flex-col gap-[7px]">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Kênh</span>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="channel-field">
+      <mat-icon matPrefix class="!h-[18px] !w-[18px] !text-[18px] text-[var(--color-text-muted)]">
+        search
+      </mat-icon>
+      <mat-chip-grid #chipGrid aria-label="Kênh đã chọn">
+        @for (channel of selected(); track channel.id) {
+          <mat-chip-row [highlighted]="true" (removed)="onChannelRemove(channel)">
+            {{ channel.name }}
+            <button matChipRemove [attr.aria-label]="'Bỏ lọc ' + channel.name">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <input
+        placeholder="Tìm kênh…"
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="channelAuto"
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)"
+        name="channelSearch"
+        #channelInput
+      />
+      <mat-autocomplete #channelAuto (optionSelected)="onChannelAdd($event, channelInput)">
+        @for (channel of suggestions(); track channel.id) {
+          <mat-option [value]="channel">{{ channel.name }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+
+  <div class="flex flex-col gap-[7px]">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Trạng thái</span>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
+      <mat-select
+        [value]="filter().status ?? null"
+        (valueChange)="onStatusChange($event)"
+        aria-label="Lọc theo trạng thái"
+      >
+        <mat-option [value]="null">Tất cả</mat-option>
+        @for (status of statuses; track status[0]) {
+          <mat-option [value]="status[0]">{{ status[1] }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Điểm / Views tối thiểu — mockup có, backend chưa nhận param -->
+  <div class="flex flex-col gap-[7px]" matTooltip="Backend chưa nhận param điểm">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Điểm: 0 – 100</span>
+    <mat-slider class="w-[180px]" [min]="0" [max]="100" disabled>
+      <input matSliderStartThumb [value]="0" />
+      <input matSliderEndThumb [value]="100" />
+    </mat-slider>
+  </div>
+
+  <div class="flex flex-col gap-[7px]" matTooltip="Backend chưa nhận param views tối thiểu">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Views tối thiểu</span>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
+      <input matInput placeholder="Không giới hạn thêm" disabled />
+    </mat-form-field>
+  </div>
+
+  <button matButton type="button" disabled matTooltip="Chờ backend mở thêm param lọc">
+    <mat-icon>tune</mat-icon>
+    Thêm bộ lọc
+  </button>
+</div>

@@ -1,6 +1,18 @@
 .status-chip {
-  --mat-chip-container-shape-radius: var(--mat-sys-corner-small);
+  /* Bo pill hoàn toàn thay vì corner-small, để khớp ảnh mẫu */
+  --mat-chip-container-shape-radius: 9999px;
+  --mat-chip-container-height: 28px;
   --mat-chip-label-text-size: 0.75rem;
+  --mat-chip-label-text-weight: 700;
+  --mat-chip-label-text-tracking: 0.02em;
+  --mat-chip-outline-width: 0;
+
+  /* Token không có sẵn text-transform, phải set thủ công trên label */
+}
+
+.status-chip .mdc-evolution-chip__text-label,
+.status-chip .mat-mdc-chip-action-label {
+  text-transform: uppercase;
 }
 
 .status-chip--new {
@@ -9,21 +21,23 @@
 }
 
 .status-chip--tracking {
-  --mat-chip-elevated-container-color: color-mix(
-    in srgb,
-    var(--color-status-tracking) 18%,
-    transparent
-  );
+  /* Nền mint nhạt hơn (18% -> 22%) + chữ/dot xanh forest đậm để tương phản rõ như ảnh */
+  --mat-chip-elevated-container-color: color-mix(in srgb,
+      var(--color-status-tracking) 22%,
+      transparent);
   --mat-chip-label-text-color: var(--color-status-tracking);
 }
 
 .status-chip--archived {
-  --mat-chip-elevated-container-color: color-mix(
-    in srgb,
-    var(--color-status-archived) 18%,
-    transparent
-  );
+  --mat-chip-elevated-container-color: color-mix(in srgb,
+      var(--color-status-archived) 18%,
+      transparent);
   --mat-chip-label-text-color: var(--color-status-archived);
+}
+
+.status-chip--unknown {
+  --mat-chip-elevated-container-color: var(--color-surface-2);
+  --mat-chip-label-text-color: var(--color-text-muted);
 }
 
 .status-chip__dot {
@@ -32,14 +46,19 @@
   margin-right: 6px;
   border-radius: 9999px;
   background: currentColor;
+}
+
+.status-chip--tracking .status-chip__dot {
   animation: status-pulse 2s ease-in-out infinite;
 }
 
 @keyframes status-pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.35;
   }

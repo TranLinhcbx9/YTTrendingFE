@@ -1,0 +1,86 @@
+<!-- Viền bằng `inset` shadow chứ không phải border (đúng mockup): viền không ăn
+     vào layout nên thumbnail chạm sát mép card. -->
+<article
+  class="flex flex-col overflow-hidden rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] shadow-[inset_0_0_0_1px_var(--color-border)]"
+>
+  <div
+    class="relative aspect-[9/16] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))]"
+  >
+    @if (video().thumbnailUrl; as thumb) {
+      <img [src]="thumb" [alt]="video().title" class="h-full w-full object-cover" loading="lazy" />
+    }
+
+    <span class="absolute top-[9px] left-[9px]">
+      <app-score-badge [score]="score()" />
+    </span>
+
+    <button
+      type="button"
+      class="absolute top-[9px] right-[9px] grid h-[30px] w-[30px] place-items-center rounded-full disabled:opacity-60"
+      [class]="
+        saved()
+          ? 'bg-[var(--mat-sys-primary)] text-[var(--mat-sys-on-primary)]'
+          : 'bg-[color-mix(in_srgb,var(--mat-sys-scrim)_45%,transparent)] text-white'
+      "
+      [disabled]="!bookmarkEnabled()"
+      [title]="bookmarkEnabled() ? (saved() ? 'Bỏ lưu' : 'Lưu ý tưởng') : 'Chưa hỗ trợ — SavedIdeas API chưa có'"
+      [attr.aria-label]="saved() ? 'Bỏ lưu video' : 'Lưu ý tưởng'"
+      (click)="bookmarkToggle.emit(video())"
+    >
+      <span
+        class="material-symbols-outlined !text-[17px] leading-none"
+        [class.icon-filled]="saved()"
+      >
+        {{ saved() ? 'bookmark' : 'bookmark_border' }}
+      </span>
+    </button>
+
+    <span
+      class="absolute right-[9px] bottom-[9px] rounded-[var(--mat-sys-corner-extra-small)] bg-[color-mix(in_srgb,var(--mat-sys-scrim)_62%,transparent)] px-1.5 py-0.5 font-[family-name:var(--font-mono)] text-[10.5px] text-white"
+    >
+      {{ video().durationSeconds | duration }}
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-2 px-3 pt-[11px] pb-[13px]">
+    <p class="line-clamp-2 text-[13px] leading-[1.35] font-semibold text-[var(--color-text)]">
+      {{ video().title }}
+    </p>
+
+    <div class="flex items-center gap-1.5 text-[11.5px] text-[var(--color-text-muted)]">
+      <app-channel-avatar [name]="video().channelName" />
+      <span class="truncate">{{ video().channelName }}</span>
+    </div>
+
+    @if (velocityPerHour(); as velocity) {
+      <div class="flex items-center gap-[5px] text-[11.5px] font-semibold text-[var(--color-accent)]">
+        <span class="material-symbols-outlined icon-filled !text-[15px] leading-none">
+          trending_up
+        </span>
+        {{ velocity | compactNumber }} views/giờ
+      </div>
+    }
+
+    <div class="flex justify-between text-[11px] text-[var(--color-text-muted)]">
+      <span class="tabular-nums">{{ video().latestViews | compactNumber }} views</span>
+      <span>{{ video().publishedAt | relativeTime }}</span>
+    </div>
+
+    @if (note(); as noteText) {
+      <p
+        class="line-clamp-2 rounded-[var(--mat-sys-corner-small)] bg-[var(--color-surface-2)] px-2 py-1.5 text-[11px] italic text-[var(--color-text-muted)]"
+      >
+        {{ noteText }}
+      </p>
+    }
+
+    <div class="flex items-center justify-between">
+      <app-status-chip [status]="video().status" />
+      @if (trendPoints().length > 1) {
+        <app-sparkline [points]="trendPoints()" />
+      } @else {
+        <span class="text-[11px] italic text-[var(--color-text-muted)]">chờ dữ liệu</span>
+      }
+    </div>
+  </div>
+</article>

@@ -35,6 +35,14 @@
 :root[data-theme='light'] { color-scheme: light; }
 :root[data-theme='dark'] { color-scheme: dark; }
 
+/* Material Symbols là variable font — `FILL 1` cho icon đang chọn/đang bật
+   (`docs/design-tokens.md` §Icon). Khai 1 lần ở đây thay vì viết arbitrary
+   property Tailwind: giá trị có dấu nháy nên bị escape sai khi nằm trong
+   `[class]` binding. */
+.icon-filled {
+  font-variation-settings: 'FILL' 1;
+}
+
 body {
   background: var(--mat-sys-background);
   color: var(--mat-sys-on-surface);
@@ -54,6 +62,18 @@ body {
   --mat-snack-bar-button-color: var(--mat-sys-on-error);
 }
 
+/* ConfirmDialog cho hành động phá huỷ (vd xoá kênh) — nút chính tô theo
+   role error thay vì primary, khớp `.btn-danger` ở Blueprint §Snackbar &
+   Dialog. Dialog render trong CDK overlay nên đặt global (xem
+   `docs/components.md` §Quy tắc style 2), không đặt trong styleUrl của
+   ConfirmDialog. */
+.confirm-dialog__action--danger {
+  --mat-button-filled-container-color: var(--mat-sys-error);
+  --mat-button-filled-label-text-color: var(--mat-sys-on-error);
+  --mat-button-filled-state-layer-color: var(--mat-sys-on-error);
+  --mat-button-filled-ripple-color: color-mix(in srgb, var(--mat-sys-on-error) 12%, transparent);
+}
+
 /* Vá lỗi Angular Material 20.2.14: notched-outline chỉ set
    border-left trong suốt cho hướng LTR (bản compile CSS chỉ có
    `border-right: transparent` dưới [dir=rtl]) — nên field
@@ -68,4 +88,34 @@ body {
    mọi trạng thái, viết `--mat-*` token không có chỗ nào lo case này. */
 .mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch.mdc-notched-outline__notch {
   border-right-color: transparent;
+}
+
+/* Ô "Kênh" của VideoFilterBar: `.mdc-evolution-chip-set__chips` (DOM con của
+   `mat-chip-grid`, không nằm trong CDK overlay nhưng vẫn ở component con —
+   `styleUrl` của VideoFilterBar không đè được, xem `docs/components.md` §Quy
+   tắc style 2) mặc định `flex-wrap:wrap`, chọn nhiều kênh thì field cao dần
+   theo số dòng, lệch `align-items:flex-end` của cả filter bar. Ép về 1 hàng,
+   cuộn ngang khi tràn — field luôn cao 40px cố định như mockup Screens
+   `.chipfield`. Không có token `--mat-*` nào cho hành vi này nên phải chọn
+   thẳng class MDC. */
+app-video-filter-bar .mat-mdc-form-field-infix {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+app-video-filter-bar mat-chip-grid {
+  display: flex;
+  flex: none;
+}
+
+app-video-filter-bar .mdc-evolution-chip-set__chips {
+  flex-wrap: nowrap;
+}
+
+app-video-filter-bar .mat-mdc-chip-input {
+  flex: none;
+  width: 100px;
 }

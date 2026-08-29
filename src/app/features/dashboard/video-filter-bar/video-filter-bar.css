@@ -1,0 +1,35 @@
+/* Chỉ chứa token của component Material — utility Tailwind không thắng được
+   specificity `.mat-mdc-*` (`docs/components.md` §Quy tắc style 1). Phần layout
+   của filter bar nằm hết ở template dưới dạng utility. */
+
+/* Token đúng tên là `--mat-button-toggle-*` (namespace `button-toggle` ở
+   `_button-toggle-theme.scss`) — bản cũ viết nhầm `--mat-standard-button-toggle-*`
+   (không tồn tại) nên 3 dòng này chưa từng có tác dụng; group ra pill tròn chỉ vì
+   default M3 `button-toggle-shape` vốn đã là `corner-extra-large` (28px, đủ tròn
+   ở chiều cao ~40px). Sửa lại tên token cho đúng, giữ override tường minh để
+   không phụ thuộc trùng hợp của default. */
+mat-button-toggle-group {
+  --mat-button-toggle-shape: 9999px;
+  --mat-button-toggle-height: 38px;
+  --mat-button-toggle-label-text-size: 12.5px;
+}
+
+/* Ô trong filter bar cao 40px như mockup — thấp hơn form nhập liệu ở Channels.
+   Bo góc: M3 default outline field là `corner-extra-small` (4px), mockup dùng
+   `corner-small` (8px) — ép lại token `form-field-outlined-container-shape`. */
+mat-form-field {
+  --mat-form-field-container-height: 40px;
+  --mat-form-field-container-vertical-padding: 8px;
+  --mat-form-field-outlined-container-shape: var(--mat-sys-corner-small);
+}
+
+/* Ô "Kênh": `min-w-[290px]` Tailwind từng bị `.mat-mdc-form-field` (Material,
+   cùng specificity nhưng nạp sau trong bundle) đè mất — chuyển sang class
+   thường trong `styleUrl` để ăn `[_ngcontent]` attribute selector Angular tự
+   thêm, specificity cao hơn nên thắng chắc chắn (không phụ thuộc thứ tự nạp
+   CSS). `max-width` chặn field giãn vô hạn khi chọn nhiều kênh — quá đó thì
+   cuộn ngang (`tokens.css`, chip-grid không nằm trong component này). */
+.channel-field {
+  min-width: 290px;
+  max-width: 420px;
+}

@@ -2,5 +2,9 @@
 <mat-dialog-content>{{ data.message }}</mat-dialog-content>
 <mat-dialog-actions align="end">
   <button matButton mat-dialog-close>{{ data.cancelLabel ?? 'Huỷ' }}</button>
-  <button matButton="filled" (click)="confirm()">{{ data.confirmLabel ?? 'Xác nhận' }}</button>
+  <button
+    matButton="filled"
+    [class.confirm-dialog__action--danger]="data.tone === 'danger'"
+    (click)="confirm()"
+  >{{ data.confirmLabel ?? 'Xác nhận' }}</button>
 </mat-dialog-actions>

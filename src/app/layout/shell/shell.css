@@ -15,7 +15,8 @@
   gap: 4px;
   width: 100%;
   padding: 4px 0;
-  color: var(--mat-sys-on-surface-variant);
+  /* `outline`, không phải `on-surface-variant` — xem cảnh báo ở docs/design-tokens.md */
+  color: var(--color-text-muted);
   text-decoration: none;
   border-radius: var(--mat-sys-corner-medium);
 }
