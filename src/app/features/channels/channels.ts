@@ -17,7 +17,7 @@ import { Channel } from '@shared/models/channel';
 import { ConfirmDialog } from '@shared/ui/confirm-dialog/confirm-dialog';
 import { RelativeTimePipe } from '@shared/pipes/relative-time';
 import { ChannelsStore } from './channels.store';
-import { extractYoutubeChannelId } from './channels.service';
+import { extractYoutubeChannelId } from '@shared/data-access/channels.service';
 import { ChannelEditDialog } from './channel-edit-dialog/channel-edit-dialog';
 
 @Component({

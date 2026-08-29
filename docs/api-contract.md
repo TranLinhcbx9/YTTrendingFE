@@ -115,7 +115,7 @@ Không đi qua `Error`/`ErrorType` — do `GlobalExceptionHandler` xử lý riê
 
 | Verb | Route | Request | Response thành công |
 |---|---|---|---|
-| GET | `/api/videos` | query `GetVideosQuery` (= `VideoFilter`: `channelId?`, `status?` + `page`, `pageSize`) | 200, `PagedResult<VideoDto>` |
+| GET | `/api/videos` | query `GetVideosQuery` (= `VideoFilter`: `channelIds?`, `status?` + `page`, `pageSize`) | 200, `PagedResult<VideoDto>` |
 | GET | `/api/videos/{id}` | route `id` | 200, `VideoDto` |
 
 Chưa có create/update/delete cho Video — video do background job tạo/cập nhật (chưa build ở Phase 1 hiện tại, xem [`../ai/current.md`](../ai/current.md)), không phải do FE gọi API tạo. Endpoint detail dùng **chung** `VideoDto` với endpoint list — không có `VideoDetailDto` riêng.
@@ -171,7 +171,7 @@ Validate: `id > 0`, `name` bắt buộc, `url` bắt buộc + phải là absolut
 
 ### Query params — `GET /api/videos`
 
-`channelId` (optional, số), `status` (optional, `New`/`Tracking`/`Archived`), cộng `page`/`pageSize` (mục 5).
+`channelIds` (optional, mảng số — query string dạng `channelIds=1&channelIds=2` hoặc `channelIds=1,2`, cả 2 đều bind được qua default model binder của ASP.NET Core), `status` (optional, `New`/`Tracking`/`Archived`), cộng `page`/`pageSize` (mục 5).
 
 ## 8. Enum `VideoStatus`
 
