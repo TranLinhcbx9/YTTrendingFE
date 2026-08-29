@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Sửa kênh</h2>
+<h2 mat-dialog-title>Edit channel</h2>
 
 <mat-dialog-content class="flex flex-col gap-1">
   <mat-form-field appearance="outline">
-    <mat-label>Tên kênh</mat-label>
+    <mat-label>Channel name</mat-label>
     <input matInput [ngModel]="name()" (ngModelChange)="name.set($event)" />
     @if (store.formError()?.errors?.['name']?.[0]; as msg) {
       <mat-error>{{ msg }}</mat-error>
@@ -23,18 +23,18 @@
 
   <div class="flex items-center gap-2 py-1">
     <mat-slide-toggle [checked]="isEnabled()" (change)="isEnabled.set($event.checked)">
-      Đang bật theo dõi
+      Tracking enabled
     </mat-slide-toggle>
   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button matButton mat-dialog-close [disabled]="store.isSubmitting()">Huỷ</button>
+  <button matButton mat-dialog-close [disabled]="store.isSubmitting()">Cancel</button>
   <button matButton="filled" (click)="onSave()" [disabled]="store.isSubmitting()">
     @if (store.isSubmitting()) {
       <mat-progress-spinner diameter="18" mode="indeterminate" />
     } @else {
-      Lưu
+      Save
     }
   </button>
 </mat-dialog-actions>

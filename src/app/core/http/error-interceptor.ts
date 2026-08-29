@@ -14,11 +14,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         const problem = error.error as ProblemDetails | undefined;
         if (error.status === 404 || error.status >= 500) {
           const message =
-            problem?.detail ?? problem?.title ?? 'Đã có lỗi xảy ra, vui lòng thử lại.';
+            problem?.detail ?? problem?.title ?? 'Something went wrong, please try again.';
           notification.error(message);
         }
-        // 400 (validation) & 409 (conflict): không snackbar — component tự đọc
-        // problem.errors / problem.detail để hiện lỗi inline
+        // 400 (validation) & 409 (conflict): no snackbar — component reads
+        // problem.errors / problem.detail itself to show the error inline
       }
       return throwError(() => error);
     }),

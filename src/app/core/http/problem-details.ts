@@ -10,12 +10,13 @@ export interface ProblemDetails {
 }
 
 /**
- * Bóc `ProblemDetails` từ lỗi bất kỳ (`rxResource().error()`, `catch (err)`).
+ * Extracts `ProblemDetails` from any error (`rxResource().error()`, `catch (err)`).
  *
- * `HttpErrorResponse.error` chỉ là `ProblemDetails` khi backend thật sự trả
- * body theo Result pattern. Mất mạng / CORS chặn / server không phản hồi thì
- * nó là `ProgressEvent` và `status` = 0 — cast thẳng sẽ ra object rỗng khiến
- * UI im lặng không báo gì, nên các case đó fallback về ProblemDetails tự dựng.
+ * `HttpErrorResponse.error` is only a `ProblemDetails` when the backend
+ * actually returns a body following the Result pattern. On network loss /
+ * CORS block / no server response it's a `ProgressEvent` with `status` = 0 —
+ * casting directly would yield an empty object and the UI would silently show
+ * nothing, so those cases fall back to a hand-built ProblemDetails.
  */
 export function toProblemDetails(err: unknown): ProblemDetails | undefined {
   if (err == null) return undefined;
@@ -26,9 +27,9 @@ export function toProblemDetails(err: unknown): ProblemDetails | undefined {
       return body as ProblemDetails;
     }
     return err.status === 0
-      ? { status: 0, title: 'Mất kết nối', detail: 'Không kết nối được máy chủ, vui lòng thử lại.', code: 'network.error' }
-      : { status: err.status, title: err.statusText || 'Lỗi', detail: 'Đã có lỗi xảy ra, vui lòng thử lại.', code: 'server.error' };
+      ? { status: 0, title: 'Connection lost', detail: 'Could not reach the server, please try again.', code: 'network.error' }
+      : { status: err.status, title: err.statusText || 'Error', detail: 'Something went wrong, please try again.', code: 'server.error' };
   }
 
-  return { status: 0, title: 'Lỗi', detail: 'Đã có lỗi xảy ra, vui lòng thử lại.', code: 'unknown.error' };
+  return { status: 0, title: 'Error', detail: 'Something went wrong, please try again.', code: 'unknown.error' };
 }

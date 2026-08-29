@@ -60,7 +60,7 @@ export class Channels {
     'actions',
   ];
 
-  /** Click tên kênh → mở Dashboard đã lọc sẵn theo kênh đó. */
+  /** Click channel name → opens the Dashboard already filtered to that channel. */
   protected viewVideos(channel: Channel): void {
     this.router.navigate(['/dashboard'], { queryParams: { channelIds: [channel.id] } });
   }
@@ -76,19 +76,19 @@ export class Channels {
     const ok = await this.store.addChannel(id);
     if (ok) {
       this.newChannelInput.set('');
-      this.notification.success('Đã thêm kênh mới');
+      this.notification.success('New channel added');
     }
-    // Thất bại: lỗi hiện inline trong form (field-level hoặc `formErrorMessage`)
+    // Failure: error shows inline in the form (field-level or `formErrorMessage`)
   }
 
   protected async onToggleEnabled(channel: Channel, event: MatSlideToggleChange): Promise<void> {
     const ok = await this.store.setChannelEnabled(channel, event.checked);
     if (ok) {
       this.notification.success(
-        event.checked ? `Đã bật theo dõi "${channel.name}"` : `Đã tắt theo dõi "${channel.name}"`,
+        event.checked ? `Tracking enabled for "${channel.name}"` : `Tracking disabled for "${channel.name}"`,
       );
     } else {
-      this.notification.mutationError(this.store.actionError(), 'Cập nhật kênh thất bại');
+      this.notification.mutationError(this.store.actionError(), 'Failed to update channel');
     }
   }
 
@@ -103,10 +103,10 @@ export class Channels {
   protected async confirmDelete(channel: Channel): Promise<void> {
     const ref = this.dialog.open(ConfirmDialog, {
       data: {
-        title: `Xoá kênh ${channel.name}?`,
-        message: 'Toàn bộ video đã theo dõi từ kênh này cũng sẽ bị xoá. Hành động này không thể hoàn tác.',
-        confirmLabel: 'Xoá',
-        cancelLabel: 'Huỷ',
+        title: `Delete channel ${channel.name}?`,
+        message: 'All videos tracked from this channel will also be deleted. This action cannot be undone.',
+        confirmLabel: 'Delete',
+        cancelLabel: 'Cancel',
         tone: 'danger',
       },
     });
@@ -114,9 +114,9 @@ export class Channels {
     if (confirmed) {
       const ok = await this.store.deleteChannel(channel.id);
       if (ok) {
-        this.notification.success(`Đã xoá kênh "${channel.name}"`);
+        this.notification.success(`Deleted channel "${channel.name}"`);
       } else {
-        this.notification.mutationError(this.store.actionError(), 'Xoá kênh thất bại');
+        this.notification.mutationError(this.store.actionError(), 'Failed to delete channel');
       }
     }
   }

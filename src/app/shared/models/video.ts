@@ -1,11 +1,11 @@
-/** Khớp 1:1 `VideoDto` của backend (`Features/Videos/Dtos/VideoDto.cs`). */
+/** Matches backend `VideoDto` 1:1 (`Features/Videos/Dtos/VideoDto.cs`). */
 export type VideoStatus = 'New' | 'Tracking' | 'Archived';
 
-/** Nhãn tiếng Việt của status — 1 nguồn duy nhất cho `StatusChip` và ô filter. */
+/** Status labels — single source for `StatusChip` and the filter dropdown. */
 export const VIDEO_STATUS_LABELS: Record<VideoStatus, string> = {
-  New: 'Mới',
-  Tracking: 'Đang theo dõi',
-  Archived: 'Lưu trữ',
+  New: 'New',
+  Tracking: 'Tracking',
+  Archived: 'Archived',
 };
 
 export interface Video {

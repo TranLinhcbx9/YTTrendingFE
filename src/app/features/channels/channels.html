@@ -2,7 +2,7 @@
   <form class="flex flex-col gap-1" (submit)="$event.preventDefault(); onAddSubmit()">
     <div class="flex items-start gap-3.5">
       <mat-form-field appearance="outline" class="w-full max-w-[560px]">
-        <mat-label>Channel ID hoặc URL kênh</mat-label>
+        <mat-label>Channel ID or channel URL</mat-label>
         <input matInput [ngModel]="newChannelInput()" (ngModelChange)="newChannelInput.set($event)" name="newChannel" />
       </mat-form-field>
       <button matButton="filled" type="submit" class="mt-2" [disabled]="store.isSubmitting()">
@@ -11,7 +11,7 @@
         } @else {
           <ng-container>
             <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle">add</mat-icon>
-            Thêm kênh
+            Add channel
           </ng-container>
         }
       </button>
@@ -25,14 +25,14 @@
 
   @if (store.loadError()) {
     <div class="flex items-center gap-2">
-      <span class="text-[var(--color-danger)]">Không tải được danh sách.</span>
-      <button matButton type="button" (click)="store.reload()">Thử lại</button>
+      <span class="text-[var(--color-danger)]">Failed to load the list.</span>
+      <button matButton type="button" (click)="store.reload()">Retry</button>
     </div>
   } @else if (store.items().length === 0 && !store.isLoading()) {
     <app-empty-state
       icon="subscriptions"
-      title="Chưa có kênh nào được theo dõi"
-      message="Thêm kênh đầu tiên để bắt đầu — dán URL hoặc Channel ID ở form phía trên."
+      title="No channels tracked yet"
+      message="Add your first channel to get started — paste a URL or Channel ID in the form above."
     />
   } @else {
     <div
@@ -40,13 +40,13 @@
     >
     <table mat-table [dataSource]="store.items()">
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef>Kênh</th>
+        <th mat-header-cell *matHeaderCellDef>Channel</th>
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap">
           <button
             type="button"
             class="flex items-center gap-2 hover:underline"
             (click)="viewVideos(c)"
-            [attr.aria-label]="'Xem video của kênh ' + c.name"
+            [attr.aria-label]="'View videos for channel ' + c.name"
           >
             <app-channel-avatar [name]="c.name" />
             <span class="font-medium">{{ c.name }}</span>
@@ -70,19 +70,19 @@
       </ng-container>
 
       <ng-container matColumnDef="isEnabled">
-        <th mat-header-cell *matHeaderCellDef>Trạng thái</th>
+        <th mat-header-cell *matHeaderCellDef>Status</th>
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap">
           <mat-slide-toggle [checked]="c.isEnabled" (change)="onToggleEnabled(c, $event)" />
         </td>
       </ng-container>
 
       <ng-container matColumnDef="lastSyncAt">
-        <th mat-header-cell *matHeaderCellDef>Đồng bộ lần cuối</th>
+        <th mat-header-cell *matHeaderCellDef>Last synced</th>
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap tabular-nums">{{ c.lastSyncAt | relativeTime }}</td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef>Ngày thêm</th>
+        <th mat-header-cell *matHeaderCellDef>Added on</th>
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap tabular-nums">{{ c.createdAt | date: 'dd/MM/yyyy' }}</td>
       </ng-container>
 
@@ -90,7 +90,7 @@
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap">
           <span class="flex gap-1">
-            <button matIconButton type="button" (click)="openEdit(c)" aria-label="Sửa kênh">
+            <button matIconButton type="button" (click)="openEdit(c)" aria-label="Edit channel">
               <mat-icon>edit</mat-icon>
             </button>
             <button
@@ -98,7 +98,7 @@
               type="button"
               [disabled]="store.isActionRunning()"
               (click)="confirmDelete(c)"
-              aria-label="Xoá kênh"
+              aria-label="Delete channel"
             >
               <mat-icon>delete</mat-icon>
             </button>
