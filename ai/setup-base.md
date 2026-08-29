@@ -66,8 +66,7 @@
 - [ ] Pipe `compactNumber` (1.2M) — chưa feature nào chạm tới
 
 ## 6. Slice nghiệm thu — Channel Management ✅
-> CRUD đủ (List/Add/Edit/Toggle/Delete), đã verify tay với backend thật
-> (Batch 9 của [`channel-management-plan.md`](temp/channel-management-plan.md)).
+> CRUD đủ (List/Add/Edit/Toggle/Delete), đã verify tay với backend thật.
 > `ng build` + `ng lint` pass.
 - [x] `ChannelsService` — `GET`/`POST`/`PUT`/`DELETE /api/channels`, không
       giữ state. GET trả `Observable` (cho `rxResource`), mutation trả

@@ -4,7 +4,7 @@ import { signalStore, withMethods, withProps } from '@ngrx/signals';
 import { Channel } from '@shared/models/channel';
 import { withMutationState } from '@shared/store/with-mutation-state';
 import { withPagedResource } from '@shared/store/with-paged-resource';
-import { ChannelsService } from './channels.service';
+import { ChannelsService } from '@shared/data-access/channels.service';
 
 export const ChannelsStore = signalStore(
   { providedIn: 'root' },

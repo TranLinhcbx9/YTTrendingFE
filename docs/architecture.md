@@ -100,12 +100,16 @@ tính năng chỉ mở đúng 1 folder.
 | HTTP / ErrorType | UI |
 |---|---|
 | 400 Validation | Lỗi inline dưới field qua `mat-error` (map `fields` camelCase) |
-| 404 NotFound | Snackbar + quay lại trang trước |
+| 404 NotFound | Snackbar |
 | 409 Conflict | Inline ngay tại nơi phát lệnh — xem bảng dưới |
 | 5xx / network | Snackbar + nút Thử lại |
 
 Interceptor chỉ bắn snackbar cho **404 và 5xx**. 400/409 đi thẳng về
 component vì luôn gắn với 1 field hoặc 1 hành động cụ thể.
+
+**Không auto-navigate-back sau 404** — Add nằm ngay trên trang list nên
+back không có ý nghĩa; chỉ thêm navigate-back khi có feature thật sự cần
+(theo nguyên tắc cuốn chiếu ở `AGENT.md`).
 
 ### Báo kết quả lệnh ghi
 
