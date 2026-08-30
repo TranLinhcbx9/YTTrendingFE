@@ -36,7 +36,7 @@
           message="Videos will appear after the next sync — or try loosening the filters above."
         />
       } @else {
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div class="video-grid">
           @for (video of store.items(); track video.id) {
             <app-video-card [video]="video" />
           }

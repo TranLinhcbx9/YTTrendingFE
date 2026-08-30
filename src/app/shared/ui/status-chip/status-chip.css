@@ -1,8 +1,12 @@
 .status-chip {
   /* Bo pill hoàn toàn thay vì corner-small, để khớp ảnh mẫu */
   --mat-chip-container-shape-radius: 9999px;
-  --mat-chip-container-height: 28px;
-  --mat-chip-label-text-size: 0.75rem;
+  /* Co theo bề rộng VideoCard (container query đặt trên `<article>` của
+     VideoCard — status-chip hiện chỉ dùng trong đó, xem docs/components.md)
+     thay vì đứng yên 28px/0.75rem, để khớp nhịp co giãn của phần chữ khác
+     trong card thay vì đứng yên khi card co giãn theo viewport/zoom. */
+  --mat-chip-container-height: clamp(22px, 11cqw, 28px);
+  --mat-chip-label-text-size: clamp(10px, 5cqw, 12px);
   --mat-chip-label-text-weight: 700;
   --mat-chip-label-text-tracking: 0.02em;
   --mat-chip-outline-width: 0;
