@@ -1,16 +1,19 @@
 <div
   class="flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
 >
-  <!-- Time range — backend doesn't accept this param yet, disabled per mockup -->
-  <div class="flex flex-col gap-[7px]" matTooltip="Backend doesn't accept the time range param yet">
+  <div class="flex flex-col gap-[7px]">
     <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
       >Time range</span
     >
-    <mat-button-toggle-group value="7d" disabled hideSingleSelectionIndicator>
-      <mat-button-toggle value="24h">24h</mat-button-toggle>
-      <mat-button-toggle value="3d">3 days</mat-button-toggle>
-      <mat-button-toggle value="7d">7 days</mat-button-toggle>
-      <mat-button-toggle value="30d">30 days</mat-button-toggle>
+    <mat-button-toggle-group
+      [value]="filter().timeRanges"
+      hideSingleSelectionIndicator
+      (change)="onTimeRangesChange($event.value)"
+    >
+      <mat-button-toggle [value]="1">24h</mat-button-toggle>
+      <mat-button-toggle [value]="3">3 days</mat-button-toggle>
+      <mat-button-toggle [value]="7">7 days</mat-button-toggle>
+      <mat-button-toggle [value]="30">30 days</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 

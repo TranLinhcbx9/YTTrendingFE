@@ -74,8 +74,12 @@ export class VideoFilterBar {
     this.filterChange.emit({ status: status ?? undefined });
   }
 
-  protected onMinViewsChange(value: number | null): void {
-    this.filterChange.emit({ minViews: value ?? undefined });
+  protected onMinViewsChange(minViews: number | null): void {
+    this.filterChange.emit({ minViews: minViews ?? undefined });
+  }
+
+  protected onTimeRangesChange(timeRanges: number | null): void {
+    this.filterChange.emit({ timeRanges: timeRanges ?? undefined });
   }
 
   /** Bỏ chọn hết = không lọc: gửi `undefined` để service không đính param rỗng. */

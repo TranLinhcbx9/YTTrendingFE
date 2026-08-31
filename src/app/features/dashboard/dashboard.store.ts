@@ -16,10 +16,13 @@ import { VideoListFilter, VideosService } from './dashboard.service';
  */
 export const DashboardStore = signalStore(
   { providedIn: 'root' },
-  withPagedResource<Video, VideoListFilter>(() => {
-    const videos = inject(VideosService);
-    return (params) => videos.getVideos(params);
-  }),
+  withPagedResource<Video, VideoListFilter>(
+    () => {
+      const videos = inject(VideosService);
+      return (params) => videos.getVideos(params);
+    },
+    { timeRanges: 7 },
+  ),
   withProps(() => {
     const channels = inject(ChannelsService);
     return {
