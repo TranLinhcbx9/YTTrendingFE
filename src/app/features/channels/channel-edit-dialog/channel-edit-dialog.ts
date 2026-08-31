@@ -41,9 +41,9 @@ export class ChannelEditDialog {
       isEnabled: this.isEnabled(),
     });
     if (ok) {
-      this.notification.success(`Đã cập nhật kênh "${this.name()}"`);
+      this.notification.success(`Updated channel "${this.name()}"`);
       this.dialogRef.close(true);
     }
-    // Thất bại: giữ dialog mở, lỗi hiện inline (field-level hoặc `formErrorMessage`)
+    // Failure: keep dialog open, error shows inline (field-level or `formErrorMessage`)
   }
 }

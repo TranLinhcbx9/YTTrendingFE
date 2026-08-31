@@ -5,7 +5,13 @@
     (filterChange)="onFilterChange($event)"
   />
 
-  <mat-tab-group [selectedIndex]="2" (selectedIndexChange)="selectedTab.set($event)">
+  <mat-tab-group
+    [selectedIndex]="2"
+    (selectedIndexChange)="selectedTab.set($event)"
+    mat-align-tabs="start"
+    mat-stretch-tabs="false"
+    fitInkBarToContent
+  >
     <mat-tab label="Trending Shorts" />
     <mat-tab label="Fast Growing" />
     <mat-tab label="Recent Shorts" />
@@ -20,17 +26,17 @@
 
       @if (store.loadError()) {
         <div class="flex items-center gap-2">
-          <span class="text-[var(--color-danger)]">Không tải được danh sách video.</span>
-          <button matButton type="button" (click)="store.reload()">Thử lại</button>
+          <span class="text-[var(--color-danger)]">Failed to load the video list.</span>
+          <button matButton type="button" (click)="store.reload()">Retry</button>
         </div>
       } @else if (store.items().length === 0 && !store.isLoading()) {
         <app-empty-state
           icon="video_library"
-          title="Chưa có video nào"
-          message="Video sẽ xuất hiện sau lần đồng bộ kế tiếp — hoặc thử bỏ bớt bộ lọc phía trên."
+          title="No videos yet"
+          message="Videos will appear after the next sync — or try loosening the filters above."
         />
       } @else {
-        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div class="video-grid">
           @for (video of store.items(); track video.id) {
             <app-video-card [video]="video" />
           }
@@ -48,15 +54,15 @@
     @case (3) {
       <app-empty-state
         icon="bookmark"
-        title="Chưa lưu được ý tưởng"
-        message="Tab này chờ backend mở API SavedIdeas."
+        title="Saved ideas not available yet"
+        message="This tab is waiting on the backend to open up the SavedIdeas API."
       />
     }
     @default {
       <app-empty-state
         icon="query_stats"
-        title="Chưa có dữ liệu điểm trending"
-        message="Trending / Fast Growing cần điểm và snapshot tăng trưởng — backend chạy đủ 2 chu kỳ đồng bộ và bổ sung field vào VideoDto thì tab này mới có dữ liệu."
+        title="No trending score data yet"
+        message="Trending / Fast Growing need a score and growth snapshot — this tab will have data once the backend runs 2 full sync cycles and adds the field to VideoDto."
       />
     }
   }

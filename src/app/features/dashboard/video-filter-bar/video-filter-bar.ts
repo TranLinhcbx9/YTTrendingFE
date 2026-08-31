@@ -1,6 +1,9 @@
 import { Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocompleteModule,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
@@ -15,15 +18,6 @@ import { Channel } from '@shared/models/channel';
 import { VIDEO_STATUS_LABELS, VideoStatus } from '@shared/models/video';
 import { VideoListFilter } from '../dashboard.service';
 
-/**
- * Thanh filter của Dashboard (mockup Screens `.filterbar`) — nằm **ngoài** tab
- * group, dùng chung cho cả 4 tab nên tách khỏi component trang.
- *
- * Ô Kênh (chip-search) và Trạng thái lọc thật. 3 nhóm còn lại — Khoảng thời
- * gian, Điểm, Views tối thiểu — vẽ đúng mockup nhưng **disabled**: `VideoFilter`
- * của backend chỉ có `ChannelIds`/`Status`, bật lên thì bấm mà không lọc gì.
- * Bỏ `disabled` ngay khi backend nhận param tương ứng.
- */
 @Component({
   selector: 'app-video-filter-bar',
   imports: [
@@ -78,6 +72,10 @@ export class VideoFilterBar {
 
   protected onStatusChange(status: VideoStatus | null): void {
     this.filterChange.emit({ status: status ?? undefined });
+  }
+
+  protected onMinViewsChange(value: number | null): void {
+    this.filterChange.emit({ minViews: value ?? undefined });
   }
 
   /** Bỏ chọn hết = không lọc: gửi `undefined` để service không đính param rỗng. */

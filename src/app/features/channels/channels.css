@@ -1,0 +1,10 @@
+/* Token của mat-table — utility Tailwind không thắng được specificity `.mat-mdc-*`
+   (`docs/components.md` §Quy tắc style 1). Mặc định M3 dùng `surface` (thường trùng
+   màu nền trang) + `outline` (đậm) nên table trông như không có nền/viền, đè mất
+   background+border của khung bọc ngoài trong `channels.html`. Đổi sang đúng 2 token
+   khung bọc đang dùng — `surface-container-low` (nền) + `outline-variant` (viền) —
+   để table và khung bọc đồng nhất như mockup Channels.tablecard. */
+table[mat-table] {
+  --mat-table-background-color: var(--color-surface);
+  --mat-table-row-item-outline-color: var(--color-border);
+}

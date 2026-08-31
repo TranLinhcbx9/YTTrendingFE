@@ -28,6 +28,7 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
 - Lỗi từ backend theo Result pattern (400 field-level / 404 / 409) — map
   theo đúng 1 bảng trong `docs/architecture.md`, không tự chế cách xử lý
   lỗi mới ở từng feature.
+- Toàn bộ text hiển thị trên UI dùng tiếng Anh — kể cả khi mockup/thiết kế gốc đang là tiếng Việt thì vẫn convert sang tiếng Anh
 
 ## Lệnh
 - `ng serve` — dev server

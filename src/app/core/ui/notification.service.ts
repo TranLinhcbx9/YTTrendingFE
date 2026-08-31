@@ -3,7 +3,7 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 import { ProblemDetails } from '@core/http/problem-details';
 
-/** Vị trí snackbar dùng chung toàn app — mọi thông báo phải qua service này. */
+/** Shared snackbar position for the whole app — every notification must go through this service. */
 const BASE_CONFIG: MatSnackBarConfig = {
   horizontalPosition: 'end',
   verticalPosition: 'bottom',
@@ -13,13 +13,13 @@ const BASE_CONFIG: MatSnackBarConfig = {
 export class NotificationService {
   private readonly snackBar = inject(MatSnackBar);
 
-  /** Giữ màu default M3 (inverse-surface) — xem chú thích ở `styles/tokens.css`. */
+  /** Keeps the default M3 color (inverse-surface) — see note in `styles/tokens.css`. */
   success(message: string): void {
-    this.snackBar.open(message, 'Đóng', { ...BASE_CONFIG, duration: 4000 });
+    this.snackBar.open(message, 'Dismiss', { ...BASE_CONFIG, duration: 4000 });
   }
 
   error(message: string): void {
-    this.snackBar.open(message, 'Đóng', {
+    this.snackBar.open(message, 'Dismiss', {
       ...BASE_CONFIG,
       duration: 6000,
       panelClass: 'app-snackbar-error',
@@ -27,12 +27,13 @@ export class NotificationService {
   }
 
   /**
-   * Báo lỗi cho 1 lệnh ghi thất bại.
+   * Reports an error for a failed write command.
    *
-   * Lỗi 400 field-level (`errors.<field>`) đã hiện inline ngay dưới field theo
-   * bảng lỗi ở `docs/architecture.md` — bỏ qua để không báo 2 lần. 404/5xx cũng
-   * bỏ qua vì `errorInterceptor` đã bắn snackbar rồi. Còn lại (409, mất mạng)
-   * mới đẩy snackbar ở đây.
+   * Field-level 400 errors (`errors.<field>`) are already shown inline under
+   * the field per the error table in `docs/architecture.md` — skipped here to
+   * avoid reporting twice. 404/5xx are also skipped since `errorInterceptor`
+   * already fires a snackbar for those. Only the rest (409, network loss) push
+   * a snackbar here.
    */
   mutationError(problem: ProblemDetails | null | undefined, fallback: string): void {
     if (problem?.errors) return;

@@ -1,35 +1,39 @@
 <div
   class="flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
 >
-  <!-- Khoảng thời gian — chưa có param ở backend, để disabled đúng chỗ mockup -->
-  <div class="flex flex-col gap-[7px]" matTooltip="Backend chưa nhận param khoảng thời gian">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Khoảng thời gian</span>
+  <!-- Time range — backend doesn't accept this param yet, disabled per mockup -->
+  <div class="flex flex-col gap-[7px]" matTooltip="Backend doesn't accept the time range param yet">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
+      >Time range</span
+    >
     <mat-button-toggle-group value="7d" disabled hideSingleSelectionIndicator>
-      <mat-button-toggle value="24h">24 giờ</mat-button-toggle>
-      <mat-button-toggle value="3d">3 ngày</mat-button-toggle>
-      <mat-button-toggle value="7d">7 ngày</mat-button-toggle>
-      <mat-button-toggle value="30d">30 ngày</mat-button-toggle>
+      <mat-button-toggle value="24h">24h</mat-button-toggle>
+      <mat-button-toggle value="3d">3 days</mat-button-toggle>
+      <mat-button-toggle value="7d">7 days</mat-button-toggle>
+      <mat-button-toggle value="30d">30 days</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 
   <div class="flex flex-col gap-[7px]">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Kênh</span>
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
+      >Channel</span
+    >
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="channel-field">
       <mat-icon matPrefix class="!h-[18px] !w-[18px] !text-[18px] text-[var(--color-text-muted)]">
         search
       </mat-icon>
-      <mat-chip-grid #chipGrid aria-label="Kênh đã chọn">
+      <mat-chip-grid #chipGrid aria-label="Selected channels">
         @for (channel of selected(); track channel.id) {
           <mat-chip-row [highlighted]="true" (removed)="onChannelRemove(channel)">
             {{ channel.name }}
-            <button matChipRemove [attr.aria-label]="'Bỏ lọc ' + channel.name">
+            <button matChipRemove [attr.aria-label]="'Remove filter ' + channel.name">
               <mat-icon>close</mat-icon>
             </button>
           </mat-chip-row>
         }
       </mat-chip-grid>
       <input
-        placeholder="Tìm kênh…"
+        placeholder="Search channels…"
         [matChipInputFor]="chipGrid"
         [matAutocomplete]="channelAuto"
         [ngModel]="search()"
@@ -46,14 +50,16 @@
   </div>
 
   <div class="flex flex-col gap-[7px]">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Trạng thái</span>
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
+      >Status</span
+    >
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
       <mat-select
         [value]="filter().status ?? null"
         (valueChange)="onStatusChange($event)"
-        aria-label="Lọc theo trạng thái"
+        aria-label="Filter by status"
       >
-        <mat-option [value]="null">Tất cả</mat-option>
+        <mat-option [value]="null">All</mat-option>
         @for (status of statuses; track status[0]) {
           <mat-option [value]="status[0]">{{ status[1] }}</mat-option>
         }
@@ -61,24 +67,41 @@
     </mat-form-field>
   </div>
 
-  <!-- Điểm / Views tối thiểu — mockup có, backend chưa nhận param -->
-  <div class="flex flex-col gap-[7px]" matTooltip="Backend chưa nhận param điểm">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Điểm: 0 – 100</span>
+  <!-- Score / Min views — present in mockup, backend doesn't accept the param yet -->
+  <div class="flex flex-col gap-[7px]" matTooltip="Backend doesn't accept the score param yet">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
+      >Score: 0 – 100</span
+    >
     <mat-slider class="w-[180px]" [min]="0" [max]="100" disabled>
       <input matSliderStartThumb [value]="0" />
       <input matSliderEndThumb [value]="100" />
     </mat-slider>
   </div>
 
-  <div class="flex flex-col gap-[7px]" matTooltip="Backend chưa nhận param views tối thiểu">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]">Views tối thiểu</span>
+  <div class="flex flex-col gap-[7px]">
+    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
+      >Min views</span
+    >
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
-      <input matInput placeholder="Không giới hạn thêm" disabled />
+      <input
+        matInput
+        type="number"
+        placeholder="e.g. 10000"
+        name="minViews"
+        aria-label="Minimum views"
+        [ngModel]="filter().minViews ?? null"
+        (ngModelChange)="onMinViewsChange($event)"
+      />
     </mat-form-field>
   </div>
 
-  <button matButton type="button" disabled matTooltip="Chờ backend mở thêm param lọc">
+  <button
+    matButton
+    type="button"
+    disabled
+    matTooltip="Waiting for backend to open more filter params"
+  >
     <mat-icon>tune</mat-icon>
-    Thêm bộ lọc
+    Add filter
   </button>
 </div>

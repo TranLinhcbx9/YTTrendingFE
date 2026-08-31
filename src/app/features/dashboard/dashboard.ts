@@ -29,6 +29,7 @@ import { VideoFilterBar } from './video-filter-bar/video-filter-bar';
     VideoFilterBar,
   ],
   templateUrl: './dashboard.html',
+  styleUrl: './dashboard.css',
 })
 export class Dashboard {
   protected readonly store = inject(DashboardStore);

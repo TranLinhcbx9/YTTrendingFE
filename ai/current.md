@@ -19,17 +19,19 @@
     trên control) + `mat-tab-group` 4 tab + grid 5 cột + card có
     `ScoreBadge`/bookmark/sparkline. Những gì backend chưa có thì **hiện
     nhưng disabled/pending**, không phải nút giả bấm được:
-    - Filter thời gian / điểm / views tối thiểu: `disabled` + tooltip
-      ("`VideoFilter` chỉ có `ChannelIds`/`Status`").
+    - Filter thời gian / điểm: `disabled` + tooltip ("`VideoFilter` chưa có
+      param tương ứng").
     - Tab Trending / Fast Growing / Saved: hiện `EmptyState` nói rõ chờ gì.
     - `ScoreBadge` luôn `—` (pending), footer card "chờ dữ liệu", nút
       bookmark disabled — bật bằng input `score`/`trendPoints`/
       `bookmarkEnabled` khi có API.
   - Filter chạy thật: chip-search kênh (`mat-chip-grid` + autocomplete,
-    đúng mockup) và Trạng thái (`VideoFilter.Status` có sẵn ở BE).
+    đúng mockup), Trạng thái và Views tối thiểu (`VideoFilter.Status`/
+    `MinViews` có sẵn ở BE).
   - Channels: click tên kênh → `/dashboard?channelIds=<id>`; empty state +
     avatar dùng lại component shared.
-  - Backend đã sửa trước đó: `VideoFilter.ChannelId` → `ChannelIds: int[]?`.
+  - Backend đã sửa trước đó: `VideoFilter.ChannelId` → `ChannelIds: int[]?`;
+    mới thêm `MinViews: int?`.
 
 - **Channel Management CRUD — xong, đã verify tay với backend thật** (mục
   6 `ai/setup-base.md` đã tick). Đợt cuối có refactor để ổn định kiến

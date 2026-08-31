@@ -18,10 +18,11 @@ import { VIDEO_STATUS_LABELS, VideoStatus } from '@shared/models/video';
   styleUrl: './status-chip.css',
 })
 export class StatusChip {
-  // Backend đôi khi trả status ngoài enum (seed data lỗi) — chip vẫn phải render
-  // được thay vì crash cả trang, nên không siết kiểu `VideoStatus` ở input.
+  // Backend can occasionally return a status outside the enum (bad seed data) —
+  // the chip must still render instead of crashing the page, so the input type
+  // isn't narrowed to `VideoStatus`.
   readonly status = input.required<VideoStatus>();
 
   protected readonly knownStatus = computed(() => this.status() in VIDEO_STATUS_LABELS);
-  protected readonly label = computed(() => VIDEO_STATUS_LABELS[this.status()] ?? 'Không xác định');
+  protected readonly label = computed(() => VIDEO_STATUS_LABELS[this.status()] ?? 'Unknown');
 }

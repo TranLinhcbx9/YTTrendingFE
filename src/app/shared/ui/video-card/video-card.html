@@ -1,7 +1,7 @@
-<!-- Viền bằng `inset` shadow chứ không phải border (đúng mockup): viền không ăn
-     vào layout nên thumbnail chạm sát mép card. -->
+<!-- Border via `inset` shadow rather than a real border (per mockup): the border
+     doesn't eat into layout, so the thumbnail sits flush with the card edge. -->
 <article
-  class="flex flex-col overflow-hidden rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] shadow-[inset_0_0_0_1px_var(--color-border)]"
+  class="[container-type:inline-size] flex flex-col overflow-hidden rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] shadow-[inset_0_0_0_1px_var(--color-border)]"
 >
   <div
     class="relative aspect-[9/16] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))]"
@@ -23,8 +23,8 @@
           : 'bg-[color-mix(in_srgb,var(--mat-sys-scrim)_45%,transparent)] text-white'
       "
       [disabled]="!bookmarkEnabled()"
-      [title]="bookmarkEnabled() ? (saved() ? 'Bỏ lưu' : 'Lưu ý tưởng') : 'Chưa hỗ trợ — SavedIdeas API chưa có'"
-      [attr.aria-label]="saved() ? 'Bỏ lưu video' : 'Lưu ý tưởng'"
+      [title]="bookmarkEnabled() ? (saved() ? 'Unsave' : 'Save idea') : 'Not supported yet — SavedIdeas API not available'"
+      [attr.aria-label]="saved() ? 'Unsave video' : 'Save idea'"
       (click)="bookmarkToggle.emit(video())"
     >
       <span
@@ -43,32 +43,32 @@
   </div>
 
   <div class="flex flex-col gap-2 px-3 pt-[11px] pb-[13px]">
-    <p class="line-clamp-2 text-[13px] leading-[1.35] font-semibold text-[var(--color-text)]">
+    <p class="line-clamp-2 text-[clamp(12px,6cqw,15px)] leading-[1.35] font-semibold text-[var(--color-text)]">
       {{ video().title }}
     </p>
 
-    <div class="flex items-center gap-1.5 text-[11.5px] text-[var(--color-text-muted)]">
+    <div class="flex items-center gap-1.5 text-[clamp(10.5px,5.2cqw,13px)] text-[var(--color-text-muted)]">
       <app-channel-avatar [name]="video().channelName" />
       <span class="truncate">{{ video().channelName }}</span>
     </div>
 
     @if (velocityPerHour(); as velocity) {
-      <div class="flex items-center gap-[5px] text-[11.5px] font-semibold text-[var(--color-accent)]">
-        <span class="material-symbols-outlined icon-filled !text-[15px] leading-none">
+      <div class="flex items-center gap-[5px] text-[clamp(10.5px,5.2cqw,13px)] font-semibold text-[var(--color-accent)]">
+        <span class="material-symbols-outlined icon-filled !text-[clamp(13px,6.5cqw,17px)] leading-none">
           trending_up
         </span>
-        {{ velocity | compactNumber }} views/giờ
+        {{ velocity | compactNumber }} views/hr
       </div>
     }
 
-    <div class="flex justify-between text-[11px] text-[var(--color-text-muted)]">
+    <div class="flex justify-between text-[clamp(10.5px,5.2cqw,13px)] text-[var(--color-text-muted)]">
       <span class="tabular-nums">{{ video().latestViews | compactNumber }} views</span>
       <span>{{ video().publishedAt | relativeTime }}</span>
     </div>
 
     @if (note(); as noteText) {
       <p
-        class="line-clamp-2 rounded-[var(--mat-sys-corner-small)] bg-[var(--color-surface-2)] px-2 py-1.5 text-[11px] italic text-[var(--color-text-muted)]"
+        class="line-clamp-2 rounded-[var(--mat-sys-corner-small)] bg-[var(--color-surface-2)] px-2 py-1.5 text-[clamp(10.5px,5.2cqw,13px)] italic text-[var(--color-text-muted)]"
       >
         {{ noteText }}
       </p>
@@ -79,7 +79,7 @@
       @if (trendPoints().length > 1) {
         <app-sparkline [points]="trendPoints()" />
       } @else {
-        <span class="text-[11px] italic text-[var(--color-text-muted)]">chờ dữ liệu</span>
+        <span class="truncate text-[clamp(10.5px,5.2cqw,13px)] italic text-[var(--color-text-muted)]">waiting for data</span>
       }
     </div>
   </div>
