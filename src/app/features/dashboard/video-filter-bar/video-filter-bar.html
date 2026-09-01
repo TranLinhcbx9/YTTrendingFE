@@ -39,8 +39,8 @@
         placeholder="Search channels…"
         [matChipInputFor]="chipGrid"
         [matAutocomplete]="channelAuto"
-        [ngModel]="search()"
-        (ngModelChange)="search.set($event)"
+        [ngModel]="searchChannel()"
+        (ngModelChange)="searchChannel.set($event)"
         name="channelSearch"
         #channelInput
       />

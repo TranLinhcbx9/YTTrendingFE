@@ -98,7 +98,7 @@ body {
    cuộn ngang khi tràn — field luôn cao 40px cố định như mockup Screens
    `.chipfield`. Không có token `--mat-*` nào cho hành vi này nên phải chọn
    thẳng class MDC. */
-app-video-filter-bar .mat-mdc-form-field-infix {
+app-video-filter-bar .channel-field .mat-mdc-form-field-infix {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
