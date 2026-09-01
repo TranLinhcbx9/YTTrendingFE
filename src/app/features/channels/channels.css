@@ -8,3 +8,22 @@ table[mat-table] {
   --mat-table-background-color: var(--color-surface);
   --mat-table-row-item-outline-color: var(--color-border);
 }
+
+/* Mobile: field "Add channel" mặc định cao hơn hẳn 40px đã dùng ở
+   video-filter-bar.css, và row của table cũng cao theo default của theme
+   — 1 màn hình phone chỉ thấy được 2-3 channel. Áp lại đúng chiều cao 40px
+   đã chứng minh hợp lý ở filter bar, chỉ ở mobile (desktop không đổi vì
+   không ai phàn nàn). Không đụng nút "Add channel" — button M3 chuẩn đã
+   cao đúng 40px sẵn, không scale theo density như form-field/table. */
+@media (max-width: 599px) {
+  mat-form-field {
+    --mat-form-field-container-height: 40px;
+    --mat-form-field-container-vertical-padding: 8px;
+  }
+
+  table[mat-table] {
+    --mat-table-header-container-height: 40px;
+    --mat-table-row-item-container-height: 40px;
+    --mat-table-row-item-label-text-size: 12.5px;
+  }
+}

@@ -21,6 +21,9 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
   tay**; đổi màu thương hiệu = generate lại từ seed.
 - Style component Material chỉnh qua `--mat-*` token của component đó,
   **không** bằng utility Tailwind (specificity không thắng).
+- Mọi UI mới **luôn phải responsive** (chạy được từ mobile ~360px đến
+  desktop) — breakpoint chuẩn + cách làm ở `docs/coding-convention.md`
+  mục 11, không tự chế breakpoint hay pattern riêng ở từng component.
 - VideoId (YouTube cấp) là khóa duy nhất so sánh video — không dùng
   title/thumbnail.
 - ARCHIVED là trạng thái cuối — UI không có action đưa video quay lại

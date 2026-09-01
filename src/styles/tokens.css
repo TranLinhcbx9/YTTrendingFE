@@ -29,6 +29,13 @@
   --font-display: var(--mat-sys-title-large-font);
   --font-body: var(--mat-sys-body-medium-font);
   --font-mono: 'JetBrains Mono', monospace;
+
+  /* --- Breakpoint: khớp bảng breakpoint ở Blueprint §Navigation (rail
+     80dp giữ nguyên ≥600px, đổi bottom bar dưới 600px; card grid 2/3-4/5
+     cột ở 600/900/1280px) — ghi đè default Tailwind (640/768/1024). --- */
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1280px;
 }
 
 /* Toggle thủ công thắng cài đặt hệ điều hành */

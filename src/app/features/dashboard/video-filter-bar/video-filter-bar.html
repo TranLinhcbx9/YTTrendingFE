@@ -1,6 +1,26 @@
+<button matButton="outlined" type="button" class="mobile-filters-trigger" (click)="mobileFiltersOpen.set(true)">
+  <mat-icon>tune</mat-icon>
+  Filters
+</button>
+
+@if (mobileFiltersOpen()) {
+  <div class="filter-backdrop fixed inset-0 z-20" (click)="mobileFiltersOpen.set(false)"></div>
+}
+
 <div
-  class="flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
+  class="filter-fields flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
+  [class.filter-fields--open]="mobileFiltersOpen()"
 >
+  <button
+    matIconButton
+    type="button"
+    class="filter-close"
+    (click)="mobileFiltersOpen.set(false)"
+    aria-label="Close filters"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
   <div class="flex flex-col gap-[7px]">
     <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
       >Time range</span

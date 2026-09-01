@@ -45,6 +45,7 @@ export class VideoFilterBar {
 
   protected readonly statuses = Object.entries(VIDEO_STATUS_LABELS) as [VideoStatus, string][];
   protected readonly searchChannel = signal('');
+  protected readonly mobileFiltersOpen = signal(false);
 
   protected readonly minViewsRaw = signal<number | null>(null);
   private readonly minViewsDebounced = toDebouncedSignal(this.minViewsRaw, 400);

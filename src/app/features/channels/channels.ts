@@ -53,11 +53,11 @@ export class Channels {
   protected readonly newChannelInput = signal('');
   protected readonly displayedColumns = [
     'name',
-    'url',
     'isEnabled',
-    'lastSyncAt',
-    'createdAt',
     'actions',
+    'lastSyncAt',
+    'url',
+    'createdAt',
   ];
 
   /** Click channel name → opens the Dashboard already filtered to that channel. */
