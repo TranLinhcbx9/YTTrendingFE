@@ -1,6 +1,12 @@
 <button matButton="outlined" type="button" class="mobile-filters-trigger" (click)="mobileFiltersOpen.set(true)">
   <mat-icon>tune</mat-icon>
   Filters
+  @if (activeFilterCount(); as count) {
+    <span
+      class="grid h-4 min-w-4 place-items-center rounded-full bg-[var(--color-accent)] px-1 text-[10px] font-bold text-[var(--color-accent-contrast)]"
+      >{{ count }}</span
+    >
+  }
 </button>
 
 @if (mobileFiltersOpen()) {
@@ -121,6 +127,7 @@
   <button
     matButton
     type="button"
+    class="add-filter-button"
     disabled
     matTooltip="Waiting for backend to open more filter params"
   >

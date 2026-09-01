@@ -14,3 +14,17 @@
   gap: var(--gap);
   grid-template-columns: repeat(auto-fill, minmax(max(180px, (100% - 9 * var(--gap)) / 10), 1fr));
 }
+
+/* Sàn 180px/cột ở trên tự nhiên chỉ ra đúng 1 cột dưới ~376px nội dung —
+   nhưng `VideoCard` giờ đổi hẳn layout hàng ngang dưới `--breakpoint-sm`
+   (thumb 100px cố định + info), không còn co dọc theo cột như trước, nên 1
+   cột ~187px (vd content ~390px của iPhone 14 Pro Max, vẫn dưới breakpoint)
+   ép card hàng ngang vào nửa bề rộng nó cần → chữ vỡ dòng, chip tràn viền.
+   Khoá cứng về đúng 1 cột suốt dải mobile-shell (khớp mốc hamburger/filter
+   trigger), nhường lại auto-fill liên tục cho ≥600px nơi card đã về layout
+   dọc. */
+@media (max-width: 599px) {
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+}

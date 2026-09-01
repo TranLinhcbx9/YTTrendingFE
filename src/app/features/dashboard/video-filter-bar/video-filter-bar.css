@@ -59,6 +59,15 @@ mat-form-field {
   .filter-fields--open {
     display: flex;
     flex-direction: column;
+    /* `.filter-fields` base (HTML) khai Tailwind `flex-wrap` cho desktop bar
+       wrap xuống hàng 2 khi hết chỗ ngang — không reset thì ở đây (column +
+       `max-height:85vh`) nó wrap thành CỘT thứ 2 mỗi khi tổng chiều cao 5
+       nhóm filter + nút "Add filter" vượt 85vh (dễ xảy ra trên màn hình
+       thật, ví dụ 375×667/430×740 — test trước đó lỡ dùng viewport cao
+       900px nên không lộ). Cột 2 đó trồi lên đầu, đúng chỗ nút "Close" đang
+       neo bên phải → nhìn như "Add filter" nằm cạnh nút Close. Overflow
+       phải xử lý bằng cuộn dọc (`overflow-y:auto` dưới), không phải wrap. */
+    flex-wrap: nowrap;
     align-items: stretch;
     position: fixed;
     inset: auto 0 0 0;
@@ -70,6 +79,19 @@ mat-form-field {
   }
   .filter-close {
     align-self: flex-end;
+  }
+
+  /* `.filter-fields--open` là flex column `align-items:stretch` (ngay trên) —
+     kéo mọi con giãn full-width panel. Ô nhập (`mat-form-field`) đã có width
+     riêng (`w-full`/`w-[180px]`) nên không dính, nhưng `mat-button-toggle-group`
+     và nút "Add filter" không khai width nào nên bị stretch: toggle-group
+     thành viền pill dài quá khổ với khoảng trắng chết sau "30 days" (không lộ ở
+     ~375px vì bề rộng toggle-group tình cờ gần khớp panel, lộ rõ ở màn rộng hơn
+     vd iPhone 14 Pro Max ~390px nội dung), nút "Add filter" thì label bị canh
+     giữa thay vì bám trái như các control khác. Trả về kích thước tự nhiên. */
+  mat-button-toggle-group,
+  .add-filter-button {
+    align-self: flex-start;
   }
 }
 

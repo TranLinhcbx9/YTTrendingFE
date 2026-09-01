@@ -60,6 +60,17 @@ export class VideoFilterBar {
     });
   }
 
+  /**
+   * Số filter đang bật, hiện ở badge trên nút "Filters" mobile (mockup Screens
+   * §Main frame Mobile `.m-filtertrigger .badge`). Chỉ đếm field optional của
+   * `VideoListFilter` — `timeRanges` luôn có giá trị (mặc định 7 ngày) nên
+   * không tính, tránh badge hiện "1" ngay cả khi chưa ai đổi gì.
+   */
+  protected readonly activeFilterCount = computed(() => {
+    const filter = this.filter();
+    return (filter.channelIds?.length ?? 0) + (filter.status ? 1 : 0) + (filter.minViews != null ? 1 : 0);
+  });
+
   /** Kênh đang chọn — lấy từ `filter()` để URL/query param là nguồn duy nhất. */
   protected readonly selected = computed(() => {
     const ids = new Set(this.filter().channelIds ?? []);
