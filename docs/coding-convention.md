@@ -162,3 +162,30 @@ nội bộ (không cho ngoài mutate trực tiếp).
 ## 10. Test & commit
 
 Xem `AGENT.md` mục Lệnh (test hoãn Phase 1, commit convention).
+
+## 11. Responsive
+
+Mọi component/màn hình mới phải chạy được từ mobile (~360px) đến desktop
+— tối thiểu test 2 phía breakpoint `--breakpoint-sm` (600px; giá trị +
+lý do ở [`design-tokens.md`](design-tokens.md)).
+
+- Layout/markup tự viết (`div`, container, `<aside>`...) → dùng thẳng
+  Tailwind responsive variant (`sm:`/`md:`/`lg:`), vd `.rail` ở
+  `layout/shell/shell.html` (`hidden sm:flex`).
+- Ẩn/hiện/đổi kích thước **component Material** theo breakpoint →
+  Tailwind variant (`sm:hidden`...) thua specificity `.mat-mdc-*`/
+  `.mat-drawer` (mục "Quy tắc style khi dùng Material" #1,
+  [`components.md`](components.md)) — viết class riêng trong `styleUrl` +
+  `@media`, ví dụ thật `shell.css` (`.mobile-menu-button`,
+  `.app-sidenav`), `video-filter-bar.css` (`.mobile-filters-trigger`).
+- Mobile-first: không hardcode `min-width` cứng gây tràn ngang ở màn
+  ~360px — full-width/flex mặc định, chỉ khoá kích thước từ `sm` trở lên
+  (vd `.channel-field` ở `video-filter-bar.css`).
+- Control đông đúc không vừa mobile (filter bar, nav) → thu gọn sau 1
+  trigger (nút/hamburger) mở panel, nhưng giữ **1 bản markup duy nhất**
+  toggle qua class/state (`@if`, `[class.x-open]`) — không nhân bản
+  template qua breakpoint (`*ngTemplateOutlet` hay 2 component riêng).
+- Grid nhiều item (card list) ưu tiên `repeat(auto-fill, minmax(...))` co
+  giãn liên tục thay vì step cứng theo breakpoint (`dashboard.css`).
+- Control chạm trên mobile (input, row bảng) giữ tối thiểu 40px cao dù
+  density app đang −2 (`channels.css`).

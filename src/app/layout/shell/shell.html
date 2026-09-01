@@ -1,6 +1,6 @@
 <div class="flex h-screen bg-[var(--color-bg)]">
   <aside
-    class="rail flex w-20 flex-none flex-col items-center gap-3 bg-[var(--mat-sys-surface)] py-3"
+    class="rail hidden w-20 flex-none flex-col items-center gap-3 bg-[var(--mat-sys-surface)] py-3 sm:flex"
   >
     <div
       class="mb-2 grid h-12 w-12 place-items-center rounded-[var(--mat-sys-corner-large)] bg-[var(--mat-sys-primary-container)] text-[var(--mat-sys-on-primary-container)]"
@@ -35,6 +35,14 @@
 
   <div class="flex min-w-0 flex-1 flex-col">
     <mat-toolbar class="app-toolbar !bg-[var(--color-bg)] !px-4">
+      <button
+        matIconButton
+        class="mobile-menu-button"
+        aria-label="Open navigation menu"
+        (click)="drawer.toggle()"
+      >
+        <mat-icon>menu</mat-icon>
+      </button>
       <span class="flex-1 font-[family-name:var(--font-display)]">{{ pageTitle() }}</span>
       <span class="flex items-center gap-2 text-[var(--color-text-muted)]">
         <mat-icon class="!h-5 !w-5 !text-[20px]">sync</mat-icon>
@@ -42,8 +50,25 @@
       </span>
     </mat-toolbar>
 
-    <main class="min-w-0 flex-1 overflow-y-auto px-5 pt-1 pb-6">
-      <router-outlet />
-    </main>
+    <mat-sidenav-container class="app-sidenav-container flex-1">
+      <mat-sidenav #drawer class="app-sidenav" mode="over" autoFocus="dialog">
+        <nav class="drawer-nav" (click)="drawer.close()">
+          <a routerLink="/dashboard" routerLinkActive="drawer-item--active" class="drawer-item">
+            <mat-icon>dashboard</mat-icon>
+            <span>Dashboard</span>
+          </a>
+          <a routerLink="/channels" routerLinkActive="drawer-item--active" class="drawer-item">
+            <mat-icon>subscriptions</mat-icon>
+            <span>Channels</span>
+          </a>
+        </nav>
+      </mat-sidenav>
+
+      <mat-sidenav-content class="app-sidenav-content">
+        <main class="min-w-0 flex-1 overflow-y-auto px-5 pt-1 pb-6">
+          <router-outlet />
+        </main>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
   </div>
 </div>

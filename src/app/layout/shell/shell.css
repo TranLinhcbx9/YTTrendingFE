@@ -51,3 +51,74 @@
 .rail-item--active mat-icon {
   font-variation-settings: 'FILL' 1;
 }
+
+/* mat-drawer-content mặc định display:block;overflow:auto (Material tự
+   set) — <main> bên trong đã tự overflow-y-auto, để nguyên ra 2 lớp cuộn
+   lồng nhau. Ép flex-column để flex-1 của <main> có tác dụng, overflow:
+   hidden để chỉ <main> cuộn. Dùng class riêng (không Tailwind) vì đang
+   ghi đè đúng property Material đã set sẵn — cần specificity [_ngcontent]
+   để thắng chắc bất kể thứ tự nạp CSS. */
+.app-sidenav-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 256px = mức tối thiểu chuẩn M3 cho navigation drawer — 360px mặc định
+   của Material quá rộng cho 2 mục trên khung điện thoại. Set qua token
+   Material, không phải `width` thường. */
+.app-sidenav {
+  --mat-sidenav-container-width: 256px;
+}
+
+/* Ẩn hamburger + drawer ở ≥600px — Tailwind `sm:hidden` đặt thẳng lên
+   component Material (matIconButton/mat-sidenav) thua specificity
+   `.mat-mdc-*`/`.mat-drawer` (đúng loại lỗi đã ghi ở `.channel-field`,
+   `docs/components.md` §Quy tắc style 1) nên phải dùng class riêng ở đây
+   thay vì utility, để ăn `[_ngcontent]` mà thắng chắc chắn. */
+@media (min-width: 600px) {
+  .mobile-menu-button,
+  .app-sidenav {
+    display: none;
+  }
+}
+
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+}
+
+/* Icon+label nằm ngang, cao 56px (M3 navigation-drawer item) — khác hẳn
+   .rail-item (xếp dọc, pill nhỏ quanh icon, thiết kế riêng cho cột 80px)
+   nên viết class mới thay vì cố tái dùng, chỉ giữ lại đúng "ngôn ngữ" màu
+   sắc/trạng thái (hover color-mix 8%, active secondary-container, FILL 1). */
+.drawer-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 56px;
+  padding: 0 16px;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--mat-sys-corner-full);
+  transition: background-color 150ms;
+}
+
+.drawer-item:hover {
+  background: color-mix(in srgb, var(--mat-sys-on-surface) 8%, transparent);
+}
+
+.drawer-item span {
+  font: var(--mat-sys-label-large);
+}
+
+.drawer-item--active {
+  background: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+}
+
+.drawer-item--active mat-icon {
+  font-variation-settings: 'FILL' 1;
+}

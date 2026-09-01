@@ -18,7 +18,7 @@ tương ứng, không nhúng implementation vào docs.
 | Thông báo | `MatSnackBar` | Service — không cần thẻ trong template |
 | Dialog | `MatDialog` | Service — xem cảnh báo dưới |
 | Tab Dashboard | `mat-tab-group` | Filter bar nằm **ngoài** tab group. 4 tab đúng mockup; 3 tab chưa có dữ liệu hiện `EmptyState` nêu rõ chờ gì |
-| Time Range | `mat-button-toggle-group` | Thay segmented control tự viết. Đang `disabled` — `VideoFilter` backend chưa có param thời gian |
+| Time Range | `mat-button-toggle-group` | Thay segmented control tự viết. `VideoFilter.TimeRanges` (BE) — mặc định 7 ngày, seed qua `initialFilter` của `withPagedResource` |
 | Chip-search kênh | `mat-chip-grid` + `mat-autocomplete` trong `mat-form-field` | Ô "Kênh" của filter bar |
 | Slider điểm | `mat-slider` (2 thumb) | Đang `disabled` — backend chưa có param điểm |
 

@@ -28,8 +28,65 @@ mat-form-field {
    thường trong `styleUrl` để ăn `[_ngcontent]` attribute selector Angular tự
    thêm, specificity cao hơn nên thắng chắc chắn (không phụ thuộc thứ tự nạp
    CSS). `max-width` chặn field giãn vô hạn khi chọn nhiều kênh — quá đó thì
-   cuộn ngang (`tokens.css`, chip-grid không nằm trong component này). */
+   cuộn ngang (`tokens.css`, chip-grid không nằm trong component này).
+
+   Mobile-first: `min-width:290px` cứng làm field không co được ở phone
+   ≤360px (content width của `main` có thể hụt dưới 290px) → tràn ngang cả
+   trang. Full-width mặc định, chỉ khoá 290–420px từ 600px trở lên. */
 .channel-field {
-  min-width: 290px;
-  max-width: 420px;
+  min-width: 0;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .channel-field {
+    min-width: 290px;
+    max-width: 420px;
+    width: auto;
+  }
+}
+
+/* Filter bar thu gọn thành 1 nút "Filters" dưới 600px — field xếp dọc hết
+   cỡ mới chiếm gần hết màn hình, che mất content. `.filter-fields` đóng
+   mặc định, mở thành panel dạng bottom sheet khi `mobileFiltersOpen()`
+   true. Chỉ 1 bản markup (không nhân bản qua `*ngTemplateOutlet`/component
+   riêng) — mọi input/chip-grid/autocomplete bên trong luôn có đúng 1
+   instance dù đóng/mở hay đổi breakpoint. */
+@media (max-width: 599px) {
+  .filter-fields {
+    display: none;
+  }
+  .filter-fields--open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 30;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 16px 16px 0 0;
+    padding-bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+  .filter-close {
+    align-self: flex-end;
+  }
+}
+
+.filter-backdrop {
+  background: color-mix(in srgb, var(--mat-sys-scrim) 45%, transparent);
+}
+
+/* Ẩn ở ≥600px — `.mobile-filters-trigger`/`.filter-close` đặt trên
+   component Material (matButton/matIconButton) nên Tailwind `sm:hidden`
+   thua specificity `.mat-mdc-*` (đúng loại lỗi đã ghi ở `.channel-field`
+   phía trên) — phải dùng class riêng để ăn `[_ngcontent]` mà thắng chắc.
+   `.filter-backdrop` là div thường nên không dính lỗi này, nhưng gộp
+   chung cho nhất quán/dễ đọc. */
+@media (min-width: 600px) {
+  .mobile-filters-trigger,
+  .filter-close,
+  .filter-backdrop {
+    display: none;
+  }
 }

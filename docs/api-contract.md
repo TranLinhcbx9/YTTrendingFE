@@ -115,7 +115,7 @@ Không đi qua `Error`/`ErrorType` — do `GlobalExceptionHandler` xử lý riê
 
 | Verb | Route | Request | Response thành công |
 |---|---|---|---|
-| GET | `/api/videos` | query `GetVideosQuery` (= `VideoFilter`: `channelIds?`, `status?`, `minViews?` + `page`, `pageSize`) | 200, `PagedResult<VideoDto>` |
+| GET | `/api/videos` | query `GetVideosQuery` (= `VideoFilter`: `channelIds?`, `status?`, `minViews?`, `timeRanges?` + `page`, `pageSize`) | 200, `PagedResult<VideoDto>` |
 | GET | `/api/videos/{id}` | route `id` | 200, `VideoDto` |
 
 Chưa có create/update/delete cho Video — video do background job tạo/cập nhật (chưa build ở Phase 1 hiện tại, xem [`../ai/current.md`](../ai/current.md)), không phải do FE gọi API tạo. Endpoint detail dùng **chung** `VideoDto` với endpoint list — không có `VideoDetailDto` riêng.

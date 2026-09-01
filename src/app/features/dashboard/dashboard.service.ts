@@ -6,11 +6,12 @@ import { environment } from '@env/environment';
 import { PagedResult } from '@shared/models/paged-result';
 import { Video, VideoStatus } from '@shared/models/video';
 
-/** Filter của `GET /api/videos` — khớp `VideoFilter` backend (`ChannelIds`/`Status`/`MinViews`). */
+/** Filter của `GET /api/videos` — khớp `VideoFilter` backend (`ChannelIds`/`Status`/`MinViews`/`TimeRanges`). */
 export interface VideoListFilter {
   channelIds?: number[];
   status?: VideoStatus;
   minViews?: number;
+  timeRanges: number;
 }
 
 /**
@@ -26,7 +27,10 @@ export class VideosService {
   getVideos(
     params: { page: number; pageSize: number } & VideoListFilter,
   ): Observable<PagedResult<Video>> {
-    let httpParams = new HttpParams().set('page', params.page).set('pageSize', params.pageSize);
+    let httpParams = new HttpParams()
+      .set('page', params.page)
+      .set('pageSize', params.pageSize)
+      .set('timeRanges', params.timeRanges);
 
     // `append` chứ không phải `set`: nhiều kênh = lặp lại key
     // (`channelIds=1&channelIds=2`), `set` sẽ ghi đè chỉ còn 1 giá trị.

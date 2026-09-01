@@ -8,7 +8,9 @@ import {
   RouterLinkActive,
   RouterOutlet,
 } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatRipple } from '@angular/material/core';
 import { filter, map } from 'rxjs';
@@ -19,7 +21,9 @@ import { filter, map } from 'rxjs';
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
+    MatButtonModule,
     MatIconModule,
+    MatSidenavModule,
     MatToolbarModule,
     MatRipple,
   ],

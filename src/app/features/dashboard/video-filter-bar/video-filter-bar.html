@@ -1,16 +1,39 @@
+<button matButton="outlined" type="button" class="mobile-filters-trigger" (click)="mobileFiltersOpen.set(true)">
+  <mat-icon>tune</mat-icon>
+  Filters
+</button>
+
+@if (mobileFiltersOpen()) {
+  <div class="filter-backdrop fixed inset-0 z-20" (click)="mobileFiltersOpen.set(false)"></div>
+}
+
 <div
-  class="flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
+  class="filter-fields flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
+  [class.filter-fields--open]="mobileFiltersOpen()"
 >
-  <!-- Time range — backend doesn't accept this param yet, disabled per mockup -->
-  <div class="flex flex-col gap-[7px]" matTooltip="Backend doesn't accept the time range param yet">
+  <button
+    matIconButton
+    type="button"
+    class="filter-close"
+    (click)="mobileFiltersOpen.set(false)"
+    aria-label="Close filters"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="flex flex-col gap-[7px]">
     <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
       >Time range</span
     >
-    <mat-button-toggle-group value="7d" disabled hideSingleSelectionIndicator>
-      <mat-button-toggle value="24h">24h</mat-button-toggle>
-      <mat-button-toggle value="3d">3 days</mat-button-toggle>
-      <mat-button-toggle value="7d">7 days</mat-button-toggle>
-      <mat-button-toggle value="30d">30 days</mat-button-toggle>
+    <mat-button-toggle-group
+      [value]="filter().timeRanges"
+      hideSingleSelectionIndicator
+      (change)="onTimeRangesChange($event.value)"
+    >
+      <mat-button-toggle [value]="1">24h</mat-button-toggle>
+      <mat-button-toggle [value]="3">3 days</mat-button-toggle>
+      <mat-button-toggle [value]="7">7 days</mat-button-toggle>
+      <mat-button-toggle [value]="30">30 days</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 
@@ -36,8 +59,8 @@
         placeholder="Search channels…"
         [matChipInputFor]="chipGrid"
         [matAutocomplete]="channelAuto"
-        [ngModel]="search()"
-        (ngModelChange)="search.set($event)"
+        [ngModel]="searchChannel()"
+        (ngModelChange)="searchChannel.set($event)"
         name="channelSearch"
         #channelInput
       />
@@ -89,8 +112,8 @@
         placeholder="e.g. 10000"
         name="minViews"
         aria-label="Minimum views"
-        [ngModel]="filter().minViews ?? null"
-        (ngModelChange)="onMinViewsChange($event)"
+        [ngModel]="minViewsRaw()"
+        (ngModelChange)="minViewsRaw.set($event)"
       />
     </mat-form-field>
   </div>

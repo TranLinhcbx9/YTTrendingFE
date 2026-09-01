@@ -95,6 +95,26 @@ Chỉnh qua `mat.theme-overrides()` và `density` trong `mat.theme()` — vẫn
 nằm trong scale chính thức của M3, không phải hack. **Đừng chỉnh chiều
 cao row/button bằng tay ở từng chỗ.**
 
+## Breakpoint
+
+`styles/tokens.css` khai 3 breakpoint riêng của app, **ghi đè** default
+Tailwind (640/768/1024px) để khớp mốc M3 window-size class + rail↔drawer
+ở Blueprint §Navigation:
+
+| Token | Giá trị | Đang dùng ở |
+|---|---|---|
+| `--breakpoint-sm` | 600px | Rail 80dp (≥600px) ↔ hamburger + drawer (<600px, `layout/shell/`); filter bar thu gọn thành nút "Filters" (<600px, `video-filter-bar/`) |
+| `--breakpoint-md` | 900px | Chưa có chỗ dùng — dự phòng theo mốc M3 |
+| `--breakpoint-lg` | 1280px | Chưa có chỗ dùng — dự phòng theo mốc M3 |
+
+> Grid card (Dashboard) **không** step theo breakpoint này — dùng
+> `repeat(auto-fill, minmax(...))` co giãn liên tục theo bề rộng
+> (`dashboard.css`), thay vì `grid-cols-2 sm:3 lg:4` đứng khựng ở từng
+> mốc cột cố định (cách cũ, đã bỏ).
+
+Cách áp breakpoint vào component (khi nào dùng Tailwind variant, khi nào
+phải viết class + `@media` riêng): `docs/coding-convention.md` mục 11.
+
 ## Icon
 
 **Material Symbols Outlined** (bộ của M3; Material Icons là bộ M2 cũ).

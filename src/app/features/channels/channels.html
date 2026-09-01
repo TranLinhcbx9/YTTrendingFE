@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-4 p-4">
   <form class="flex flex-col gap-1" (submit)="$event.preventDefault(); onAddSubmit()">
-    <div class="flex items-start gap-3.5">
-      <mat-form-field appearance="outline" class="w-full max-w-[560px]">
+    <div class="flex flex-wrap items-start gap-3.5 sm:flex-nowrap">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-full max-w-[560px]">
         <mat-label>Channel ID or channel URL</mat-label>
         <input matInput [ngModel]="newChannelInput()" (ngModelChange)="newChannelInput.set($event)" name="newChannel" />
       </mat-form-field>
@@ -44,12 +44,12 @@
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap">
           <button
             type="button"
-            class="flex items-center gap-2 hover:underline"
+            class="flex max-w-[150px] items-center gap-2 hover:underline"
             (click)="viewVideos(c)"
             [attr.aria-label]="'View videos for channel ' + c.name"
           >
             <app-channel-avatar [name]="c.name" />
-            <span class="font-medium">{{ c.name }}</span>
+            <span class="min-w-0 truncate font-medium" [title]="c.name">{{ c.name }}</span>
           </button>
         </td>
       </ng-container>
