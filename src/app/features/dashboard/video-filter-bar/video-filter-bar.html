@@ -1,4 +1,9 @@
-<button matButton="outlined" type="button" class="mobile-filters-trigger" (click)="mobileFiltersOpen.set(true)">
+<button
+  matButton="outlined"
+  type="button"
+  class="mobile-filters-trigger"
+  (click)="mobileFiltersOpen.set(true)"
+>
   <mat-icon>tune</mat-icon>
   Filters
   @if (activeFilterCount(); as count) {
@@ -84,11 +89,11 @@
     >
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
       <mat-select
-        [value]="filter().status ?? null"
+        [value]="filter().status ?? STATUS_ALL"
         (valueChange)="onStatusChange($event)"
         aria-label="Filter by status"
       >
-        <mat-option [value]="null">All</mat-option>
+        <mat-option [value]="STATUS_ALL">All</mat-option>
         @for (status of statuses; track status[0]) {
           <mat-option [value]="status[0]">{{ status[1] }}</mat-option>
         }

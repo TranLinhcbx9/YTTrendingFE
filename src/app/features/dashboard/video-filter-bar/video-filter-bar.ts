@@ -50,6 +50,8 @@ export class VideoFilterBar {
   protected readonly minViewsRaw = signal<number | null>(null);
   private readonly minViewsDebounced = toDebouncedSignal(this.minViewsRaw, 400);
 
+  readonly STATUS_ALL = 'All';
+
   constructor() {
     // Chỉ emit khi giá trị đã settle (debounce) VÀ thực sự khác filter hiện tại —
     // tránh emit thừa lúc mount (debounced ban đầu trùng filter) hoặc khi gõ rồi xoá về giá trị cũ.
@@ -68,7 +70,9 @@ export class VideoFilterBar {
    */
   protected readonly activeFilterCount = computed(() => {
     const filter = this.filter();
-    return (filter.channelIds?.length ?? 0) + (filter.status ? 1 : 0) + (filter.minViews != null ? 1 : 0);
+    return (
+      (filter.channelIds?.length ?? 0) + (filter.status ? 1 : 0) + (filter.minViews != null ? 1 : 0)
+    );
   });
 
   /** Kênh đang chọn — lấy từ `filter()` để URL/query param là nguồn duy nhất. */
@@ -96,8 +100,8 @@ export class VideoFilterBar {
     this.emitChannels((this.filter().channelIds ?? []).filter((id) => id !== channel.id));
   }
 
-  protected onStatusChange(status: VideoStatus | null): void {
-    this.filterChange.emit({ status: status ?? undefined });
+  protected onStatusChange(status: VideoStatus | typeof this.STATUS_ALL): void {
+    this.filterChange.emit({ status: status === this.STATUS_ALL ? undefined : status });
   }
 
   protected onTimeRangesChange(timeRanges: number | null): void {
