@@ -99,6 +99,24 @@ mat-form-field {
   background: color-mix(in srgb, var(--mat-sys-scrim) 45%, transparent);
 }
 
+/* `matButton` không tự đặt layout ngang cho nội dung con — icon + text +
+   badge count bị wrap thành nhiều dòng trong khung pill dọc thay vì nằm
+   cùng 1 hàng. Ép flex ngang, căn giữa, có gap.
+
+   Badge count (`h-4` = 16px) cao hơn khoảng trống dọc mà MDC button mặc
+   định chừa (container height 40px nhưng `overflow:hidden` bo theo pill
+   shape ăn sát nội dung) — đáy badge bị đường bo góc cắt ngang. Tăng
+   container height + padding dọc riêng cho nút này để badge có đủ chỗ,
+   không đụng token `--mat-button-*` global (ảnh hưởng mọi button khác). */
+.mobile-filters-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  --mat-button-outlined-container-height: 44px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+
 /* Ẩn ở ≥600px — `.mobile-filters-trigger`/`.filter-close` đặt trên
    component Material (matButton/matIconButton) nên Tailwind `sm:hidden`
    thua specificity `.mat-mdc-*` (đúng loại lỗi đã ghi ở `.channel-field`
