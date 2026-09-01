@@ -54,4 +54,7 @@ export class VideoCard {
   readonly bookmarkEnabled = input(false);
 
   readonly bookmarkToggle = output<Video>();
+
+  /** Mở trang Video Detail — cha điều hướng, VideoCard không tự biết route. */
+  readonly open = output<Video>();
 }

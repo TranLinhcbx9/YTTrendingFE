@@ -38,7 +38,7 @@
       } @else {
         <div class="video-grid">
           @for (video of store.items(); track video.id) {
-            <app-video-card [video]="video" />
+            <app-video-card [video]="video" (open)="onOpenVideo($event)" />
           }
         </div>
 

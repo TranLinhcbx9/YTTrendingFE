@@ -5,6 +5,7 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { Video } from '@shared/models/video';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { VideoCard } from '@shared/ui/video-card/video-card';
 import { VideoListFilter } from './dashboard.service';
@@ -67,5 +68,14 @@ export class Dashboard {
 
   protected onPageChange(event: PageEvent): void {
     this.store.setPage(event.pageIndex + 1);
+  }
+
+  /**
+   * Điều hướng sang Video Detail — kèm `state: { video }` vì
+   * `video-detail.ts` hiện là bản tạm đọc lại video vừa click thay vì tự
+   * fetch `GET /api/videos/{id}` (chờ store/service thật).
+   */
+  protected onOpenVideo(video: Video): void {
+    this.router.navigate(['/videos', video.id], { state: { video } });
   }
 }

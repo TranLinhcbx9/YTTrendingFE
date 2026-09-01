@@ -16,6 +16,12 @@ export const routes: Routes = [
         loadComponent: () => import('./features/channels/channels').then((m) => m.Channels),
         data: { title: 'Channels' },
       },
+      {
+        path: 'videos/:id',
+        loadComponent: () =>
+          import('./features/video-detail/video-detail').then((m) => m.VideoDetail),
+        data: { title: 'Video Detail' },
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },
