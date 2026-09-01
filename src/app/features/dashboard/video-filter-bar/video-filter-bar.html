@@ -92,8 +92,8 @@
         placeholder="e.g. 10000"
         name="minViews"
         aria-label="Minimum views"
-        [ngModel]="filter().minViews ?? null"
-        (ngModelChange)="onMinViewsChange($event)"
+        [ngModel]="minViewsRaw()"
+        (ngModelChange)="minViewsRaw.set($event)"
       />
     </mat-form-field>
   </div>

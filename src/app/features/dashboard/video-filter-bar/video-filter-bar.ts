@@ -1,4 +1,4 @@
-import { Component, computed, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -16,6 +16,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Channel } from '@shared/models/channel';
 import { VIDEO_STATUS_LABELS, VideoStatus } from '@shared/models/video';
+import { toDebouncedSignal } from '@shared/utils/debounced-signal';
 import { VideoListFilter } from '../dashboard.service';
 
 @Component({
@@ -43,7 +44,20 @@ export class VideoFilterBar {
   readonly filterChange = output<Partial<VideoListFilter>>();
 
   protected readonly statuses = Object.entries(VIDEO_STATUS_LABELS) as [VideoStatus, string][];
-  protected readonly search = signal('');
+  protected readonly searchChannel = signal('');
+
+  protected readonly minViewsRaw = signal<number | null>(null);
+  private readonly minViewsDebounced = toDebouncedSignal(this.minViewsRaw, 400);
+
+  constructor() {
+    // Chỉ emit khi giá trị đã settle (debounce) VÀ thực sự khác filter hiện tại —
+    // tránh emit thừa lúc mount (debounced ban đầu trùng filter) hoặc khi gõ rồi xoá về giá trị cũ.
+    effect(() => {
+      const minViews = this.minViewsDebounced();
+      if (minViews === (this.filter().minViews ?? null)) return;
+      this.filterChange.emit({ minViews: minViews ?? undefined });
+    });
+  }
 
   /** Kênh đang chọn — lấy từ `filter()` để URL/query param là nguồn duy nhất. */
   protected readonly selected = computed(() => {
@@ -53,7 +67,7 @@ export class VideoFilterBar {
 
   protected readonly suggestions = computed(() => {
     const ids = new Set(this.filter().channelIds ?? []);
-    const keyword = this.search().trim().toLowerCase();
+    const keyword = this.searchChannel().trim().toLowerCase();
     return this.channels().filter(
       (channel) => !ids.has(channel.id) && channel.name.toLowerCase().includes(keyword),
     );
@@ -63,7 +77,7 @@ export class VideoFilterBar {
     const channel = event.option.value as Channel;
     this.emitChannels([...(this.filter().channelIds ?? []), channel.id]);
     input.value = '';
-    this.search.set('');
+    this.searchChannel.set('');
   }
 
   protected onChannelRemove(channel: Channel): void {
@@ -72,10 +86,6 @@ export class VideoFilterBar {
 
   protected onStatusChange(status: VideoStatus | null): void {
     this.filterChange.emit({ status: status ?? undefined });
-  }
-
-  protected onMinViewsChange(minViews: number | null): void {
-    this.filterChange.emit({ minViews: minViews ?? undefined });
   }
 
   protected onTimeRangesChange(timeRanges: number | null): void {
