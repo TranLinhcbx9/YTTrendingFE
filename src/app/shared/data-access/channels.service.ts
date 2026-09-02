@@ -8,11 +8,14 @@ import { PagedResult } from '@shared/models/paged-result';
 
 export function extractYoutubeChannelId(input: string): string {
   const trimmed = input.trim();
+
   if (!/youtube\.com|youtu\.be/i.test(trimmed)) {
-    return trimmed;
+    return trimmed.replace(/^@/, '');
   }
+
   const segments = trimmed.split('?')[0].split('/').filter(Boolean);
-  return segments[segments.length - 1] ?? trimmed;
+
+  return segments[segments.length - 1]?.replace(/^@/, '') ?? trimmed;
 }
 
 @Injectable({ providedIn: 'root' })
