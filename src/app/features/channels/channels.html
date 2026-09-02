@@ -3,9 +3,9 @@
     <div class="flex flex-wrap items-start gap-3.5 sm:flex-nowrap">
       <app-clearable-input
         class="w-full max-w-[560px]"
-        label="Channel ID or channel URL"
+        label="Channel handle or channel URL"
         [(value)]="newChannelInput"
-        [errorMessage]="store.formError()?.errors?.['youtubeChannelId']?.[0] ?? null"
+        [errorMessage]="store.formError()?.errors?.['youtubeHandle']?.[0] ?? null"
       />
       <button matButton="filled" type="submit" class="mt-2" [disabled]="store.isSubmitting()">
         @if (store.isSubmitting()) {
@@ -18,7 +18,7 @@
         }
       </button>
     </div>
-    @if (!store.formError()?.errors?.['youtubeChannelId']?.[0] && store.formErrorMessage(); as msg) {
+    @if (!store.formError()?.errors?.['youtubeHandle']?.[0] && store.formErrorMessage(); as msg) {
       <small class="text-[var(--color-danger)]">{{ msg }}</small>
     }
   </form>
@@ -32,7 +32,7 @@
     <app-empty-state
       icon="subscriptions"
       title="No channels tracked yet"
-      message="Add your first channel to get started — paste a URL or Channel ID in the form above."
+      message="Add your first channel to get started — paste a URL or @handle in the form above."
     />
   } @else {
     <div

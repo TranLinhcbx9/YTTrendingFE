@@ -18,7 +18,7 @@ import { ConfirmDialog } from '@shared/ui/confirm-dialog/confirm-dialog';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { RelativeTimePipe } from '@shared/pipes/relative-time';
 import { ChannelsStore } from './channels.store';
-import { extractYoutubeChannelId } from '@shared/data-access/channels.service';
+import { extractYoutubeHandle } from '@shared/data-access/channels.service';
 import { ChannelEditDialog } from './channel-edit-dialog/channel-edit-dialog';
 
 @Component({
@@ -68,8 +68,8 @@ export class Channels {
   protected async onAddSubmit(): Promise<void> {
     const raw = this.newChannelInput().trim();
     if (!raw) return;
-    const id = extractYoutubeChannelId(raw);
-    const ok = await this.store.addChannel(id);
+    const handle = extractYoutubeHandle(raw);
+    const ok = await this.store.addChannel(handle);
     if (ok) {
       this.newChannelInput.set('');
       this.notification.success('New channel added');

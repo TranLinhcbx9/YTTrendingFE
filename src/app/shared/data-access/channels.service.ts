@@ -6,7 +6,7 @@ import { environment } from '@env/environment';
 import { Channel } from '@shared/models/channel';
 import { PagedResult } from '@shared/models/paged-result';
 
-export function extractYoutubeChannelId(input: string): string {
+export function extractYoutubeHandle(input: string): string {
   const trimmed = input.trim();
 
   if (!/youtube\.com|youtu\.be/i.test(trimmed)) {
@@ -28,8 +28,8 @@ export class ChannelsService {
     return this.http.get<PagedResult<Channel>>(this.baseUrl, { params: httpParams });
   }
 
-  createChannel(youtubeChannelId: string): Promise<Channel> {
-    return firstValueFrom(this.http.post<Channel>(this.baseUrl, { youtubeChannelId }));
+  createChannel(youtubeHandle: string): Promise<Channel> {
+    return firstValueFrom(this.http.post<Channel>(this.baseUrl, { youtubeHandle }));
   }
 
   updateChannel(id: number, body: { name: string; url: string; isEnabled: boolean }): Promise<Channel> {
