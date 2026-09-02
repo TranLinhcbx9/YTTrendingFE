@@ -9,13 +9,13 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { Channel } from '@shared/models/channel';
 import { VIDEO_STATUS_LABELS, VideoStatus } from '@shared/models/video';
+import { ClearableInput } from '@shared/ui/clearable-input/clearable-input';
 import { toDebouncedSignal } from '@shared/utils/debounced-signal';
 import { VideoListFilter } from '../dashboard.service';
 
@@ -29,10 +29,10 @@ import { VideoListFilter } from '../dashboard.service';
     MatChipsModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule,
     MatSelectModule,
     MatSliderModule,
     MatTooltipModule,
+    ClearableInput,
   ],
   templateUrl: './video-filter-bar.html',
   styleUrl: './video-filter-bar.css',
@@ -92,6 +92,11 @@ export class VideoFilterBar {
   protected onChannelAdd(event: MatAutocompleteSelectedEvent, input: HTMLInputElement): void {
     const channel = event.option.value as Channel;
     this.emitChannels([...(this.filter().channelIds ?? []), channel.id]);
+    input.value = '';
+    this.searchChannel.set('');
+  }
+
+  protected onSearchChannelClear(input: HTMLInputElement): void {
     input.value = '';
     this.searchChannel.set('');
   }

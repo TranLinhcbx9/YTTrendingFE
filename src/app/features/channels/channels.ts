@@ -1,11 +1,8 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
@@ -16,6 +13,7 @@ import { firstValueFrom } from 'rxjs';
 import { NotificationService } from '@core/ui/notification.service';
 import { Channel } from '@shared/models/channel';
 import { ChannelAvatar } from '@shared/ui/channel-avatar/channel-avatar';
+import { ClearableInput } from '@shared/ui/clearable-input/clearable-input';
 import { ConfirmDialog } from '@shared/ui/confirm-dialog/confirm-dialog';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { RelativeTimePipe } from '@shared/pipes/relative-time';
@@ -27,18 +25,16 @@ import { ChannelEditDialog } from './channel-edit-dialog/channel-edit-dialog';
   selector: 'app-channels-page',
   standalone: true,
   imports: [
-    FormsModule,
     DatePipe,
     RelativeTimePipe,
     MatTableModule,
     MatPaginatorModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatButtonModule,
     MatIconModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     ChannelAvatar,
+    ClearableInput,
     EmptyState,
   ],
   templateUrl: './channels.html',

@@ -1,0 +1,41 @@
+<mat-form-field appearance="outline" subscriptSizing="dynamic">
+  @if (label(); as label) {
+    <mat-label>{{ label }}</mat-label>
+  }
+  @if (type() === 'number') {
+    <input
+      matInput
+      type="number"
+      [placeholder]="placeholder()"
+      [attr.aria-label]="ariaLabel() || label() || null"
+      [ngModel]="value()"
+      (ngModelChange)="value.set($event)"
+      [ngModelOptions]="{ standalone: true }"
+    />
+  } @else {
+    <input
+      matInput
+      type="text"
+      [placeholder]="placeholder()"
+      [attr.aria-label]="ariaLabel() || label() || null"
+      [ngModel]="value()"
+      (ngModelChange)="value.set($event)"
+      [ngModelOptions]="{ standalone: true }"
+    />
+  }
+  @if (value() !== null && value() !== '') {
+    <button
+      matIconButton
+      matSuffix
+      type="button"
+      class="!h-6 !w-6 !p-0"
+      [attr.aria-label]="'Clear ' + (label() || placeholder() || 'field')"
+      (click)="clear()"
+    >
+      <mat-icon class="!h-[18px] !w-[18px] !text-[18px]">close</mat-icon>
+    </button>
+  }
+  @if (errorMessage(); as msg) {
+    <mat-error>{{ msg }}</mat-error>
+  }
+</mat-form-field>

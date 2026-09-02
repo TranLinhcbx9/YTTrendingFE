@@ -75,6 +75,18 @@
         name="channelSearch"
         #channelInput
       />
+      @if (searchChannel()) {
+        <button
+          matIconButton
+          matSuffix
+          type="button"
+          class="!h-6 !w-6 !p-0"
+          (click)="onSearchChannelClear(channelInput)"
+          aria-label="Clear channel search"
+        >
+          <mat-icon class="!h-[18px] !w-[18px] !text-[18px]">close</mat-icon>
+        </button>
+      }
       <mat-autocomplete #channelAuto (optionSelected)="onChannelAdd($event, channelInput)">
         @for (channel of suggestions(); track channel.id) {
           <mat-option [value]="channel">{{ channel.name }}</mat-option>
@@ -116,17 +128,13 @@
     <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
       >Min views</span
     >
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
-      <input
-        matInput
-        type="number"
-        placeholder="e.g. 10000"
-        name="minViews"
-        aria-label="Minimum views"
-        [ngModel]="minViewsRaw()"
-        (ngModelChange)="minViewsRaw.set($event)"
-      />
-    </mat-form-field>
+    <app-clearable-input
+      class="w-[180px]"
+      type="number"
+      placeholder="e.g. 10000"
+      ariaLabel="Minimum views"
+      [(value)]="minViewsRaw"
+    />
   </div>
 
   <button

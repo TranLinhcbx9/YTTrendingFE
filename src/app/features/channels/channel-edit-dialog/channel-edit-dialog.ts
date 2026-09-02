@@ -1,26 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NotificationService } from '@core/ui/notification.service';
 import { Channel } from '@shared/models/channel';
+import { ClearableInput } from '@shared/ui/clearable-input/clearable-input';
 import { ChannelsStore } from '../channels.store';
 
 @Component({
   selector: 'app-channel-edit-dialog',
   imports: [
-    FormsModule,
     MatDialogModule,
     MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
+    ClearableInput,
   ],
   templateUrl: './channel-edit-dialog.html',
 })
