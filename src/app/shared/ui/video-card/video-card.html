@@ -1,10 +1,20 @@
 <!-- Border via `inset` shadow rather than a real border (per mockup): the border
-     doesn't eat into layout, so the thumbnail sits flush with the card edge. -->
+     doesn't eat into layout, so the thumbnail sits flush with the card edge.
+
+     Mobile-first row layout (mockup Screens §Main frame Mobile `.grid.mob .vcard`):
+     below 600px the card lays out as a row — fixed 100px 9:16 thumbnail on the
+     left, info column filling the rest — so a 1-column list stays scannable at
+     phone width; `sm:` switches back to the stacked desktop layout. -->
 <article
-  class="[container-type:inline-size] flex flex-col overflow-hidden rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] shadow-[inset_0_0_0_1px_var(--color-border)]"
+  class="[container-type:inline-size] flex cursor-pointer flex-row overflow-hidden rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] shadow-[inset_0_0_0_1px_var(--color-border)] sm:flex-col"
+  role="link"
+  tabindex="0"
+  [attr.aria-label]="'Open ' + video().title"
+  (click)="open.emit(video())"
+  (keydown.enter)="open.emit(video())"
 >
   <div
-    class="relative aspect-[9/16] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))]"
+    class="relative aspect-[9/16] w-[100px] flex-none bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] sm:w-full sm:flex-initial"
   >
     @if (video().thumbnailUrl; as thumb) {
       <img [src]="thumb" [alt]="video().title" class="h-full w-full object-cover" loading="lazy" />
@@ -25,7 +35,7 @@
       [disabled]="!bookmarkEnabled()"
       [title]="bookmarkEnabled() ? (saved() ? 'Unsave' : 'Save idea') : 'Not supported yet — SavedIdeas API not available'"
       [attr.aria-label]="saved() ? 'Unsave video' : 'Save idea'"
-      (click)="bookmarkToggle.emit(video())"
+      (click)="$event.stopPropagation(); bookmarkToggle.emit(video())"
     >
       <span
         class="material-symbols-outlined !text-[17px] leading-none"
@@ -42,7 +52,7 @@
     </span>
   </div>
 
-  <div class="flex flex-col gap-2 px-3 pt-[11px] pb-[13px]">
+  <div class="flex min-w-0 flex-1 flex-col gap-2 px-3 pt-[11px] pb-[13px] sm:flex-initial">
     <p class="line-clamp-2 text-[clamp(12px,6cqw,15px)] leading-[1.35] font-semibold text-[var(--color-text)]">
       {{ video().title }}
     </p>
@@ -77,9 +87,9 @@
     <div class="flex items-center justify-between">
       <app-status-chip [status]="video().status" />
       @if (trendPoints().length > 1) {
-        <app-sparkline [points]="trendPoints()" />
+        <app-sparkline class="hidden sm:block" [points]="trendPoints()" />
       } @else {
-        <span class="truncate text-[clamp(10.5px,5.2cqw,13px)] italic text-[var(--color-text-muted)]">waiting for data</span>
+        <span class="hidden truncate text-[clamp(10.5px,5.2cqw,13px)] italic text-[var(--color-text-muted)] sm:inline">waiting for data</span>
       }
     </div>
   </div>

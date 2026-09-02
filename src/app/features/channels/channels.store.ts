@@ -17,8 +17,8 @@ export const ChannelsStore = signalStore(
     _channelsService: inject(ChannelsService),
   })),
   withMethods((store) => ({
-    async addChannel(youtubeChannelId: string): Promise<boolean> {
-      const ok = await store.runFormMutation(() => store._channelsService.createChannel(youtubeChannelId));
+    async addChannel(youtubeHandle: string): Promise<boolean> {
+      const ok = await store.runFormMutation(() => store._channelsService.createChannel(youtubeHandle));
       if (ok) store.resetToFirstPage();
       return ok;
     },

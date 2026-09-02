@@ -1,0 +1,166 @@
+<!-- Static template only — `video-detail.ts`/store/service not written yet (user's
+     call). Expects a `store` with `video()` / `isLoading()` / `loadError()` /
+     `reload()` (same names as `withPagedResource`, single-item version) —
+     `GET /api/videos/{id}` returns plain `VideoDto`, no separate detail DTO
+     (`docs/api-contract.md` §6/§9). Future component needs in `imports`:
+     RouterLink; MatIconModule, MatButtonModule, MatProgressBarModule,
+     MatTooltipModule; DecimalPipe (`number`), DurationPipe; ChannelAvatar,
+     StatusChip, EmptyState.
+
+     Score / growth timeline / velocity / view-growth% / idea note / bookmark
+     all render pending on purpose — `VideoDto` has no score/snapshot/note
+     field and SavedIdeas is still blocked (`ai/current.md`), same rolling
+     "cuốn chiếu" treatment already used by VideoCard's score badge and
+     bookmark button. Mockup: Screens §VideoDetail. -->
+<div class="flex flex-col gap-3 sm:gap-4">
+  @if (store.isLoading()) {
+    <mat-progress-bar mode="indeterminate" class="!h-0.5" />
+  }
+
+  @if (store.loadError()) {
+    <div class="flex items-center gap-2">
+      <span class="text-[var(--color-danger)]">Failed to load this video.</span>
+      <button matButton type="button" (click)="store.reload()">Retry</button>
+    </div>
+  } @else if (store.video(); as video) {
+    <a
+      routerLink="/dashboard"
+      class="inline-flex w-fit items-center gap-1.5 text-[13px] font-semibold text-[var(--color-accent)]"
+    >
+      <mat-icon class="!h-[18px] !w-[18px] !text-[18px]">arrow_back</mat-icon>
+      Back to Dashboard
+    </a>
+
+    <div
+      class="flex flex-col gap-6 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] p-5 shadow-[inset_0_0_0_1px_var(--color-border)] sm:flex-row"
+    >
+      <div
+        class="relative aspect-[9/16] w-[150px] flex-none self-center overflow-hidden rounded-[var(--mat-sys-corner-medium)] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] sm:w-[198px] sm:self-auto"
+      >
+        @if (video.thumbnailUrl; as thumb) {
+          <img [src]="thumb" [alt]="video.title" class="h-full w-full object-cover" loading="lazy" />
+        }
+        <span
+          class="absolute right-[9px] bottom-[9px] rounded-[var(--mat-sys-corner-extra-small)] bg-[color-mix(in_srgb,var(--mat-sys-scrim)_62%,transparent)] px-1.5 py-0.5 font-[family-name:var(--font-mono)] text-[10.5px] text-white"
+        >
+          {{ video.durationSeconds | duration }}
+        </span>
+      </div>
+
+      <div class="flex min-w-0 flex-1 flex-col gap-4">
+        <div class="flex flex-col gap-3 sm:flex-row sm:justify-between sm:gap-5">
+          <div class="min-w-0 flex-1">
+            <h1
+              class="font-[family-name:var(--font-display)] text-lg leading-[1.25] font-bold sm:text-2xl"
+            >
+              {{ video.title }}
+            </h1>
+            <div class="mt-2.5 flex min-w-0 items-center gap-2.5 text-[13.5px] text-[var(--color-text-muted)]">
+              <app-channel-avatar [name]="video.channelName" [size]="32" />
+              <span class="min-w-0 truncate">{{ video.channelName }}</span>
+              <app-status-chip class="flex-none" [status]="video.status" />
+            </div>
+          </div>
+
+          <button
+            matButton="tonal"
+            type="button"
+            disabled
+            title="Not supported yet — SavedIdeas API not available"
+            class="flex-none self-start"
+          >
+            <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle">bookmark_border</mat-icon>
+            Save idea
+          </button>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3">
+            <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Views</span>
+            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums">
+              {{ video.latestViews | number }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3">
+            <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Likes</span>
+            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums">
+              {{ video.latestLikes | number }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3">
+            <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Comments</span>
+            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums">
+              {{ video.latestComments | number }}
+            </span>
+          </div>
+          <div
+            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+            matTooltip="Waiting for 2 sync cycles"
+          >
+            <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Trending Score</span>
+            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold text-[var(--color-text-muted)]">
+              —
+            </span>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2.5">
+          <span
+            class="inline-flex h-[30px] items-center gap-1.5 rounded-full px-3 text-[12.5px] text-[var(--color-text-muted)] shadow-[inset_0_0_0_1px_var(--color-border)]"
+            matTooltip="Waiting on growth snapshot data"
+          >
+            View growth <strong class="font-semibold">—</strong>
+          </span>
+          <span
+            class="inline-flex h-[30px] items-center gap-1.5 rounded-full px-3 text-[12.5px] text-[var(--color-text-muted)] shadow-[inset_0_0_0_1px_var(--color-border)]"
+            matTooltip="Waiting on growth snapshot data"
+          >
+            Velocity <strong class="font-semibold">—</strong>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-3">
+      <h2 class="text-[15px] font-bold">View Growth Timeline</h2>
+      <app-empty-state
+        icon="show_chart"
+        title="No growth data yet"
+        message="This chart needs snapshot history — it'll populate once the backend runs multiple sync cycles for this video."
+      />
+    </div>
+
+    <div
+      [class]="
+        video.status === 'Archived'
+          ? 'grid grid-cols-1 gap-4 sm:grid-cols-[1.6fr_1fr]'
+          : 'grid grid-cols-1 gap-4'
+      "
+    >
+      <div class="flex flex-col gap-3">
+        <h2 class="text-[15px] font-bold">Idea note</h2>
+        <app-empty-state
+          icon="edit_note"
+          title="Notes not available yet"
+          message="Saving notes is waiting on the backend to open up the SavedIdeas API."
+        />
+      </div>
+
+      @if (video.status === 'Archived') {
+        <div class="flex flex-col gap-3 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface-2)] px-5 py-[18px]">
+          <h2 class="text-sm font-bold">When a video becomes ARCHIVED</h2>
+          <div class="flex items-start gap-3">
+            <div
+              class="h-24 w-[54px] flex-none rounded-[var(--mat-sys-corner-small)] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] [filter:saturate(.35)]"
+              aria-hidden="true"
+            ></div>
+            <div class="flex flex-col items-start gap-[7px] text-xs leading-[1.55] text-[var(--color-text-muted)]">
+              <app-status-chip [status]="'Archived'" />
+              <span>Final state — it will not resume tracking automatically even after a sudden growth spike.</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>

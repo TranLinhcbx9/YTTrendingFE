@@ -1,0 +1,22 @@
+/* Custom element mặc định display: inline — width Tailwind ở nơi gọi (vd w-[180px]) bị bỏ qua nếu không set block. */
+:host {
+  display: block;
+}
+
+/* .mat-mdc-form-field mặc định display: inline-flex, tự co theo nội dung (input +
+   suffix) chứ không ăn theo width của host — trước khi tách component, class
+   width Tailwind nằm thẳng trên <mat-form-field> nên không bị vấn đề này. */
+mat-form-field {
+  width: 100%;
+}
+
+/* Ẩn spinner mặc định của input[type=number] — chồng lên nút clear "x" tự viết. */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}

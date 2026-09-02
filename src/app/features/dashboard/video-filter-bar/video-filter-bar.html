@@ -1,6 +1,17 @@
-<button matButton="outlined" type="button" class="mobile-filters-trigger" (click)="mobileFiltersOpen.set(true)">
+<button
+  matButton="outlined"
+  type="button"
+  class="mobile-filters-trigger"
+  (click)="mobileFiltersOpen.set(true)"
+>
   <mat-icon>tune</mat-icon>
   Filters
+  @if (activeFilterCount(); as count) {
+    <span
+      class="grid h-4 min-w-4 place-items-center rounded-full bg-[var(--color-accent)] px-1 text-[10px] font-bold text-[var(--color-accent-contrast)]"
+      >{{ count }}</span
+    >
+  }
 </button>
 
 @if (mobileFiltersOpen()) {
@@ -64,6 +75,18 @@
         name="channelSearch"
         #channelInput
       />
+      @if (searchChannel()) {
+        <button
+          matIconButton
+          matSuffix
+          type="button"
+          class="!h-6 !w-6 !p-0"
+          (click)="onSearchChannelClear(channelInput)"
+          aria-label="Clear channel search"
+        >
+          <mat-icon class="!h-[18px] !w-[18px] !text-[18px]">close</mat-icon>
+        </button>
+      }
       <mat-autocomplete #channelAuto (optionSelected)="onChannelAdd($event, channelInput)">
         @for (channel of suggestions(); track channel.id) {
           <mat-option [value]="channel">{{ channel.name }}</mat-option>
@@ -78,11 +101,11 @@
     >
     <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
       <mat-select
-        [value]="filter().status ?? null"
+        [value]="filter().status ?? STATUS_ALL"
         (valueChange)="onStatusChange($event)"
         aria-label="Filter by status"
       >
-        <mat-option [value]="null">All</mat-option>
+        <mat-option [value]="STATUS_ALL">All</mat-option>
         @for (status of statuses; track status[0]) {
           <mat-option [value]="status[0]">{{ status[1] }}</mat-option>
         }
@@ -105,22 +128,19 @@
     <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
       >Min views</span
     >
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
-      <input
-        matInput
-        type="number"
-        placeholder="e.g. 10000"
-        name="minViews"
-        aria-label="Minimum views"
-        [ngModel]="minViewsRaw()"
-        (ngModelChange)="minViewsRaw.set($event)"
-      />
-    </mat-form-field>
+    <app-clearable-input
+      class="w-[180px]"
+      type="number"
+      placeholder="e.g. 10000"
+      ariaLabel="Minimum views"
+      [(value)]="minViewsRaw"
+    />
   </div>
 
   <button
     matButton
     type="button"
+    class="add-filter-button"
     disabled
     matTooltip="Waiting for backend to open more filter params"
   >

@@ -33,6 +33,38 @@
     avatar dùng lại component shared.
   - Backend đã sửa trước đó: `VideoFilter.ChannelId` → `ChannelIds: int[]?`;
     thêm `MinViews: int?`, `TimeRanges: int?`.
+  - **Mobile (<600px) redo theo mockup Screens §Main frame Mobile** —
+    `ng build`/`ng lint` pass, verify bằng Playwright screenshot thật (có
+    backend), kể cả breakpoint hẹp lẫn rộng (375px, 430px iPhone 14 Pro
+    Max, 1440px desktop). `VideoCard` mobile-first chuyển hàng ngang
+    (thumb 100px trái + info phải, `sm:` mới về lại layout dọc desktop),
+    ẩn sparkline/"waiting for data" ở footer dưới `sm:`. Nút "Filters"
+    thêm badge đếm filter đang bật (`channelIds.length` +
+    `status`/`minViews` có giá trị) — không tính `timeRanges` vì field
+    này luôn có giá trị mặc định, không phải trạng thái "tắt/bật".
+  - 2 bug phát sinh từ đợt mobile redo trên, đã vá cùng đợt:
+    - `.video-grid` auto-fill chỉ tự ra đúng 1 cột dưới ~376px nội dung —
+      card giờ layout hàng ngang (không co dọc theo cột nữa) nên 2 cột
+      ~187px (vd content ~390px của iPhone 14 Pro Max, vẫn dưới 600px) ép
+      card vỡ chữ/chip tràn viền. Khoá cứng `grid-template-columns: 1fr`
+      trong `@media (max-width:599px)` (`dashboard.css`).
+    - `.filter-fields--open` là flex column `align-items:stretch` —
+      `mat-button-toggle-group` (Time range) và nút "Add filter" không
+      khai width riêng nên bị kéo full-width panel (toggle-group thành
+      viền pill dài với khoảng trắng chết, nút thì label canh giữa thay
+      vì bám trái); không lộ ở ~375px vì tình cờ gần khớp bề rộng panel,
+      lộ rõ ở màn rộng hơn. Trả `align-self: flex-start` cho cả 2 trong
+      cùng media query (`video-filter-bar.css`).
+    - `.filter-fields--open` chưa reset `flex-wrap` (base HTML khai
+      Tailwind `flex-wrap` cho desktop bar wrap hàng 2) — ở layout column
+      + `max-height:85vh`, hễ tổng chiều cao 5 nhóm filter + nút "Add
+      filter" vượt 85vh (dễ xảy ra ở chiều cao màn thật ~667–740px, vd
+      iPhone SE/14 Pro Max — test trước đó lỡ dùng viewport cao 900px nên
+      không lộ) là nó wrap sang **cột 2** thay vì cuộn, cột 2 trồi lên
+      đúng chỗ nút Close đang neo phải → nhìn như "Add filter" dính cạnh
+      Close. Thêm `flex-wrap: nowrap` vào `.filter-fields--open`; verify
+      lại bằng Playwright cả Chromium lẫn WebKit ở viewport cao thật
+      (375×667, 430×740, 360×640).
 
 - **Channel Management CRUD — xong, đã verify tay với backend thật** (mục
   6 `ai/setup-base.md` đã tick). Đợt cuối có refactor để ổn định kiến
