@@ -54,10 +54,10 @@ export class Channels {
   protected readonly displayedColumns = [
     'name',
     'isEnabled',
-    'actions',
     'lastSyncAt',
     'url',
     'createdAt',
+    'actions',
   ];
 
   /** Click channel name → opens the Dashboard already filtered to that channel. */
