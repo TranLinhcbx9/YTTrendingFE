@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,6 +32,7 @@ import { ChannelEditDialog } from './channel-edit-dialog/channel-edit-dialog';
     MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     MatSlideToggleModule,
     MatProgressSpinnerModule,
     ChannelAvatar,

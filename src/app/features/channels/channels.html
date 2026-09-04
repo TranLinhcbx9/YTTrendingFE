@@ -96,6 +96,15 @@
             <button
               matIconButton
               type="button"
+              disabled
+              matTooltip="Waiting for backend sync API"
+              aria-label="Sync channel"
+            >
+              <mat-icon>sync</mat-icon>
+            </button>
+            <button
+              matIconButton
+              type="button"
               [disabled]="store.isActionRunning()"
               (click)="confirmDelete(c)"
               aria-label="Delete channel"
