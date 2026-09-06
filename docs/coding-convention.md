@@ -105,6 +105,9 @@ nội bộ (không cho ngoài mutate trực tiếp).
   `actionError`), **không** tự viết `try/catch` + `patchState` ở từng
   method. Side-effect sau khi thành công (`reload()`,
   `resetToFirstPage()`) để ở store method, chạy khi kết quả trả `true`.
+- Mọi mutation phải báo trạng thái ngay tại nơi kích hoạt: spinner và khóa
+  action trùng lặp. Giữ dữ liệu cũ, không loading toàn trang; tác vụ lâu/job
+  nền hiển thị trạng thái hoặc tiến độ.
 - Phần dùng chung tách thành `signalStoreFeature()` ở `shared/store/`,
   không copy state/logic giữa các store.
 

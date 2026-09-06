@@ -101,8 +101,8 @@
               matIconButton
               type="button"
               [disabled]="!c.isEnabled || store.isActionRunning()"
-              [matTooltip]="c.isEnabled ? 'Sync channel' : 'Enable tracking to sync this channel.'"
-              aria-label="Sync channel"
+              [matTooltip]="!c.isEnabled ? 'Enable tracking to sync this channel.' : store.syncingChannelId() === c.id ? 'Syncing channel…' : 'Sync channel'"
+              [attr.aria-label]="store.syncingChannelId() === c.id ? 'Syncing channel' : 'Sync channel'"
               (click)="syncChannel(c)"
             >
               @if (store.syncingChannelId() === c.id) {

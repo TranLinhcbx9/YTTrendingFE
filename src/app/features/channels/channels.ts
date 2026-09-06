@@ -9,7 +9,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialog } from '@angular/material/dialog';
-import { firstValueFrom } from 'rxjs';
 
 import { NotificationService } from '@core/ui/notification.service';
 import { Channel } from '@shared/models/channel';
@@ -108,23 +107,23 @@ export class Channels {
   }
 
   protected async confirmDelete(channel: Channel): Promise<void> {
-    const ref = this.dialog.open(ConfirmDialog, {
+    this.dialog.open(ConfirmDialog, {
       data: {
         title: `Delete channel ${channel.name}?`,
         message: 'All videos tracked from this channel will also be deleted. This action cannot be undone.',
         confirmLabel: 'Delete',
         cancelLabel: 'Cancel',
         tone: 'danger',
+        confirmAction: async () => {
+          const ok = await this.store.deleteChannel(channel.id);
+          if (ok) {
+            this.notification.success(`Deleted channel "${channel.name}"`);
+          } else {
+            this.notification.mutationError(this.store.actionError(), 'Failed to delete channel');
+          }
+          return ok;
+        },
       },
     });
-    const confirmed = await firstValueFrom(ref.afterClosed());
-    if (confirmed) {
-      const ok = await this.store.deleteChannel(channel.id);
-      if (ok) {
-        this.notification.success(`Deleted channel "${channel.name}"`);
-      } else {
-        this.notification.mutationError(this.store.actionError(), 'Failed to delete channel');
-      }
-    }
   }
 }
