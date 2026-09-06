@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 
 import { Channel } from '@shared/models/channel';
+import { SyncChannelResult } from '@shared/models/sync-channel-result';
 import { withMutationState } from '@shared/store/with-mutation-state';
 import { withPagedResource } from '@shared/store/with-paged-resource';
 import { ChannelsService } from '@shared/data-access/channels.service';
@@ -47,12 +48,12 @@ export const ChannelsStore = signalStore(
       return ok;
     },
 
-    async syncChannel(id: number): Promise<boolean> {
+    async syncChannel(id: number): Promise<SyncChannelResult | null> {
       patchState(store, { syncingChannelId: id });
-      const ok = await store.runActionMutation(() => store._channelsService.syncChannel(id));
+      const result = await store.runActionMutationResult(() => store._channelsService.syncChannel(id));
       patchState(store, { syncingChannelId: null });
-      if (ok) store.reload();
-      return ok;
+      if (result) store.reload();
+      return result;
     },
 
     async deleteChannel(id: number): Promise<boolean> {

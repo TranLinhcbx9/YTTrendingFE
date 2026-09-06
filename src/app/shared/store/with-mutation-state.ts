@@ -72,6 +72,19 @@ export function withMutationState() {
           return false;
         }
       },
+
+      /** Chạy action và trả response khi thành công; lỗi vẫn dùng action error state. */
+      async runActionMutationResult<T>(operation: () => Promise<T>): Promise<T | null> {
+        patchState(store, { isActionRunning: true, actionError: null });
+        try {
+          const result = await operation();
+          patchState(store, { isActionRunning: false });
+          return result;
+        } catch (err) {
+          patchState(store, { isActionRunning: false, actionError: toProblemDetails(err) ?? null });
+          return null;
+        }
+      },
     })),
   );
 }
