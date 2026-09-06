@@ -90,6 +90,15 @@ export class Channels {
     }
   }
 
+  protected async syncChannel(channel: Channel): Promise<void> {
+    const ok = await this.store.syncChannel(channel.id);
+    if (ok) {
+      this.notification.success(`Synced "${channel.name}"`);
+    } else {
+      this.notification.mutationError(this.store.actionError(), `Failed to sync "${channel.name}"`);
+    }
+  }
+
   protected openEdit(channel: Channel): void {
     this.dialog.open(ChannelEditDialog, { data: channel, width: '28rem' });
   }

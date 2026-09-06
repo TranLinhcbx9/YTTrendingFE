@@ -36,6 +36,10 @@ export class ChannelsService {
     return firstValueFrom(this.http.put<Channel>(`${this.baseUrl}/${id}`, { id, ...body }));
   }
 
+  syncChannel(id: number): Promise<void> {
+    return firstValueFrom(this.http.post<void>(`${this.baseUrl}/${id}/sync`, null));
+  }
+
   deleteChannel(id: number): Promise<void> {
     return firstValueFrom(this.http.delete<void>(`${this.baseUrl}/${id}`));
   }

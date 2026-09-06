@@ -72,7 +72,11 @@
       <ng-container matColumnDef="isEnabled">
         <th mat-header-cell *matHeaderCellDef>Status</th>
         <td mat-cell *matCellDef="let c" class="whitespace-nowrap">
-          <mat-slide-toggle [checked]="c.isEnabled" (change)="onToggleEnabled(c, $event)" />
+          <mat-slide-toggle
+            [checked]="c.isEnabled"
+            [disabled]="store.isActionRunning()"
+            (change)="onToggleEnabled(c, $event)"
+          />
         </td>
       </ng-container>
 
@@ -96,11 +100,16 @@
             <button
               matIconButton
               type="button"
-              disabled
-              matTooltip="Waiting for backend sync API"
+              [disabled]="!c.isEnabled || store.isActionRunning()"
+              [matTooltip]="c.isEnabled ? 'Sync channel' : 'Enable tracking to sync this channel.'"
               aria-label="Sync channel"
+              (click)="syncChannel(c)"
             >
-              <mat-icon>sync</mat-icon>
+              @if (store.syncingChannelId() === c.id) {
+                <mat-progress-spinner diameter="18" mode="indeterminate" />
+              } @else {
+                <mat-icon>sync</mat-icon>
+              }
             </button>
             <button
               matIconButton

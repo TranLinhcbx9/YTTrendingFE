@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { signalStore, withMethods, withProps } from '@ngrx/signals';
+import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 
 import { Channel } from '@shared/models/channel';
 import { withMutationState } from '@shared/store/with-mutation-state';
@@ -13,6 +13,7 @@ export const ChannelsStore = signalStore(
     return (params) => service.getChannels(params);
   }),
   withMutationState(),
+  withState({ syncingChannelId: null as number | null }),
   withProps(() => ({
     _channelsService: inject(ChannelsService),
   })),
@@ -43,6 +44,14 @@ export const ChannelsStore = signalStore(
         }),
       );
       store.reload();
+      return ok;
+    },
+
+    async syncChannel(id: number): Promise<boolean> {
+      patchState(store, { syncingChannelId: id });
+      const ok = await store.runActionMutation(() => store._channelsService.syncChannel(id));
+      patchState(store, { syncingChannelId: null });
+      if (ok) store.reload();
       return ok;
     },
 
