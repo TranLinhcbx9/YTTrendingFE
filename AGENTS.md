@@ -1,5 +1,8 @@
 # Shorts Trend Monitor — FE (Phase 1)
 
+> Đây là nguồn hướng dẫn chuẩn cho mọi coding agent. Các file riêng theo
+> công cụ chỉ được phép trỏ về file này, không sao chép quy ước dự án.
+
 ## Mục tiêu
 Giao diện Angular cho công cụ theo dõi kênh YouTube Shorts đối thủ, phát
 hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiết kế UI
@@ -65,6 +68,14 @@ hiện video tăng trưởng tốt để tham khảo ý tưởng content. Thiế
 - Docs/file mới viết ra: ngắn gọn, ưu tiên bullet/bảng thay vì văn xuôi
   dài; không lặp lại nội dung đã có ở file khác — trỏ link thay vì copy.
 - Không tự tạo file tổng hợp/báo cáo trung gian nếu không được yêu cầu.
+
+## Tương thích AI
+- Không giả định agent đang chạy trên Claude, Codex hay một model/nhà cung cấp
+  cụ thể; ưu tiên lệnh, đường dẫn và tài liệu hoạt động độc lập với công cụ.
+- Trạng thái bàn giao dùng `ai/current.md`; việc đã hoàn tất chuyển sang
+  `ai/history.md`. Không lưu trạng thái công việc vào thư mục riêng của agent.
+- Nếu thêm adapter cho một công cụ AI, adapter chỉ trỏ về `AGENTS.md`. Mọi quy
+  ước chung phải được sửa tại đây để tránh nhiều nguồn sự thật.
 
 ## Tài liệu
 - [`docs/architecture.md`](docs/architecture.md) — cấu trúc folder, nguyên

@@ -90,7 +90,7 @@ tính năng chỉ mở đúng 1 folder.
          đã xử lý chung.
 
 - Component **không bao giờ** gọi Service/`HttpClient` trực tiếp — luôn
-  qua method của Store (đã là invariant `AGENT.md` + mục 3+4
+  qua method của Store (đã là invariant `AGENTS.md` + mục 3+4
   `coding-convention.md`).
 - Service **không bao giờ** bị Store nào khác dùng chéo ngoài feature của
   nó (mirror ranh giới `Application/Features/` bên backend) — cần dùng
@@ -113,7 +113,7 @@ component vì luôn gắn với 1 field hoặc 1 hành động cụ thể.
 
 **Không auto-navigate-back sau 404** — Add nằm ngay trên trang list nên
 back không có ý nghĩa; chỉ thêm navigate-back khi có feature thật sự cần
-(theo nguyên tắc cuốn chiếu ở `AGENT.md`).
+(theo nguyên tắc cuốn chiếu ở `AGENTS.md`).
 
 ### Báo kết quả lệnh ghi
 

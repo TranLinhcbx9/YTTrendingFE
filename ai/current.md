@@ -85,7 +85,7 @@
 - **UI lib PrimeNG → Angular Material 20 (M3)**: hạ tầng xong. Shared UI
   hiện có `StatusChip`, `VideoCard`, `ChannelAvatar`, `EmptyState`,
   `ConfirmDialog`; `ScoreBadge`/`Sparkline` chưa dựng vì chưa có dữ liệu
-  (nguyên tắc cuốn chiếu ở `AGENT.md`).
+  (nguyên tắc cuốn chiếu ở `AGENTS.md`).
 
 ## Block (chờ backend)
 - Tab Trending/Fast Growing + `ScoreBadge`/`Sparkline`: `VideoDto` chưa có

@@ -67,7 +67,7 @@ feature/UI state.
   `resource() vs rxResource()` ở `architecture.md`.
 - Method đặt tên theo hành động trên tài nguyên (`getChannels`,
   `createChannel`), không theo HTTP verb (`post`, `get`).
-- Base URL luôn qua `environment.ts` (invariant `AGENT.md`) — service
+- Base URL luôn qua `environment.ts` (invariant `AGENTS.md`) — service
   không tự ghép string URL rải rác.
 - Cần map response thô → shape khác cho UI (vd gộp field, đổi format) thì
   map ngay trong Service — Store nhận thẳng shape đã đúng, không tự map
@@ -81,7 +81,7 @@ feature/UI state.
 feature actions · orchestrate API (qua Service) + state · mutate state
 nội bộ (không cho ngoài mutate trực tiếp).
 
-- 1 store / feature (đã là invariant ở `AGENT.md`); method đặt tên theo
+- 1 store / feature (đã là invariant ở `AGENTS.md`); method đặt tên theo
   hành động (`loadChannels`, `addChannel`), không đặt theo cơ chế
   (`fetch`, `handle`).
 - Store gọi Service để lấy/ghi data — **không** tự gọi `HttpClient`/
@@ -114,7 +114,7 @@ nội bộ (không cho ngoài mutate trực tiếp).
   `computed()`/method trong class, không viết biểu thức phức tạp trực
   tiếp trong template.
 - Dùng binding `class`/`style` chuẩn thay vì `NgClass`/`NgStyle`.
-- Control flow mới: `@if`/`@for`/`@switch` (đã chốt ở `AGENT.md`), không
+- Control flow mới: `@if`/`@for`/`@switch` (đã chốt ở `AGENTS.md`), không
   dùng `*ngIf`/`*ngFor`.
 - Lifecycle hook giữ đơn giản — logic phức tạp tách method riêng có tên,
   hook chỉ gọi lại; implement interface (`OnInit`...) để compiler ép đúng
@@ -161,7 +161,7 @@ nội bộ (không cho ngoài mutate trực tiếp).
 
 ## 10. Test & commit
 
-Xem `AGENT.md` mục Lệnh (test hoãn Phase 1, commit convention).
+Xem `AGENTS.md` mục Lệnh (test hoãn Phase 1, commit convention).
 
 ## 11. Responsive
 

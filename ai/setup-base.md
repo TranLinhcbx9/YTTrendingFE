@@ -17,7 +17,7 @@
 - [x] Batch 0–6: gỡ lib, dựng theme, tokens, `app.config.ts`, interceptor
 - [x] Batch 7: Shell → nav rail + toolbar
 - [~] Batch 8: `StatusChip` xong; các component còn lại ở mục 5
-- [x] Batch 9: cập nhật docs (`AGENT.md`, `architecture.md`,
+- [x] Batch 9: cập nhật docs (`AGENTS.md`, `architecture.md`,
       `design-tokens.md`, `components.md`, file này)
 - [x] Redesign artifact Blueprint + Screens sang M3
 

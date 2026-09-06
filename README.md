@@ -2,6 +2,13 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.15.
 
+## AI-assisted development
+
+Project rules for coding agents live in [`AGENTS.md`](AGENTS.md). Tool-specific
+instruction files are lightweight adapters only, so the same workflow works
+across Codex, Claude, Gemini, and other agents that support the `AGENTS.md`
+convention.
+
 ## Development server
 
 To start a local development server, run:

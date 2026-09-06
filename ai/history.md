@@ -3,6 +3,9 @@
 > Việc đã xong, mới nhất trên đầu. Chi tiết đổi gì xem `git log`/`git show
 > <hash>`. Đang làm/block hiện tại xem [`ai/current.md`](current.md).
 
+- **2026-09-06** — AI workflow: đổi nguồn hướng dẫn chung từ `AGENT.md`
+  sang `AGENTS.md`; thêm adapter mỏng cho Claude/Gemini và quy ước độc lập
+  nhà cung cấp.
 - **2026-08-25** — Layout app: dựng Global Shell (`layout/shell`, khung
   sidebar/topbar) + `app.routes.ts` lazy load `dashboard`/`channels` qua
   `loadComponent`; xoá `app.html` monolithic cũ. (`06dc58f`)
