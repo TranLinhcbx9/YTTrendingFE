@@ -1,0 +1,12 @@
+.video-card-control,
+.video-card-actions {
+  opacity: 0.48;
+  transition: opacity 160ms ease;
+}
+
+.video-card-control:hover,
+.video-card-control:focus-visible,
+.video-card-actions:hover,
+.video-card-actions:focus-within {
+  opacity: 0.82;
+}

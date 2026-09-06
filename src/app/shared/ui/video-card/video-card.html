@@ -20,20 +20,38 @@
       <img [src]="thumb" [alt]="video().title" class="h-full w-full object-cover" loading="lazy" />
     }
 
-    <span class="absolute top-[9px] left-[9px]">
+    <span class="video-card-control absolute top-[9px] left-[9px] hidden sm:block">
       <app-score-badge [score]="score()" />
     </span>
 
+    <a
+      [href]="video().youtubeVideoUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="video-card-control absolute top-[9px] right-[9px] hidden h-[30px] w-[30px] place-items-center rounded-full bg-[color-mix(in_srgb,var(--mat-sys-scrim)_45%,transparent)] text-white sm:grid"
+      [title]="'Open ' + video().title"
+      [attr.aria-label]="'Open ' + video().title + ' in a new tab'"
+      (click)="$event.stopPropagation()"
+    >
+      <span class="material-symbols-outlined !text-[17px] leading-none">open_in_new</span>
+    </a>
+
     <button
       type="button"
-      class="absolute top-[9px] right-[9px] grid h-[30px] w-[30px] place-items-center rounded-full disabled:opacity-60"
+      class="absolute top-[9px] right-[45px] hidden h-[30px] w-[30px] place-items-center rounded-full disabled:opacity-60 sm:grid"
       [class]="
         saved()
-          ? 'bg-[var(--mat-sys-primary)] text-[var(--mat-sys-on-primary)]'
-          : 'bg-[color-mix(in_srgb,var(--mat-sys-scrim)_45%,transparent)] text-white'
+          ? 'video-card-control bg-[var(--mat-sys-primary)] text-[var(--mat-sys-on-primary)]'
+          : 'video-card-control bg-[color-mix(in_srgb,var(--mat-sys-scrim)_45%,transparent)] text-white'
       "
       [disabled]="!bookmarkEnabled()"
-      [title]="bookmarkEnabled() ? (saved() ? 'Unsave' : 'Save idea') : 'Not supported yet — SavedIdeas API not available'"
+      [title]="
+        bookmarkEnabled()
+          ? saved()
+            ? 'Unsave'
+            : 'Save idea'
+          : 'Not supported yet — SavedIdeas API not available'
+      "
       [attr.aria-label]="saved() ? 'Unsave video' : 'Save idea'"
       (click)="$event.stopPropagation(); bookmarkToggle.emit(video())"
     >
@@ -53,25 +71,78 @@
   </div>
 
   <div class="flex min-w-0 flex-1 flex-col gap-2 px-3 pt-[11px] pb-[13px] sm:flex-initial">
-    <p class="line-clamp-2 text-[clamp(12px,6cqw,15px)] leading-[1.35] font-semibold text-[var(--color-text)]">
+    <div class="video-card-actions flex justify-end sm:hidden">
+      <app-score-badge [score]="score()" [compact]="true" />
+
+      <a
+        [href]="video().youtubeVideoUrl"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="grid h-6 w-6 place-items-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-muted)]"
+        [title]="'Open ' + video().title"
+        [attr.aria-label]="'Open ' + video().title + ' in a new tab'"
+        (click)="$event.stopPropagation()"
+      >
+        <span class="material-symbols-outlined !text-[17px] leading-none">open_in_new</span>
+      </a>
+
+      <button
+        type="button"
+        class="grid h-6 w-6 place-items-center rounded-full disabled:opacity-60"
+        [class]="
+          saved()
+            ? 'bg-[var(--color-surface-2)] text-[var(--color-text-muted)]'
+            : 'bg-[var(--color-surface-2)] text-[var(--color-text-muted)]'
+        "
+        [disabled]="!bookmarkEnabled()"
+        [title]="
+          bookmarkEnabled()
+            ? saved()
+              ? 'Unsave'
+              : 'Save idea'
+            : 'Not supported yet — SavedIdeas API not available'
+        "
+        [attr.aria-label]="saved() ? 'Unsave video' : 'Save idea'"
+        (click)="$event.stopPropagation(); bookmarkToggle.emit(video())"
+      >
+        <span
+          class="material-symbols-outlined !text-[17px] leading-none"
+          [class.icon-filled]="saved()"
+        >
+          {{ saved() ? 'bookmark' : 'bookmark_border' }}
+        </span>
+      </button>
+    </div>
+
+    <p
+      class="line-clamp-2 text-[clamp(12px,6cqw,15px)] leading-[1.35] font-semibold text-[var(--color-text)]"
+    >
       {{ video().title }}
     </p>
 
-    <div class="flex items-center gap-1.5 text-[clamp(10.5px,5.2cqw,13px)] text-[var(--color-text-muted)]">
+    <div
+      class="flex items-center gap-1.5 text-[clamp(10.5px,5.2cqw,13px)] text-[var(--color-text-muted)]"
+    >
       <app-channel-avatar [name]="video().channelName" />
       <span class="truncate">{{ video().channelName }}</span>
     </div>
 
     @if (velocityPerHour(); as velocity) {
-      <div class="flex items-center gap-[5px] text-[clamp(10.5px,5.2cqw,13px)] font-semibold text-[var(--color-accent)]">
-        <span class="material-symbols-outlined icon-filled !text-[clamp(13px,6.5cqw,17px)] leading-none">
+      <div
+        class="flex items-center gap-[5px] text-[clamp(10.5px,5.2cqw,13px)] font-semibold text-[var(--color-accent)]"
+      >
+        <span
+          class="material-symbols-outlined icon-filled !text-[clamp(13px,6.5cqw,17px)] leading-none"
+        >
           trending_up
         </span>
         {{ velocity | compactNumber }} views/hr
       </div>
     }
 
-    <div class="flex justify-between text-[clamp(10.5px,5.2cqw,13px)] text-[var(--color-text-muted)]">
+    <div
+      class="flex justify-between text-[clamp(10.5px,5.2cqw,13px)] text-[var(--color-text-muted)]"
+    >
       <span class="tabular-nums">{{ video().latestViews | compactNumber }} views</span>
       <span>{{ video().publishedAt | relativeTime }}</span>
     </div>
@@ -89,7 +160,10 @@
       @if (trendPoints().length > 1) {
         <app-sparkline class="hidden sm:block" [points]="trendPoints()" />
       } @else {
-        <span class="hidden truncate text-[clamp(10.5px,5.2cqw,13px)] italic text-[var(--color-text-muted)] sm:inline">waiting for data</span>
+        <span
+          class="hidden truncate text-[clamp(10.5px,5.2cqw,13px)] italic text-[var(--color-text-muted)] sm:inline"
+          >waiting for data</span
+        >
       }
     </div>
   </div>

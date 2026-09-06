@@ -10,7 +10,7 @@ export const VIDEO_STATUS_LABELS: Record<VideoStatus, string> = {
 
 export interface Video {
   id: number;
-  youtubeVideoId: string;
+  youtubeVideoUrl: string;
   channelId: number;
   channelName: string;
   title: string;

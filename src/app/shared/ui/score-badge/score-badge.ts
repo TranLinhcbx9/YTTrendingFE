@@ -13,14 +13,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   selector: 'app-score-badge',
   imports: [MatTooltipModule],
   template: `<span
-    class="inline-flex h-6 items-center rounded-full px-[9px] font-[family-name:var(--font-mono)] text-xs font-semibold"
-    [class]="tone()"
+    [class]="tone() + (compact() ? ' inline-flex h-6 min-w-6 items-center justify-center rounded-full px-1.5 font-[family-name:var(--font-mono)] text-[10px] font-semibold' : ' inline-flex h-6 items-center rounded-full px-[9px] font-[family-name:var(--font-mono)] text-xs font-semibold')"
     [matTooltip]="score() === null ? 'Waiting for 2 sync cycles' : ''"
     >{{ score() ?? '—' }}</span
   >`,
 })
 export class ScoreBadge {
   readonly score = input<number | null>(null);
+  readonly compact = input(false);
 
   protected readonly tone = computed(() => {
     const score = this.score();

@@ -143,7 +143,7 @@ Chưa có create/update/delete cho Video — video do background job tạo/cập
 ```ts
 {
   id: number;
-  youtubeVideoId: string;
+  youtubeVideoUrl: string;
   channelId: number;
   channelName: string;
   title: string;
