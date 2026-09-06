@@ -93,7 +93,7 @@ export class Channels {
     const result = await this.store.syncChannel(channel.id);
     if (result) {
       this.notification.success(
-        `Synced "${channel.name}": ${result.newlyTrackedCount} new, ${result.existingVideosRefreshedCount} refreshed, ${result.archivedVideosCount} archived`,
+        `Synced "${channel.name}": Discovered ${result.newlyDiscoveredCount} new videos. Started tracking ${result.newlyTrackedCount} videos. ${result.existingVideosRefreshedCount} refreshed, ${result.archivedVideosCount} archived.`,
       );
     } else {
       this.notification.mutationError(this.store.actionError(), `Failed to sync "${channel.name}"`);

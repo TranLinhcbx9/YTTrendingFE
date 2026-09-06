@@ -110,7 +110,7 @@ Không đi qua `Error`/`ErrorType` — do `GlobalExceptionHandler` xử lý riê
 | GET    | `/api/channels/{id}`      | route `id`                                                                 | 200, `ChannelDto`              |
 | PUT    | `/api/channels/{id}`      | route `id` + body `UpdateChannelCommand` (`id` trong body bị route ghi đè) | 200, `ChannelDto`              |
 | DELETE | `/api/channels/{id}`      | route `id`                                                                 | 204                            |
-| POST   | `/api/channels/{id}/sync` | route `id`, không body                                                     | 204                            |
+| POST   | `/api/channels/{id}/sync` | route `id`, không body                                                     | 200, `SyncChannelResultDto`    |
 
 ### Videos — `api/videos`
 
@@ -176,7 +176,21 @@ Validate: `id > 0`, `name` bắt buộc, `url` bắt buộc + phải là absolut
 
 ### Request — `POST /api/channels/{id}/sync`
 
-Đồng bộ Shorts của một channel ngay lập tức; không có request body. Thành công trả `204 No Content` khi sync hoàn tất. Endpoint dùng YouTube Data API, sau đó tạo video mới đủ ngưỡng view, cập nhật metadata/metrics của video đang active, archive video active không còn xuất hiện trong kết quả fetch và cập nhật `lastSyncAt`.
+Đồng bộ Shorts của một channel ngay lập tức; không có request body. Thành công trả `200 OK` với các count để FE tự quyết định wording/toast. Endpoint dùng YouTube Data API, chọn tối đa số Shorts qualify mới nhất trong `RecentDays`, tạo video mới, cập nhật metadata của video active được chọn, archive video active đã ra khỏi tracking window và cập nhật `lastSyncAt`.
+
+```json
+{
+  "fetchedShortsCount": 32,
+  "qualifiedShortsCount": 20,
+  "newlyDiscoveredCount": 8,
+  "newlyTrackedCount": 5,
+  "existingVideosRefreshedCount": 15,
+  "archivedVideosCount": 2
+}
+```
+
+- `newlyDiscoveredCount`: video mới được phát hiện trong lần sync, bắt đầu ở trạng thái `New`.
+- `newlyTrackedCount`: video chuyển từ `New` sang `Tracking` trong lần sync này; không phải số video vừa phát hiện.
 
 Khi channel đang được một request khác sync, server trả `409` với code `channel.syncInProgress`. `id <= 0` trả validation error `400`; id không tồn tại trả `404` với code `channel.notFound`.
 
@@ -190,7 +204,7 @@ Khi channel đang được một request khác sync, server trả `409` với co
 
 ## 8. Enum `VideoStatus`
 
-`New` → `Tracking` → `Archived`. **`Archived` là trạng thái cuối** — không có đường quay lại `Tracking` (invariant toàn dự án, xem [`../AGENTS.md`](../AGENTS.md)).
+`New` → `Tracking` → `Archived`. `New` là video vừa phát hiện, đang chờ xác nhận trước khi bắt đầu theo dõi. **`Archived` là trạng thái cuối** — không có đường quay lại `Tracking` (invariant toàn dự án, xem [`../AGENTS.md`](../AGENTS.md)).
 
 ## 9. Error code đã dùng
 

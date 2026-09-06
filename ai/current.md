@@ -8,8 +8,10 @@
 - **Channel sync (single): code xong, `ng build` pass, CHƯA verify tay với backend thật.**
   - `POST /api/channels/{id}/sync` đã wire qua `ChannelsService` →
     `ChannelsStore` → nút Sync trong từng row; spinner đúng row, reload
-    `lastSyncAt` sau khi thành công, lỗi Result pattern dùng luồng action
-    hiện có.
+    `lastSyncAt` sau khi thành công. Response `SyncChannelResultDto` được
+    giữ qua service/store để toast hiển thị riêng số video mới phát hiện và
+    số video bắt đầu theo dõi, cùng số refreshed/archived;
+    lỗi Result pattern dùng luồng action hiện có.
   - Đồng bộ `ChannelDto.uploadsPlaylistId` vào model FE.
   - **Sync all block:** `docs/api-contract.md` chưa có endpoint batch/job;
     không làm FE loop hoặc nút giả.
