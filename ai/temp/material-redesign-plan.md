@@ -182,7 +182,7 @@ html {
 **Mục đích:** lớp alias — dịch tên ngữ nghĩa của app (`--color-bg`,
 `--color-surface`…) sang M3 role token, cộng các "extended color" mà M3
 không có sẵn (status, heat). Vẫn là **nguồn duy nhất** cho màu như
-invariant trong `AGENT.md` yêu cầu, chỉ khác là giá trị nay đến từ M3.
+invariant trong `AGENTS.md` yêu cầu, chỉ khác là giá trị nay đến từ M3.
 
 > **Vì sao giữ lớp alias thay vì xoá luôn và dùng thẳng `--mat-sys-*`:**
 > `--mat-sys-surface-container-low` không nói lên "đây là nền card của
@@ -731,7 +731,7 @@ export class StatusChip {
   vào bảng ý nghĩa token.
 - Thêm mục ngắn: bảng shape/typescale M3 đang dùng.
 
-### 9c. `AGENT.md`
+### 9c. `AGENTS.md`
 - Mục **Stack**: `UI: PrimeNG + PrimeIcons` → `UI: Angular Material 20
   (M3) + Material Symbols`.
 - Mục **Invariant**: giữ nguyên câu "màu/font 1 nơi duy nhất —

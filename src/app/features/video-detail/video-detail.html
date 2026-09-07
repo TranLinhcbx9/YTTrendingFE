@@ -38,7 +38,12 @@
         class="relative aspect-[9/16] w-[150px] flex-none self-center overflow-hidden rounded-[var(--mat-sys-corner-medium)] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] sm:w-[198px] sm:self-auto"
       >
         @if (video.thumbnailUrl; as thumb) {
-          <img [src]="thumb" [alt]="video.title" class="h-full w-full object-cover" loading="lazy" />
+          <img
+            [src]="thumb"
+            [alt]="video.title"
+            class="h-full w-full object-cover"
+            loading="lazy"
+          />
         }
         <span
           class="absolute right-[9px] bottom-[9px] rounded-[var(--mat-sys-corner-extra-small)] bg-[color-mix(in_srgb,var(--mat-sys-scrim)_62%,transparent)] px-1.5 py-0.5 font-[family-name:var(--font-mono)] text-[10.5px] text-white"
@@ -55,41 +60,70 @@
             >
               {{ video.title }}
             </h1>
-            <div class="mt-2.5 flex min-w-0 items-center gap-2.5 text-[13.5px] text-[var(--color-text-muted)]">
+            <div
+              class="mt-2.5 flex min-w-0 items-center gap-2.5 text-[13.5px] text-[var(--color-text-muted)]"
+            >
               <app-channel-avatar [name]="video.channelName" [size]="32" />
               <span class="min-w-0 truncate">{{ video.channelName }}</span>
               <app-status-chip class="flex-none" [status]="video.status" />
             </div>
           </div>
 
-          <button
-            matButton="tonal"
-            type="button"
-            disabled
-            title="Not supported yet — SavedIdeas API not available"
-            class="flex-none self-start"
-          >
-            <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle">bookmark_border</mat-icon>
-            Save idea
-          </button>
+          <div class="flex flex-wrap gap-2 self-start">
+            <a
+              matButton="filled"
+              [href]="video.youtubeVideoUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              [attr.aria-label]="'Open ' + video.title + ' in a new tab'"
+            >
+              <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle">open_in_new</mat-icon>
+              Open video
+            </a>
+
+            <button
+              matButton="tonal"
+              type="button"
+              disabled
+              title="Not supported yet — SavedIdeas API not available"
+              class="flex-none self-start"
+            >
+              <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle"
+                >bookmark_border</mat-icon
+              >
+              Save idea
+            </button>
+          </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <div class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3">
+          <div
+            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+          >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Views</span>
-            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums">
+            <span
+              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums"
+            >
               {{ video.latestViews | number }}
             </span>
           </div>
-          <div class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3">
+          <div
+            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+          >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Likes</span>
-            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums">
+            <span
+              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums"
+            >
               {{ video.latestLikes | number }}
             </span>
           </div>
-          <div class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3">
+          <div
+            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+          >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Comments</span>
-            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums">
+            <span
+              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums"
+            >
               {{ video.latestComments | number }}
             </span>
           </div>
@@ -97,8 +131,12 @@
             class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
             matTooltip="Waiting for 2 sync cycles"
           >
-            <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Trending Score</span>
-            <span class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold text-[var(--color-text-muted)]">
+            <span class="text-[11px] font-semibold text-[var(--color-text-muted)]"
+              >Trending Score</span
+            >
+            <span
+              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold text-[var(--color-text-muted)]"
+            >
               —
             </span>
           </div>
@@ -147,16 +185,23 @@
       </div>
 
       @if (video.status === 'Archived') {
-        <div class="flex flex-col gap-3 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface-2)] px-5 py-[18px]">
+        <div
+          class="flex flex-col gap-3 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface-2)] px-5 py-[18px]"
+        >
           <h2 class="text-sm font-bold">When a video becomes ARCHIVED</h2>
           <div class="flex items-start gap-3">
             <div
               class="h-24 w-[54px] flex-none rounded-[var(--mat-sys-corner-small)] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] [filter:saturate(.35)]"
               aria-hidden="true"
             ></div>
-            <div class="flex flex-col items-start gap-[7px] text-xs leading-[1.55] text-[var(--color-text-muted)]">
+            <div
+              class="flex flex-col items-start gap-[7px] text-xs leading-[1.55] text-[var(--color-text-muted)]"
+            >
               <app-status-chip [status]="'Archived'" />
-              <span>Final state — it will not resume tracking automatically even after a sudden growth spike.</span>
+              <span
+                >Final state — it will not resume tracking automatically even after a sudden growth
+                spike.</span
+              >
             </div>
           </div>
         </div>

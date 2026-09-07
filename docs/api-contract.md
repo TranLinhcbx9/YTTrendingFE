@@ -1,6 +1,6 @@
 # API Contract — cho FE (Angular, repo riêng)
 
-> Tài liệu hợp đồng JSON **duy nhất, chi tiết** giữa backend và FE — đọc trực tiếp từ code thật, không suy đoán. 
+> Tài liệu hợp đồng JSON **duy nhất, chi tiết** giữa backend và FE — đọc trực tiếp từ code thật, không suy đoán. Quy tắc tóm tắt ở [`coding-convention.md`](coding-convention.md) mục 11 chỉ trỏ về đây. Đổi shape DTO/endpoint ở backend → **phải cập nhật file này cùng lúc** (SSOT, xem [`../AGENTS.md`](../AGENTS.md)).
 
 ## 1. Base URL & môi trường
 
@@ -16,10 +16,10 @@
 
 ## 3. Response thành công
 
-| Kiểu Result handler trả | HTTP status | Body |
-|---|---|---|
-| `Result` (không có giá trị, vd Delete) | **204 No Content** | rỗng |
-| `Result<T>` thành công | **200 OK** | `T` trực tiếp — **không** bọc envelope |
+| Kiểu Result handler trả                | HTTP status        | Body                                   |
+| -------------------------------------- | ------------------ | -------------------------------------- |
+| `Result` (không có giá trị, vd Delete) | **204 No Content** | rỗng                                   |
+| `Result<T>` thành công                 | **200 OK**         | `T` trực tiếp — **không** bọc envelope |
 
 ⚠️ Kể cả endpoint tạo mới (`POST /api/channels`) cũng trả **200**, không phải 201 — mọi `Result<T>` thành công đều map `OkObjectResult` (`ResultExtensions.cs`), không phân biệt create/read.
 
@@ -69,26 +69,26 @@ Không đi qua `Error`/`ErrorType` — do `GlobalExceptionHandler` xử lý riê
 
 ### 4.4. Bảng map `ErrorType` → HTTP status
 
-| `ErrorType` | HTTP status | `title` |
-|---|---|---|
-| `Validation` | 400 | `Validation failed` |
-| `NotFound` | 404 | `Not Found` |
-| `Conflict` | 409 | `Conflict` |
+| `ErrorType`  | HTTP status | `title`             |
+| ------------ | ----------- | ------------------- |
+| `Validation` | 400         | `Validation failed` |
+| `NotFound`   | 404         | `Not Found`         |
+| `Conflict`   | 409         | `Conflict`          |
 
 ## 5. Phân trang
 
 ### Request — query params (`PagedQuery` base, `Common/Models/PagedQuery.cs`)
 
-| Param | Default | Giới hạn |
-|---|---|---|
-| `page` | `1` | `< 1` → tự clamp về `1` (không lỗi) |
-| `pageSize` | `20` | `< 1` → về 20; `> 100` → tự clamp về `100` (không lỗi) |
+| Param      | Default | Giới hạn                                               |
+| ---------- | ------- | ------------------------------------------------------ |
+| `page`     | `1`     | `< 1` → tự clamp về `1` (không lỗi)                    |
+| `pageSize` | `20`    | `< 1` → về 20; `> 100` → tự clamp về `100` (không lỗi) |
 
 ### Response — `PagedResult<T>`
 
 ```json
 {
-  "items": [ /* T[] */ ],
+  "items": [/* T[] */],
   "page": 1,
   "pageSize": 20,
   "totalCount": 47,
@@ -103,20 +103,21 @@ Không đi qua `Error`/`ErrorType` — do `GlobalExceptionHandler` xử lý riê
 
 ### Channels — `api/channels`
 
-| Verb | Route | Request | Response thành công |
-|---|---|---|---|
-| POST | `/api/channels` | body `AddChannelCommand` | 200, `ChannelDto` |
-| GET | `/api/channels` | query `GetChannelsQuery` (= `page`, `pageSize`) | 200, `PagedResult<ChannelDto>` |
-| GET | `/api/channels/{id}` | route `id` | 200, `ChannelDto` |
-| PUT | `/api/channels/{id}` | route `id` + body `UpdateChannelCommand` (`id` trong body bị route ghi đè) | 200, `ChannelDto` |
-| DELETE | `/api/channels/{id}` | route `id` | 204 |
+| Verb   | Route                     | Request                                                                    | Response thành công            |
+| ------ | ------------------------- | -------------------------------------------------------------------------- | ------------------------------ |
+| POST   | `/api/channels`           | body `AddChannelCommand`                                                   | 200, `ChannelDto`              |
+| GET    | `/api/channels`           | query `GetChannelsQuery` (= `page`, `pageSize`)                            | 200, `PagedResult<ChannelDto>` |
+| GET    | `/api/channels/{id}`      | route `id`                                                                 | 200, `ChannelDto`              |
+| PUT    | `/api/channels/{id}`      | route `id` + body `UpdateChannelCommand` (`id` trong body bị route ghi đè) | 200, `ChannelDto`              |
+| DELETE | `/api/channels/{id}`      | route `id`                                                                 | 204                            |
+| POST   | `/api/channels/{id}/sync` | route `id`, không body                                                     | 200, `SyncChannelResultDto`    |
 
 ### Videos — `api/videos`
 
-| Verb | Route | Request | Response thành công |
-|---|---|---|---|
-| GET | `/api/videos` | query `GetVideosQuery` (= `VideoFilter`: `channelIds?`, `status?`, `minViews?`, `timeRanges?` + `page`, `pageSize`) | 200, `PagedResult<VideoDto>` |
-| GET | `/api/videos/{id}` | route `id` | 200, `VideoDto` |
+| Verb | Route              | Request                                                                                | Response thành công          |
+| ---- | ------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
+| GET  | `/api/videos`      | query `GetVideosQuery` (= `VideoFilter`: `channelId?`, `status?` + `page`, `pageSize`) | 200, `PagedResult<VideoDto>` |
+| GET  | `/api/videos/{id}` | route `id`                                                                             | 200, `VideoDto`              |
 
 Chưa có create/update/delete cho Video — video do background job tạo/cập nhật (chưa build ở Phase 1 hiện tại, xem [`../ai/current.md`](../ai/current.md)), không phải do FE gọi API tạo. Endpoint detail dùng **chung** `VideoDto` với endpoint list — không có `VideoDetailDto` riêng.
 
@@ -130,9 +131,10 @@ Chưa có create/update/delete cho Video — video do background job tạo/cập
   youtubeChannelId: string;
   name: string;
   url: string;
+  uploadsPlaylistId: string | null;
   isEnabled: boolean;
-  lastSyncAt: string | null;   // DateTimeOffset ISO 8601
-  createdAt: string;           // DateTimeOffset ISO 8601
+  lastSyncAt: string | null; // DateTimeOffset ISO 8601
+  createdAt: string; // DateTimeOffset ISO 8601
 }
 ```
 
@@ -141,14 +143,14 @@ Chưa có create/update/delete cho Video — video do background job tạo/cập
 ```ts
 {
   id: number;
-  youtubeVideoId: string;
+  youtubeVideoUrl: string;
   channelId: number;
   channelName: string;
   title: string;
-  publishedAt: string;         // DateTimeOffset ISO 8601
+  publishedAt: string; // DateTimeOffset ISO 8601
   durationSeconds: number;
   thumbnailUrl: string | null;
-  status: "New" | "Tracking" | "Archived";
+  status: 'New' | 'Tracking' | 'Archived';
   latestViews: number;
   latestLikes: number;
   latestComments: number;
@@ -158,34 +160,62 @@ Chưa có create/update/delete cho Video — video do background job tạo/cập
 ### Request body — `AddChannelCommand` (POST `/api/channels`)
 
 ```json
-{ "youtubeHandle": "@somechannel" }
+{ "youtubeHandle": "@MrBeast" }
 ```
-Validate: `youtubeHandle` bắt buộc (`NotEmpty`). BE resolve handle này qua YouTube API để lấy `youtubeChannelId`/`name`/`url` chuẩn trước khi lưu — `ChannelDto` trả về vẫn giữ field `youtubeChannelId` như cũ (mục DTO ở trên), không đổi.
+
+Input là **YouTube handle** (`@name`, có hoặc không có dấu "@" đều được — server tự chuẩn hoá), **không phải channel ID**. Server resolve qua YouTube để lấy `youtubeChannelId` chuẩn trước khi lưu.
+Validate: `youtubeHandle` bắt buộc (`NotEmpty`).
 
 ### Request body — `UpdateChannelCommand` (PUT `/api/channels/{id}`)
 
 ```json
 { "id": 1, "name": "...", "url": "https://...", "isEnabled": true }
 ```
+
 Validate: `id > 0`, `name` bắt buộc, `url` bắt buộc + phải là absolute URL hợp lệ (`Uri.IsWellFormedUriString`). `id` trong body không cần khớp route (bị override).
+
+### Request — `POST /api/channels/{id}/sync`
+
+Đồng bộ Shorts của một channel ngay lập tức; không có request body. Thành công trả `200 OK` với các count để FE tự quyết định wording/toast. Endpoint dùng YouTube Data API, chọn tối đa số Shorts qualify mới nhất trong `RecentDays`, tạo video mới, cập nhật metadata của video active được chọn, archive video active đã ra khỏi tracking window và cập nhật `lastSyncAt`.
+
+```json
+{
+  "fetchedShortsCount": 32,
+  "qualifiedShortsCount": 20,
+  "newlyDiscoveredCount": 8,
+  "newlyTrackedCount": 5,
+  "existingVideosRefreshedCount": 15,
+  "archivedVideosCount": 2
+}
+```
+
+- `newlyDiscoveredCount`: video mới được phát hiện trong lần sync, bắt đầu ở trạng thái `New`.
+- `newlyTrackedCount`: video chuyển từ `New` sang `Tracking` trong lần sync này; không phải số video vừa phát hiện.
+
+Khi channel đang được một request khác sync, server trả `409` với code `channel.syncInProgress`. `id <= 0` trả validation error `400`; id không tồn tại trả `404` với code `channel.notFound`.
 
 ### Query params — `GET /api/videos`
 
-`channelIds` (optional, mảng số — query string dạng `channelIds=1&channelIds=2` hoặc `channelIds=1,2`, cả 2 đều bind được qua default model binder của ASP.NET Core), `status` (optional, `New`/`Tracking`/`Archived`), cộng `page`/`pageSize` (mục 5).
+- `channelIds` (optional, mảng số): lọc theo một hoặc nhiều channel. Gửi query key lặp lại, ví dụ `?channelIds=1&channelIds=3`.
+- `status` (optional): `New` / `Tracking` / `Archived`.
+- `minViews` (optional, số nguyên 64-bit): chỉ lấy video có `latestViews >= minViews`.
+- `timeRanges` (optional, số ngày): chỉ lấy video có `publishedAt` trong N ngày gần nhất. Tên param trên wire hiện là số nhiều: `timeRanges`.
+- `page`, `pageSize`: theo mục 5.
 
 ## 8. Enum `VideoStatus`
 
-`New` → `Tracking` → `Archived`. **`Archived` là trạng thái cuối** — không có đường quay lại `Tracking` (invariant toàn dự án, xem [`../AGENTS.md`](../AGENTS.md)).
+`New` → `Tracking` → `Archived`. `New` là video vừa phát hiện, đang chờ xác nhận trước khi bắt đầu theo dõi. **`Archived` là trạng thái cuối** — không có đường quay lại `Tracking` (invariant toàn dự án, xem [`../AGENTS.md`](../AGENTS.md)).
 
 ## 9. Error code đã dùng
 
-| Code | Sinh ra khi | HTTP |
-|---|---|---|
-| `channel.notFound` | Không tìm thấy channel (theo id, hoặc theo YoutubeChannelId khi add) | 404 |
-| `channel.exists` | Add channel trùng (đã theo dõi rồi) | 409 |
-| `video.notFound` | Không tìm thấy video theo id | 404 |
-| `validation.failed` | FluentValidation fail (mọi command có validator) | 400 |
-| `server.error` | Exception chưa lường trước | 500 |
+| Code                     | Sinh ra khi                                                          | HTTP |
+| ------------------------ | -------------------------------------------------------------------- | ---- |
+| `channel.notFound`       | Không tìm thấy channel (theo id, hoặc theo YoutubeChannelId khi add) | 404  |
+| `channel.exists`         | Add channel trùng (đã theo dõi rồi)                                  | 409  |
+| `channel.syncInProgress` | Có request sync khác đang chạy cho cùng channel                      | 409  |
+| `video.notFound`         | Không tìm thấy video theo id                                         | 404  |
+| `validation.failed`      | FluentValidation fail (mọi command có validator)                     | 400  |
+| `server.error`           | Exception chưa lường trước                                           | 500  |
 
 ## 10. Gaps Phase 1 — FE cần biết trước
 
@@ -193,5 +223,5 @@ Validate: `id > 0`, `name` bắt buộc, `url` bắt buộc + phải là absolut
 - CORS chỉ hoạt động ở Development — chưa có cấu hình cho production.
 - Không có `VideoDetailDto` riêng biệt — trang detail phải tự đủ dùng với `VideoDto`.
 - `POST` tạo resource trả `200`, không phải `201` — đừng dựa vào status code để phân biệt create/read.
-- Video: chỉ có Query (list/detail), chưa có Command (add/update/delete) — video hiện tại trong DB là seed giả (`DevDataSeeder`), backend job đồng bộ thật chưa build.
+- Video: FE chỉ có Query (list/detail), không có Command (add/update/delete). Video được tạo/cập nhật từ `POST /api/channels/{id}/sync`; job chạy lịch tự động và Metrics Update Job vẫn chưa expose API cho FE.
 </content>

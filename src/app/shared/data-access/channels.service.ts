@@ -5,6 +5,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 import { environment } from '@env/environment';
 import { Channel } from '@shared/models/channel';
 import { PagedResult } from '@shared/models/paged-result';
+import { SyncChannelResult } from '@shared/models/sync-channel-result';
 
 export function extractYoutubeHandle(input: string): string {
   const trimmed = input.trim();
@@ -34,6 +35,10 @@ export class ChannelsService {
 
   updateChannel(id: number, body: { name: string; url: string; isEnabled: boolean }): Promise<Channel> {
     return firstValueFrom(this.http.put<Channel>(`${this.baseUrl}/${id}`, { id, ...body }));
+  }
+
+  syncChannel(id: number): Promise<SyncChannelResult> {
+    return firstValueFrom(this.http.post<SyncChannelResult>(`${this.baseUrl}/${id}/sync`, null));
   }
 
   deleteChannel(id: number): Promise<void> {

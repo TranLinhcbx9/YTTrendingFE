@@ -29,6 +29,7 @@ import { StatusChip } from '@shared/ui/status-chip/status-chip';
     StatusChip,
   ],
   templateUrl: './video-card.html',
+  styleUrl: './video-card.css',
 })
 export class VideoCard {
   readonly video = input.required<Video>();

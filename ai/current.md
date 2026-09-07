@@ -5,6 +5,16 @@
 > [`ai/history.md`](history.md).
 
 ## Đang làm
+- **Channel sync (single): code xong, `ng build` pass, CHƯA verify tay với backend thật.**
+  - `POST /api/channels/{id}/sync` đã wire qua `ChannelsService` →
+    `ChannelsStore` → nút Sync trong từng row; spinner đúng row, reload
+    `lastSyncAt` sau khi thành công. Response `SyncChannelResultDto` được
+    giữ qua service/store để toast hiển thị riêng số video mới phát hiện và
+    số video bắt đầu theo dõi, cùng số refreshed/archived;
+    lỗi Result pattern dùng luồng action hiện có.
+  - Đồng bộ `ChannelDto.uploadsPlaylistId` vào model FE.
+  - **Sync all block:** `docs/api-contract.md` chưa có endpoint batch/job;
+    không làm FE loop hoặc nút giả.
 - **Dashboard — Recent Shorts: code xong, `ng build`/`ng lint` pass, CHƯA
   verify tay với backend thật** (checklist verify ở cuối
   `ai/temp/dashboard-recent-shorts-plan.md`).
@@ -85,7 +95,12 @@
 - **UI lib PrimeNG → Angular Material 20 (M3)**: hạ tầng xong. Shared UI
   hiện có `StatusChip`, `VideoCard`, `ChannelAvatar`, `EmptyState`,
   `ConfirmDialog`; `ScoreBadge`/`Sparkline` chưa dựng vì chưa có dữ liệu
-  (nguyên tắc cuốn chiếu ở `AGENT.md`).
+  (nguyên tắc cuốn chiếu ở `AGENTS.md`).
+
+- Mutation feedback: Add/Edit show a spinner on the submit button; per-row Sync
+  shows a spinner on the active row; Delete keeps its confirmation dialog open
+  with a spinner until the request succeeds. Controls are disabled during the
+  respective command to prevent duplicate requests.
 
 ## Block (chờ backend)
 - Tab Trending/Fast Growing + `ScoreBadge`/`Sparkline`: `VideoDto` chưa có

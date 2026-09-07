@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
-import { signalStore, withMethods, withProps } from '@ngrx/signals';
+import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
 
 import { Channel } from '@shared/models/channel';
+import { SyncChannelResult } from '@shared/models/sync-channel-result';
 import { withMutationState } from '@shared/store/with-mutation-state';
 import { withPagedResource } from '@shared/store/with-paged-resource';
 import { ChannelsService } from '@shared/data-access/channels.service';
@@ -13,6 +14,7 @@ export const ChannelsStore = signalStore(
     return (params) => service.getChannels(params);
   }),
   withMutationState(),
+  withState({ syncingChannelId: null as number | null }),
   withProps(() => ({
     _channelsService: inject(ChannelsService),
   })),
@@ -44,6 +46,14 @@ export const ChannelsStore = signalStore(
       );
       store.reload();
       return ok;
+    },
+
+    async syncChannel(id: number): Promise<SyncChannelResult | null> {
+      patchState(store, { syncingChannelId: id });
+      const result = await store.runActionMutationResult(() => store._channelsService.syncChannel(id));
+      patchState(store, { syncingChannelId: null });
+      if (result) store.reload();
+      return result;
     },
 
     async deleteChannel(id: number): Promise<boolean> {

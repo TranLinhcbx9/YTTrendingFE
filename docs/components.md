@@ -62,7 +62,7 @@ tương ứng, không nhúng implementation vào docs.
 | Trạng thái | `mat-slide-toggle` — không có label cạnh | |
 | Đồng bộ lần cuối | qua pipe `relativeTime` | |
 | Ngày thêm | `createdAt \| date:'dd/MM/yyyy'` | |
-| Thao tác | icon-button Sửa/Xoá | |
+| Thao tác | icon-button Sửa/Đồng bộ/Xoá | Đồng bộ hiện spinner đúng dòng; hộp xác nhận Xoá giữ mở và hiện spinner đến khi lệnh hoàn tất |
 
 > Blueprint có thêm cột **"Video đang theo dõi" (x/100)** — **bỏ**, vì
 > `ChannelDto` hiện tại (`docs/api-contract.md`) không có field nào chứa
