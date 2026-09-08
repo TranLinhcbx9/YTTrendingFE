@@ -1,0 +1,65 @@
+{
+  "projectId": "5794602541391723591",
+  "title": "Shorts Trend Monitor — Unified UI System",
+  "screens": [
+    {
+      "screenId": "f32e57d3328d4455af758a49c35ca416",
+      "title": "Recent Shorts Dashboard (Standardized)",
+      "route": "/dashboard",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "86e6d30267f9476badd8a8ec22ad43e1",
+      "title": "Recent Shorts Dashboard Mobile (Standardized)",
+      "route": "/dashboard",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "c191bf5433fd44fb8ab34616eaa5cf41",
+      "title": "Channel Management (Standardized)",
+      "route": "/channels",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "9e3ffb54f87d4f9db69e0c99d7cf8fb5",
+      "title": "Channel Management Mobile (Standardized)",
+      "route": "/channels",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "73c481fa8ac2499abf35abd9cae18faa",
+      "title": "Video Detail (Standardized)",
+      "route": "/videos/:id",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "9c224743049c4b699382e13b5e7b13eb",
+      "title": "Video Detail Mobile (Standardized)",
+      "route": "/videos/:id",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "07a0200f973448b38de9dfd4a999c3de",
+      "title": "Edit Channel Dialog (Standardized)",
+      "route": "/channels (dialog state)",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "af0b375eea7e4ceda6d2aa5649445935",
+      "title": "Delete Confirmation (Standardized)",
+      "route": "/channels (dialog state)",
+      "deviceType": "DESKTOP"
+    }
+  ],
+  "designSystem": {
+    "assetId": "ea783bc24bfb448c97e1957222610ad5",
+    "displayName": "Shorts Trend Monitor — Signal Desk",
+    "colorMode": "LIGHT",
+    "primaryColor": "#006A60",
+    "secondaryColor": "#346760",
+    "backgroundColor": "#EDFDF9",
+    "headlineFont": "BE_VIETNAM_PRO",
+    "bodyFont": "INTER",
+    "roundness": "ROUND_EIGHT"
+  }
+}
