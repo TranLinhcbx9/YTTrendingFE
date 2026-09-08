@@ -13,8 +13,10 @@
     số video bắt đầu theo dõi, cùng số refreshed/archived;
     lỗi Result pattern dùng luồng action hiện có.
   - Đồng bộ `ChannelDto.uploadsPlaylistId` vào model FE.
-  - **Sync all block:** `docs/api-contract.md` chưa có endpoint batch/job;
-    không làm FE loop hoặc nút giả.
+  - **Sync all / Sync history:** UX đã chốt tại
+    [`docs/sync-history.md`](../docs/sync-history.md), nhưng
+    `docs/api-contract.md` chưa có batch/job endpoint; không làm FE loop hoặc
+    nút giả.
 - **Dashboard — Recent Shorts: code xong, `ng build`/`ng lint` pass, CHƯA
   verify tay với backend thật** (checklist verify ở cuối
   `ai/temp/dashboard-recent-shorts-plan.md`).

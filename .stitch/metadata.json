@@ -49,6 +49,30 @@
       "title": "Delete Confirmation (Standardized)",
       "route": "/channels (dialog state)",
       "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "d642083659434cf09648bcc6da0d1db7",
+      "title": "Sync History (Refined Sync Flow)",
+      "route": "/sync-history",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "4100dd6bb0f3470e9d1c59f0fe94c67c",
+      "title": "Sync Run Detail (Side-by-Side Investigation)",
+      "route": "/sync-history/:runId",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "44bd66b4f58f4d80859fce06e3797e32",
+      "title": "Sync History Mobile (Refined Sync Flow)",
+      "route": "/sync-history",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "ca1609a5fb5a49fdab087ddf47588b76",
+      "title": "Sync Run Detail (Mobile Investigation)",
+      "route": "/sync-history/:runId",
+      "deviceType": "MOBILE"
     }
   ],
   "designSystem": {

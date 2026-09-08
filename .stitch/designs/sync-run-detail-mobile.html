@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sync Run Details</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#005048",
+                        "secondary": "#346760",
+                        "tertiary-container": "#635397",
+                        "surface-container-highest": "#dae5e2",
+                        "secondary-fixed-dim": "#9cd1c8",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-dim": "#d1dcda",
+                        "primary-fixed": "#9ff2e4",
+                        "on-tertiary-container": "#ddd1ff",
+                        "inverse-primary": "#84d5c8",
+                        "surface-container-low": "#ebf6f3",
+                        "tertiary-fixed-dim": "#cdbdff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#3e4947",
+                        "surface-container": "#e5f0ee",
+                        "tertiary-fixed": "#e8deff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#194f48",
+                        "surface-bright": "#f0fcf9",
+                        "secondary-fixed": "#b8ede4",
+                        "surface": "#f0fcf9",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-primary-fixed-variant": "#005048",
+                        "surface-lowest": "#FFFFFF",
+                        "outline-variant": "#bec9c6",
+                        "on-surface": "#101E1C",
+                        "primary-container": "#61F9E6",
+                        "on-tertiary-fixed-variant": "#4c3c7e",
+                        "surface-tint": "#016a60",
+                        "surface-container-high": "#dfebe8",
+                        "surface-low": "#E7F7F3",
+                        "secondary-container": "#b5eae1",
+                        "outline": "#6e7977",
+                        "surface-variant": "#dae5e2",
+                        "on-primary-container": "#95e7da",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed": "#1f0b50",
+                        "inverse-on-surface": "#e8f3f0",
+                        "surface-high": "#DCECE8",
+                        "tertiary": "#4b3b7d",
+                        "inverse-surface": "#283231",
+                        "background": "#EDFDF9",
+                        "primary-fixed-dim": "#84d5c8",
+                        "on-background": "#131d1c",
+                        "on-tertiary": "#ffffff",
+                        "error": "#BA1A1A",
+                        "on-primary-fixed": "#00201c",
+                        "on-secondary-container": "#386b64"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "xl": "24px",
+                        "unit": "4px",
+                        "gutter-desktop": "24px",
+                        "3xl": "40px",
+                        "gutter-mobile": "16px",
+                        "sm": "8px",
+                        "md": "12px",
+                        "lg": "16px",
+                        "2xl": "32px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "title-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "metric-sm": ["JetBrains Mono"],
+                        "headline-lg": ["Be Vietnam Pro"],
+                        "display-lg": ["Be Vietnam Pro"],
+                        "metric-md": ["JetBrains Mono"],
+                        "headline-md": ["Be Vietnam Pro"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "title-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+                        "metric-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+                        "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "metric-md": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md antialiased min-h-screen flex flex-col overflow-x-hidden md:hidden pb-32">
+<!-- TopAppBar -->
+<header class="w-full sticky top-0 z-40 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline flex items-center px-gutter-mobile h-[48px]">
+<button aria-label="Back" class="mr-sm flex items-center justify-center w-[40px] h-[40px] text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200 ease-in-out cursor-pointer rounded-full">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface dark:text-on-surface-variant ml-sm">Run Details</h1>
+</header>
+<main class="flex-1 px-gutter-mobile py-xl flex flex-col gap-xl max-w-lg mx-auto w-full">
+<!-- Run Header -->
+<section class="flex flex-col gap-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Sync run — 08/09/2026, 09:03</h2>
+<div class="flex items-center gap-sm">
+<div class="inline-flex items-center px-2 py-1 rounded-full bg-yellow-100 text-yellow-800 text-[10px] font-semibold tracking-wide uppercase border border-yellow-200">
+<span class="material-symbols-outlined text-[14px] mr-1" data-icon="warning">warning</span>
+                    Completed with issues
+                </div>
+</div>
+<div class="text-on-surface-variant font-metric-sm text-metric-sm flex flex-wrap gap-x-sm gap-y-xs mt-sm bg-surface-container-lowest p-md rounded-lg border border-outline-variant">
+<span>Manual sync</span>
+<span>·</span>
+<span>Started 09:03</span>
+<span>·</span>
+<span>Finished 09:04</span>
+<span>·</span>
+<span>Duration 1m 33s</span>
+</div>
+</section>
+<!-- Overview Metrics Grid -->
+<section class="grid grid-cols-2 gap-sm">
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between mb-sm text-on-surface-variant">
+<span class="font-label-md text-label-md">Total</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="list">list</span>
+</div>
+<div class="font-metric-md text-metric-md text-on-surface">18</div>
+</div>
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between mb-sm text-primary">
+<span class="font-label-md text-label-md">Successful</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="check_circle">check_circle</span>
+</div>
+<div class="font-metric-md text-metric-md text-on-surface">16</div>
+</div>
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between mb-sm text-outline">
+<span class="font-label-md text-label-md">Skipped</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="skip_next">skip_next</span>
+</div>
+<div class="font-metric-md text-metric-md text-on-surface">1</div>
+</div>
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col justify-between">
+<div class="flex items-center justify-between mb-sm text-error">
+<span class="font-label-md text-label-md">Failed</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="error">error</span>
+</div>
+<div class="font-metric-md text-metric-md text-on-surface">1</div>
+</div>
+</section>
+<!-- Channel Results Section -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<h3 class="font-title-md text-title-md text-on-surface">Channels in this run</h3>
+</div>
+<!-- Filter Chips -->
+<div class="flex overflow-x-auto gap-sm pb-sm -mx-gutter-mobile px-gutter-mobile scrollbar-hide">
+<button class="shrink-0 h-[32px] px-sm bg-primary-container text-on-primary-container font-label-md text-label-md rounded-full border border-transparent">All</button>
+<button class="shrink-0 h-[32px] px-sm bg-surface-lowest text-on-surface-variant font-label-md text-label-md rounded-full border border-outline-variant">Successful</button>
+<button class="shrink-0 h-[32px] px-sm bg-surface-lowest text-on-surface-variant font-label-md text-label-md rounded-full border border-outline-variant">Skipped</button>
+<button class="shrink-0 h-[32px] px-sm bg-surface-lowest text-on-surface-variant font-label-md text-label-md rounded-full border border-outline-variant">Failed</button>
+</div>
+<!-- Card List -->
+<div class="flex flex-col gap-sm">
+<!-- Daily Shorts News (Completed) -->
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-xs">
+<div class="flex items-start justify-between">
+<span class="font-title-md text-title-md text-on-surface">Daily Shorts News</span>
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="check_circle">check_circle</span>
+</div>
+<div class="font-metric-sm text-metric-sm text-on-surface-variant">09:03 - 09:04 (18s)</div>
+</div>
+<!-- Startup Clips (Skipped) -->
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-xs">
+<div class="flex items-start justify-between">
+<span class="font-title-md text-title-md text-on-surface">Startup Clips</span>
+<span class="material-symbols-outlined text-[16px] text-outline" data-icon="skip_next">skip_next</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Channel was unavailable</div>
+</div>
+<!-- Creator Lab (Failed - Selected) -->
+<div class="bg-error-container border-2 border-error p-md rounded-lg flex flex-col gap-xs relative cursor-pointer" onclick="document.getElementById('bottom-sheet').classList.remove('translate-y-full')">
+<div class="flex items-start justify-between">
+<span class="font-title-md text-title-md text-on-error-container">Creator Lab</span>
+<span class="material-symbols-outlined text-[16px] text-error" data-icon="error">error</span>
+</div>
+<div class="font-body-sm text-body-sm text-error">youtube.quotaExceeded</div>
+<button class="mt-sm font-label-md text-label-md text-error underline self-start">View details</button>
+</div>
+<!-- Mindset Minutes (Completed) -->
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-xs">
+<div class="flex items-start justify-between">
+<span class="font-title-md text-title-md text-on-surface">Mindset Minutes</span>
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="check_circle">check_circle</span>
+</div>
+<div class="font-metric-sm text-metric-sm text-on-surface-variant">09:03 - 09:04 (12s)</div>
+</div>
+<!-- Daily Shorts News (Static text completed) -->
+<div class="bg-surface-lowest border border-outline-variant p-md rounded-lg flex flex-col gap-xs">
+<div class="flex items-start justify-between">
+<span class="font-title-md text-title-md text-on-surface">Daily Shorts News</span>
+<span class="material-symbols-outlined text-[16px] text-primary" data-icon="check_circle">check_circle</span>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Channel deleted</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Sheet Overlay -->
+<div aria-hidden="true" class="fixed inset-0 bg-inverse-surface/40 z-50 transition-opacity hidden" id="bottom-sheet-overlay"></div>
+<!-- Bottom Sheet (Failure Details) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface-lowest rounded-t-xl z-50 transform translate-y-0 transition-transform duration-300 ease-in-out shadow-lg border-t border-outline-variant flex flex-col max-h-[795px]" id="bottom-sheet">
+<!-- Drag Handle Area -->
+<div class="w-full flex justify-center pt-sm pb-md cursor-grab touch-none" id="drag-handle">
+<div class="w-[32px] h-[4px] bg-outline-variant rounded-full"></div>
+</div>
+<div class="px-gutter-mobile pb-xl overflow-y-auto flex-1 flex flex-col gap-md">
+<!-- Header -->
+<div class="flex justify-between items-start">
+<div class="flex flex-col gap-xs">
+<h3 class="font-headline-md text-headline-md text-on-surface">Creator Lab</h3>
+<div class="inline-flex items-center px-2 py-0.5 rounded-full bg-error-container text-on-error-container text-[10px] font-semibold uppercase self-start">
+                        Failed
+                    </div>
+</div>
+<button class="w-[44px] h-[44px] flex items-center justify-center text-on-surface-variant hover:bg-surface-container rounded-full" onclick="document.getElementById('bottom-sheet').classList.add('translate-y-full')">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Error Details -->
+<div class="bg-surface-container-low p-md rounded-lg border border-outline-variant flex flex-col gap-sm">
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant block mb-xs">Error Code</span>
+<span class="font-metric-sm text-metric-sm text-error bg-error-container/50 px-2 py-1 rounded inline-block">youtube.quotaExceeded</span>
+</div>
+<div>
+<span class="font-label-md text-label-md text-on-surface-variant block mb-xs">Message</span>
+<p class="font-body-md text-body-md text-on-surface">YouTube API quota has been exhausted. Please check your Google Cloud Console to request more quota or wait until it resets.</p>
+</div>
+</div>
+<!-- Action -->
+<button class="mt-sm w-full h-[44px] border border-outline text-on-surface font-title-md text-title-md rounded-lg flex items-center justify-center gap-sm active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]" data-icon="content_copy">content_copy</span>
+                Copy error code
+            </button>
+</div>
+</div>
+</body></html>

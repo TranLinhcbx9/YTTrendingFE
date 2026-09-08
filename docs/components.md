@@ -64,6 +64,9 @@ tương ứng, không nhúng implementation vào docs.
 | Ngày thêm | `createdAt \| date:'dd/MM/yyyy'` | |
 | Thao tác | icon-button Sửa/Đồng bộ/Xoá | Đồng bộ hiện spinner đúng dòng; hộp xác nhận Xoá giữ mở và hiện spinner đến khi lệnh hoàn tất |
 
+> Đồng bộ ở bảng này chỉ là Sync của từng channel. Global Sync all, tiến trình
+> của run và lỗi theo channel nằm ở Sync history / Sync run detail.
+
 > Blueprint có thêm cột **"Video đang theo dõi" (x/100)** — **bỏ**, vì
 > `ChannelDto` hiện tại (`docs/api-contract.md`) không có field nào chứa
 > số liệu này. Thêm lại khi backend bổ sung field tương ứng, không tự

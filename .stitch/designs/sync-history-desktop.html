@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shorts Intelligence - Sync history</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary": "#4b3b7d",
+            "surface-tint": "#016a60",
+            "surface-container-low": "#ebf6f3",
+            "primary": "#005048",
+            "inverse-on-surface": "#e8f3f0",
+            "secondary-fixed": "#b8ede4",
+            "error": "#BA1A1A",
+            "secondary": "#346760",
+            "surface-container-highest": "#dae5e2",
+            "surface-lowest": "#FFFFFF",
+            "on-primary": "#ffffff",
+            "surface": "#f0fcf9",
+            "on-secondary-fixed-variant": "#194f48",
+            "tertiary-fixed-dim": "#cdbdff",
+            "outline": "#6e7977",
+            "on-surface": "#131d1c",
+            "tertiary-container": "#635397",
+            "secondary-container": "#b5eae1",
+            "surface-container-lowest": "#ffffff",
+            "on-surface-variant": "#3E4947",
+            "tertiary-fixed": "#e8deff",
+            "on-tertiary-fixed-variant": "#4c3c7e",
+            "primary-fixed-dim": "#84d5c8",
+            "outline-variant": "#bec9c6",
+            "surface-container": "#E1F1ED",
+            "on-error": "#ffffff",
+            "surface-dim": "#d1dcda",
+            "on-tertiary-fixed": "#1f0b50",
+            "surface-variant": "#dae5e2",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#386b64",
+            "surface-bright": "#f0fcf9",
+            "surface-low": "#E7F7F3",
+            "primary-container": "#006a60",
+            "inverse-surface": "#283231",
+            "on-primary-container": "#95e7da",
+            "on-primary-fixed": "#00201c",
+            "on-secondary": "#ffffff",
+            "secondary-fixed-dim": "#9cd1c8",
+            "background": "#EDFDF9",
+            "error-container": "#ffdad6",
+            "surface-container-high": "#dfebe8",
+            "on-background": "#131d1c",
+            "inverse-primary": "#84d5c8",
+            "surface-high": "#DCECE8",
+            "on-error-container": "#93000a",
+            "on-secondary-fixed": "#00201c",
+            "primary-fixed": "#9ff2e4",
+            "on-tertiary-container": "#ddd1ff",
+            "on-primary-fixed-variant": "#005048"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "2xl": "32px",
+            "xs": "4px",
+            "unit": "4px",
+            "sm": "8px",
+            "lg": "16px",
+            "gutter-mobile": "16px",
+            "gutter-desktop": "24px",
+            "md": "12px",
+            "xl": "24px",
+            "3xl": "40px"
+          },
+          "fontFamily": {
+            "headline-md": [
+              "Be Vietnam Pro"
+            ],
+            "body-sm": [
+              "Inter"
+            ],
+            "label-md": [
+              "Inter"
+            ],
+            "body-md": [
+              "Inter"
+            ],
+            "metric-md": [
+              "JetBrains Mono"
+            ],
+            "metric-sm": [
+              "JetBrains Mono"
+            ],
+            "headline-lg": [
+              "Be Vietnam Pro"
+            ],
+            "display-lg": [
+              "Be Vietnam Pro"
+            ],
+            "title-md": [
+              "Inter"
+            ]
+          },
+          "fontSize": {
+            "headline-md": [
+              "22px",
+              {
+                "lineHeight": "28px",
+                "letterSpacing": "-0.01em",
+                "fontWeight": "700"
+              }
+            ],
+            "body-sm": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "400"
+              }
+            ],
+            "label-md": [
+              "11px",
+              {
+                "lineHeight": "16px",
+                "letterSpacing": "0.03em",
+                "fontWeight": "600"
+              }
+            ],
+            "body-md": [
+              "14px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "400"
+              }
+            ],
+            "metric-md": [
+              "20px",
+              {
+                "lineHeight": "24px",
+                "fontWeight": "600"
+              }
+            ],
+            "metric-sm": [
+              "12px",
+              {
+                "lineHeight": "16px",
+                "fontWeight": "500"
+              }
+            ],
+            "headline-lg": [
+              "28px",
+              {
+                "lineHeight": "36px",
+                "letterSpacing": "-0.015em",
+                "fontWeight": "700"
+              }
+            ],
+            "display-lg": [
+              "36px",
+              {
+                "lineHeight": "44px",
+                "letterSpacing": "-0.02em",
+                "fontWeight": "700"
+              }
+            ],
+            "title-md": [
+              "15px",
+              {
+                "lineHeight": "20px",
+                "fontWeight": "600"
+              }
+            ]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    @keyframes spin-slow {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    .animate-spin-slow {
+      animation: spin-slow 2s linear infinite;
+    }
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings:
+      'FILL' 1,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 24
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex antialiased">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface fixed left-0 top-0 h-full w-[80px] z-50 flex flex-col border-r border-outline-variant font-label-md text-label-md text-primary items-center py-6 gap-6">
+<div class="font-headline-md text-headline-md font-bold text-primary mb-8 w-10 h-10 bg-primary-container text-on-primary-container rounded-lg flex items-center justify-center">
+      SI
+    </div>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-colors rounded-lg w-16 gap-1 group" href="#">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">dashboard</span>
+<span class="text-[10px]">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-colors rounded-lg w-16 gap-1 group" href="#">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">subscriptions</span>
+<span class="text-[10px]">Channels</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg p-2 opacity-90 transition-all w-16 gap-1 group" href="#">
+<span class="material-symbols-outlined fill text-xl">history</span>
+<span class="text-[10px]">History</span>
+</a>
+<div class="mt-auto">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-colors rounded-lg w-16 gap-1 group" href="#">
+<span class="material-symbols-outlined text-xl group-hover:scale-110 transition-transform">settings</span>
+<span class="text-[10px]">Settings</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col md:ml-[80px] min-h-screen">
+<!-- TopAppBar -->
+<header class="bg-surface docked full-width top-0 sticky z-40 border-b border-outline-variant flex justify-between items-center h-16 px-gutter-desktop">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Shorts Intelligence</h1>
+<span class="text-on-surface-variant font-body-sm text-body-sm hidden lg:inline">Last synced: 2 mins ago</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center text-on-surface-variant bg-surface-container rounded-full px-3 py-1">
+<span class="material-symbols-outlined text-[18px] mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm placeholder-on-surface-variant/50 w-48" placeholder="Search..." type="text"/>
+</div>
+<button class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">person</span>
+</button>
+</div>
+</header>
+<!-- Page Content -->
+<main class="flex-1 p-gutter-mobile md:p-gutter-desktop max-w-7xl w-full mx-auto flex flex-col gap-xl">
+<!-- Page Header -->
+<section class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Sync history</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Track the progress and outcome of channel syncs.</p>
+</div>
+<div class="flex flex-col items-end gap-1">
+<button class="bg-surface-container text-on-surface-variant/50 px-4 py-2 rounded font-label-md text-label-md flex items-center gap-2 cursor-not-allowed" disabled=""><span class="material-symbols-outlined text-[18px]">sync</span>Sync all</button>
+<span class="font-body-sm text-body-sm text-on-surface-variant/70">A sync is already in progress. <a class="text-primary hover:underline" href="#">View active run</a></span>
+</div>
+</section>
+<!-- Filters Tray -->
+<section class="bg-surface-lowest border border-outline-variant rounded-lg p-3 flex flex-wrap items-center gap-3">
+<!-- Status Segmented Control -->
+<div class="flex bg-surface-container-low rounded-md p-1 gap-1">
+<button class="px-3 py-1 bg-surface-lowest text-primary shadow-sm rounded font-label-md text-label-md">All</button>
+<button class="px-3 py-1 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded font-label-md text-label-md transition-colors">In progress</button>
+<button class="px-3 py-1 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded font-label-md text-label-md transition-colors">Completed</button>
+<button class="px-3 py-1 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded font-label-md text-label-md transition-colors">Has issues</button>
+<button class="px-3 py-1 text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded font-label-md text-label-md transition-colors">Interrupted</button>
+</div>
+<div class="w-px h-6 bg-outline-variant/50 mx-1 hidden sm:block"></div>
+<!-- Source Dropdown -->
+<button class="border border-outline px-3 py-1.5 rounded font-label-md text-label-md text-on-surface flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span>Source: All sources</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+<!-- Date Range -->
+<button class="border border-outline px-3 py-1.5 rounded font-label-md text-label-md text-on-surface flex items-center gap-2 hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>Last 30 days</span>
+<span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+<button class="ml-auto font-label-md text-label-md text-primary hover:underline px-2">
+          Clear filters
+        </button>
+</section>
+<!-- Sync Runs Table -->
+<section class="bg-surface-lowest border border-outline-variant rounded-lg flex flex-col overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-surface-low">
+<h3 class="font-title-md text-title-md text-on-surface">Sync runs</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-lowest font-label-md text-label-md text-on-surface-variant">
+<th class="p-4 font-semibold whitespace-nowrap">Time</th>
+<th class="p-4 font-semibold whitespace-nowrap">Source</th>
+<th class="p-4 font-semibold whitespace-nowrap">Status</th>
+<th class="p-4 font-semibold w-1/3">Result</th>
+<th class="p-4 font-semibold text-right whitespace-nowrap">Duration</th>
+<th class="p-4 w-10"></th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md text-on-surface">
+<!-- Row 1: Syncing -->
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-lowest transition-colors group cursor-pointer bg-surface-container-low/30">
+<td class="p-4 align-top">
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface">08/09/2026, 14:15</span>
+<span class="text-body-sm text-on-surface-variant mt-0.5">Just now</span>
+</div>
+</td>
+<td class="p-4 align-top">Scheduled</td>
+<td class="p-4 align-top">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-secondary-container/50 text-on-secondary-container font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[14px] animate-spin-slow">sync</span>
+                    Syncing
+                  </span>
+</td>
+<td class="p-4 align-top">
+<div class="flex flex-col gap-2 w-full max-w-sm">
+<span>12 of 20 channels processed</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 60%"></div>
+</div>
+</div>
+</td>
+<td class="p-4 align-top text-right font-metric-sm text-metric-sm text-on-surface-variant">In progress</td>
+<td class="p-4 align-top text-on-surface-variant opacity-50 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">chevron_right</span>
+</td>
+</tr>
+<!-- Row 2: Issues -->
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="p-4 align-top">
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface">08/09/2026, 09:03</span>
+<span class="text-body-sm text-on-surface-variant mt-0.5">2 hours ago</span>
+</div>
+</td>
+<td class="p-4 align-top">Manual</td>
+<td class="p-4 align-top">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[14px] text-error">warning</span>
+                    Completed with issues
+                  </span>
+</td>
+<td class="p-4 align-top text-on-surface-variant">
+<span class="text-on-surface">16 successful</span> · 1 skipped · <span class="text-error">1 failed</span>
+</td>
+<td class="p-4 align-top text-right font-metric-sm text-metric-sm">1m 33s</td>
+<td class="p-4 align-top text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">chevron_right</span>
+</td>
+</tr>
+<!-- Row 3: Success -->
+<tr class="border-b border-outline-variant/50 hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="p-4 align-top">
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface">08/09/2026, 07:42</span>
+<span class="text-body-sm text-on-surface-variant mt-0.5">3 hours ago</span>
+</div>
+</td>
+<td class="p-4 align-top">Scheduled</td>
+<td class="p-4 align-top">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[14px] text-primary">check_circle</span>
+                    Completed
+                  </span>
+</td>
+<td class="p-4 align-top text-on-surface-variant">
+                  18 successful
+                </td>
+<td class="p-4 align-top text-right font-metric-sm text-metric-sm">1m 24s</td>
+<td class="p-4 align-top text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">chevron_right</span>
+</td>
+</tr>
+<!-- Row 4: Interrupted -->
+<tr class="hover:bg-surface-container-low transition-colors group cursor-pointer">
+<td class="p-4 align-top">
+<div class="flex flex-col">
+<span class="font-metric-sm text-metric-sm text-on-surface">07/09/2026, 21:00</span>
+<span class="text-body-sm text-on-surface-variant mt-0.5">Yesterday</span>
+</div>
+</td>
+<td class="p-4 align-top">Scheduled</td>
+<td class="p-4 align-top">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-surface-container-high text-on-surface-variant font-label-md text-[10px]">
+<span class="material-symbols-outlined text-[14px]">block</span>
+                    Interrupted
+                  </span>
+</td>
+<td class="p-4 align-top text-on-surface-variant">
+                  8 of 18 channels processed
+                </td>
+<td class="p-4 align-top text-right font-metric-sm text-metric-sm text-on-surface-variant">—</td>
+<td class="p-4 align-top text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">chevron_right</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+</body></html>

@@ -224,4 +224,7 @@ Khi channel đang được một request khác sync, server trả `409` với co
 - Không có `VideoDetailDto` riêng biệt — trang detail phải tự đủ dùng với `VideoDto`.
 - `POST` tạo resource trả `200`, không phải `201` — đừng dựa vào status code để phân biệt create/read.
 - Video: FE chỉ có Query (list/detail), không có Command (add/update/delete). Video được tạo/cập nhật từ `POST /api/channels/{id}/sync`; job chạy lịch tự động và Metrics Update Job vẫn chưa expose API cho FE.
+- SyncRun (global Sync all, history, detail): backend chưa công bố batch/job API.
+  UX đã chốt tại [sync-history.md](sync-history.md); không làm FE loop hoặc
+  nút giả trước khi contract có create, list, detail và active run ID.
 </content>

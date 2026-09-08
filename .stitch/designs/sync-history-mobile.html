@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shorts Trend Monitor - Sync History</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "outline": "#6e7977",
+            "on-secondary-fixed": "#00201c",
+            "surface-container-low": "#ebf6f3",
+            "on-primary": "#ffffff",
+            "on-primary-container": "#95e7da",
+            "outline-variant": "#bec9c6",
+            "surface-bright": "#f0fcf9",
+            "secondary-fixed-dim": "#9cd1c8",
+            "on-tertiary": "#ffffff",
+            "on-error": "#ffffff",
+            "on-secondary-fixed-variant": "#194f48",
+            "background": "#EDFDF9",
+            "on-tertiary-container": "#ddd1ff",
+            "inverse-surface": "#283231",
+            "tertiary": "#4b3b7d",
+            "on-secondary-container": "#386b64",
+            "on-tertiary-fixed-variant": "#4c3c7e",
+            "surface-dim": "#d1dcda",
+            "on-surface": "#101E1C",
+            "on-primary-fixed-variant": "#005048",
+            "surface-container-high": "#dfebe8",
+            "surface-container-lowest": "#ffffff",
+            "error-container": "#ffdad6",
+            "tertiary-container": "#635397",
+            "on-tertiary-fixed": "#1f0b50",
+            "surface-variant": "#dae5e2",
+            "on-primary-fixed": "#00201c",
+            "surface-low": "#E7F7F3",
+            "surface": "#f0fcf9",
+            "on-error-container": "#93000a",
+            "inverse-primary": "#84d5c8",
+            "secondary-container": "#b5eae1",
+            "primary-container": "#61F9E6",
+            "secondary-fixed": "#b8ede4",
+            "inverse-on-surface": "#e8f3f0",
+            "surface-container": "#e5f0ee",
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#3E4947",
+            "tertiary-fixed": "#e8deff",
+            "surface-tint": "#016a60",
+            "surface-container-highest": "#dae5e2",
+            "surface-high": "#DCECE8",
+            "error": "#BA1A1A",
+            "tertiary-fixed-dim": "#cdbdff",
+            "secondary": "#346760",
+            "on-background": "#131d1c",
+            "surface-lowest": "#FFFFFF",
+            "primary-fixed": "#9ff2e4",
+            "primary-fixed-dim": "#84d5c8",
+            "primary": "#005048"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "xl": "24px",
+            "gutter-mobile": "16px",
+            "md": "12px",
+            "gutter-desktop": "24px",
+            "2xl": "32px",
+            "3xl": "40px",
+            "unit": "4px",
+            "sm": "8px",
+            "xs": "4px",
+            "lg": "16px"
+          },
+          "fontFamily": {
+            "body-md": ["Inter"],
+            "label-md": ["Inter"],
+            "metric-sm": ["JetBrains Mono"],
+            "display-lg": ["Be Vietnam Pro"],
+            "headline-md": ["Be Vietnam Pro"],
+            "title-md": ["Inter"],
+            "body-sm": ["Inter"],
+            "metric-md": ["JetBrains Mono"],
+            "headline-lg": ["Be Vietnam Pro"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "metric-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "title-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "metric-md": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    body {
+      background-color: #EDFDF9;
+      color: #101E1C;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .material-symbols-outlined.fill {
+      font-variation-settings: 'FILL' 1;
+    }
+    
+    /* Scrollbar hiding for horizontal lists */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="font-body-md text-body-md antialiased md:flex md:justify-center">
+<div class="w-full max-w-[390px] min-h-screen bg-background relative pb-xl shadow-2xl">
+<!-- TopAppBar -->
+<header class="bg-surface dark:bg-surface-dim font-headline-md text-headline-md fixed top-0 w-full max-w-[390px] z-50 border-b border-outline-variant flat no shadows transition-colors duration-200 flex justify-between items-center h-16 px-gutter-mobile">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors duration-200 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary font-bold">Shorts Trend Monitor</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors duration-200 overflow-hidden">
+<img class="w-8 h-8 rounded-full object-cover" data-alt="A small, professional portrait photo of a data analyst wearing glasses, set against a bright, minimalist studio background. The lighting is crisp and even, evoking a modern, light-mode corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2KXtJq8UBU3yEYjTrCd0dHaUl018zReGRUVRQiTeESZq76gllQ57jUDmJzGq9nEQ_fMtLPh1PfoPoeSUeHt2GVhncX7yIW3QGkUkVQ9clfJKyOpJ9tdtAsTjeNxDsa0K6lyXXs7eogyh5Wv7DexRtuSldyCC_Iamh8uhDSkosBSXya8-yGThEy-S-UYKhBUJXcBzkNYMed9rLNfiV7hv8fSvev8kH6JQE8YuAR4DAHpIOm-gn-iiehFc4wC-dTpardvr34Wce8uY"/>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[80px] px-gutter-mobile flex flex-col gap-xl">
+<!-- Header Section -->
+<section class="flex flex-col gap-sm">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Sync history</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Track the progress and outcome of channel syncs.</p>
+<div class="mt-md flex flex-col gap-xs">
+<button class="w-full h-[44px] bg-surface-variant text-on-surface-variant rounded-full font-title-md text-title-md flex items-center justify-center cursor-not-allowed opacity-70" disabled="">
+            Sync all
+          </button>
+<span class="font-body-sm text-body-sm text-on-surface-variant text-center">A sync is already in progress.</span>
+<button class="font-title-md text-title-md text-primary text-center hover:underline mt-xs">View active run</button>
+</div>
+</section>
+<!-- Filters Section -->
+<section class="flex flex-col gap-md">
+<button class="h-[40px] px-lg border border-outline rounded-lg font-title-md text-title-md text-on-surface flex items-center gap-sm self-start hover:bg-surface-container-low transition-colors duration-200">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+          Filters
+        </button>
+<div class="flex gap-sm overflow-x-auto no-scrollbar pb-sm -mx-gutter-mobile px-gutter-mobile">
+<button class="h-[32px] px-md rounded-full bg-secondary-container text-on-secondary-container border border-secondary-container font-label-md text-label-md whitespace-nowrap">
+            All
+          </button>
+<button class="h-[32px] px-md rounded-full bg-transparent text-on-surface border border-outline font-label-md text-label-md whitespace-nowrap hover:bg-surface-container-low transition-colors">
+            In progress
+          </button>
+<button class="h-[32px] px-md rounded-full bg-transparent text-on-surface border border-outline font-label-md text-label-md whitespace-nowrap hover:bg-surface-container-low transition-colors">
+            Completed
+          </button>
+<button class="h-[32px] px-md rounded-full bg-transparent text-on-surface border border-outline font-label-md text-label-md whitespace-nowrap hover:bg-surface-container-low transition-colors">
+            Has issues
+          </button>
+<button class="h-[32px] px-md rounded-full bg-transparent text-on-surface border border-outline font-label-md text-label-md whitespace-nowrap hover:bg-surface-container-low transition-colors">
+            Interrupted
+          </button>
+</div>
+</section>
+<!-- Content List -->
+<section class="flex flex-col gap-md">
+<!-- Card 1: Active -->
+<article class="bg-surface-lowest border border-outline-variant rounded-xl p-lg flex gap-md cursor-pointer hover:bg-surface-container-lowest hover:border-primary transition-colors duration-200 relative overflow-hidden group">
+<!-- Background progress indicator -->
+<div class="absolute bottom-0 left-0 h-1 bg-surface-variant w-full">
+<div class="h-full bg-primary" style="width: 60%;"></div>
+</div>
+<div class="flex-1 flex flex-col gap-sm">
+<!-- Top Row -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined fill text-primary">sync</span>
+<span class="font-title-md text-title-md text-primary">Syncing</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">08/09/2026, 14:15</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Just now</span>
+</div>
+</div>
+<!-- Body -->
+<div class="py-xs">
+<span class="font-body-md text-body-md text-on-surface">12 of 20 channels processed</span>
+</div>
+<!-- Metadata -->
+<div class="flex justify-between items-center mt-xs border-t border-surface-variant pt-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">schedule</span> Scheduled
+              </span>
+<span class="font-metric-sm text-metric-sm text-primary">In progress</span>
+</div>
+</div>
+<div class="flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</div>
+</article>
+<!-- Card 2: Issues -->
+<article class="bg-surface-lowest border border-outline-variant rounded-xl p-lg flex gap-md cursor-pointer hover:bg-surface-container-lowest transition-colors duration-200 group">
+<div class="flex-1 flex flex-col gap-sm">
+<!-- Top Row -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined fill text-tertiary">warning</span>
+<span class="font-title-md text-title-md text-on-surface">Completed with issues</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">08/09/2026, 09:03</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 hours ago</span>
+</div>
+</div>
+<!-- Body -->
+<div class="py-xs">
+<span class="font-body-md text-body-md text-on-surface">16 successful · 1 skipped · 1 failed</span>
+</div>
+<!-- Metadata -->
+<div class="flex justify-between items-center mt-xs border-t border-surface-variant pt-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">person</span> Manual
+              </span>
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">1m 33s</span>
+</div>
+</div>
+<div class="flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</div>
+</article>
+<!-- Card 3: Success -->
+<article class="bg-surface-lowest border border-outline-variant rounded-xl p-lg flex gap-md cursor-pointer hover:bg-surface-container-lowest transition-colors duration-200 group">
+<div class="flex-1 flex flex-col gap-sm">
+<!-- Top Row -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined fill text-secondary">check_circle</span>
+<span class="font-title-md text-title-md text-on-surface">Completed</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">08/09/2026, 07:42</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">3 hours ago</span>
+</div>
+</div>
+<!-- Body -->
+<div class="py-xs">
+<span class="font-body-md text-body-md text-on-surface">18 successful</span>
+</div>
+<!-- Metadata -->
+<div class="flex justify-between items-center mt-xs border-t border-surface-variant pt-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">schedule</span> Scheduled
+              </span>
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">1m 24s</span>
+</div>
+</div>
+<div class="flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</div>
+</article>
+<!-- Card 4: Interrupted -->
+<article class="bg-surface-lowest border border-outline-variant rounded-xl p-lg flex gap-md cursor-pointer hover:bg-surface-container-lowest transition-colors duration-200 group">
+<div class="flex-1 flex flex-col gap-sm">
+<!-- Top Row -->
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined fill text-error">cancel</span>
+<span class="font-title-md text-title-md text-on-surface">Interrupted</span>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">07/09/2026, 21:00</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Yesterday</span>
+</div>
+</div>
+<!-- Body -->
+<div class="py-xs">
+<span class="font-body-md text-body-md text-on-surface">8 of 18 channels processed</span>
+</div>
+<!-- Metadata -->
+<div class="flex justify-between items-center mt-xs border-t border-surface-variant pt-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">schedule</span> Scheduled
+              </span>
+<span class="font-metric-sm text-metric-sm text-on-surface-variant">—</span>
+</div>
+</div>
+<div class="flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-on-surface transition-colors">chevron_right</span>
+</div>
+</article>
+</section>
+</main>
+</div>
+</body></html>

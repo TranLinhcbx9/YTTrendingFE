@@ -211,7 +211,9 @@ Use 150–180ms surface/color transitions only. Visible keyboard focus uses the 
 | --- | --- | --- |
 | `/dashboard` — Recent Shorts | Filter tray → four tabs → thin loading/error/empty state or fluid video-card grid → paginator. | Shell, page header, filter tray, tab bar, video card, status/score badges, empty/error/loading, paginator. |
 | `/dashboard` — Trending, Fast Growing, Saved tabs | Same structure and selected tab treatment; retain current pending explanations until their APIs exist. | Filter tray, tab bar, empty state. |
-| `/channels` | Add-channel form section → table card or empty state → paginator; actions stay in the final table column. | Shell, form field, primary button, table shell, avatar, row actions, dialog. |
+| `/channels` | Add-channel form section → table card or empty state → paginator; actions stay in the final table column. Per-channel Sync remains here; never render global batch-sync progress or results on this page. | Shell, form field, primary button, table shell, avatar, row actions, dialog. |
+| `/sync-history` | Header with Sync all action → run filter → runs table on desktop / run cards on mobile. When an active run exists, Sync all is disabled and View active run deep-links to it. | Shell, page header, filter control, status chip, table/card shell, empty/error/loading. |
+| `/sync-history/:runId` | Back navigation → run metadata and status → progress/summary metrics → per-channel item table on desktop or cards on mobile; show selected error in a desktop side pane or mobile bottom sheet. | Shell, metric cards, progress state, status chip, table/card shell, error inspector. |
 | Channel edit dialog | Form fields + tracking toggle + Cancel/Save actions. | Dialog shell, input, toggle, button feedback. |
 | Delete-channel dialog | Consequence copy + Cancel + destructive Confirm with mutation spinner. | Dialog shell, error action. |
 | `/videos/:id` | Back link → media/detail hero with title, channel/status/actions and four metric cells → growth timeline state → idea note state → archived explainer when relevant. | Shell, hero card, metric card, status chip, empty state, buttons. |
@@ -228,6 +230,7 @@ Describe screens as a **light-first, high-density analytical workspace** with a 
 - Preserve every current control and data point. Do not add fake analytics, unsupported filters, SavedIdeas actions, user profiles, or unrelated charts.
 - Show representative realistic Shorts/channel data only to demonstrate layout; label unsupported areas exactly as pending/unavailable rather than pretending the data exists.
 - Generate desktop routes first, then mobile route counterparts only where the existing responsive layout changes materially. Generation prompts should contain structure and content, never repeat this document's colors, fonts, or radius values.
+- Global Sync all starts from Sync history. On successful run creation it immediately navigates to that run detail; global progress and batch errors never appear on Channels.
 
 ### Consistency Review Checklist
 
