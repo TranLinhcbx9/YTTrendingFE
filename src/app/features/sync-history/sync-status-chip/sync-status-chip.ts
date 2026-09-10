@@ -28,10 +28,10 @@ export class SyncStatusChip {
 
   protected readonly label = computed(() => {
     const status = this.status();
-    if (status == null) return 'Unknown';
+    if (status == null) return 'Unknown status';
     return this.scope() === 'run'
-      ? SYNC_RUN_STATUS_LABELS[status as SyncRunStatus] ?? 'Unknown'
-      : SYNC_RUN_ITEM_STATUS_LABELS[status as SyncRunItemStatus] ?? 'Unknown';
+      ? SYNC_RUN_STATUS_LABELS[status as SyncRunStatus] ?? 'Unknown status'
+      : SYNC_RUN_ITEM_STATUS_LABELS[status as SyncRunItemStatus] ?? 'Unknown status';
   });
 
   protected readonly tone = computed(() => {

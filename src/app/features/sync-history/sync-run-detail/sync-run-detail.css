@@ -109,35 +109,32 @@
   font: var(--mat-sys-body-small);
 }
 
-.sync-run-detail__run-error {
+.sync-run-detail__run-outcome {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  border: 1px solid color-mix(in srgb, var(--color-sync-issues) 35%, var(--color-border));
+  border: 1px solid color-mix(in srgb, var(--sync-run-outcome-color) 35%, var(--color-border));
   border-radius: var(--mat-sys-corner-medium);
-  background: color-mix(in srgb, var(--color-sync-issues) 10%, transparent);
+  background: var(
+    --sync-run-outcome-background,
+    color-mix(in srgb, var(--sync-run-outcome-color) 10%, transparent)
+  );
   padding: 12px;
-  color: var(--color-sync-issues);
+  color: var(--sync-run-outcome-color);
 }
 
-.sync-run-detail__run-error--failed {
-  border-color: color-mix(in srgb, var(--color-danger) 35%, var(--color-border));
-  background: var(--mat-sys-error-container);
-  color: var(--color-danger);
-}
-
-.sync-run-detail__run-error div {
+.sync-run-detail__run-outcome div {
   display: flex;
   min-width: 0;
   flex-direction: column;
   gap: 2px;
 }
 
-.sync-run-detail__run-error strong {
+.sync-run-detail__run-outcome strong {
   color: var(--color-text);
 }
 
-.sync-run-detail__run-error span {
+.sync-run-detail__run-outcome span {
   color: var(--color-text-muted);
   font-size: 13px;
 }
@@ -326,6 +323,10 @@
   .sync-run-detail__header h1 {
     font-size: 24px;
     line-height: 32px;
+  }
+
+  .sync-run-detail__new-sync-button {
+    --mat-button-filled-container-height: 44px;
   }
 
   .sync-run-detail__metadata span:not(:last-child)::after {

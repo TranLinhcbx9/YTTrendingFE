@@ -105,7 +105,17 @@ export const SyncHistoryStore = signalStore(
       patchState(store, { isPolling: true });
       pollingTimer = window.setInterval(() => {
         const run = store.syncRun();
-        if (store.summaryError() || (run && !isActiveSyncRun(run.status))) {
+        if (store.summaryError()) {
+          stopPolling();
+          return;
+        }
+        if (run && !isActiveSyncRun(run.status)) {
+          // A summary refresh and its matching item request can resolve in either
+          // order. Reload once more after the terminal status is visible so the
+          // table cannot remain on an earlier, in-progress snapshot.
+          if (!store.loadError()) {
+            store.reload();
+          }
           stopPolling();
           return;
         }

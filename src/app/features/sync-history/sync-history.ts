@@ -5,12 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { NotificationService } from '@core/ui/notification.service';
-import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { SyncHistoryStore } from './sync-history.store';
 
 @Component({
   selector: 'app-sync-history-page',
-  imports: [RouterLink, MatButtonModule, MatIconModule, MatProgressSpinnerModule, EmptyState],
+  imports: [RouterLink, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
   templateUrl: './sync-history.html',
   styleUrl: './sync-history.css',
 })

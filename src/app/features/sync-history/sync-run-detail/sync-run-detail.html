@@ -30,11 +30,61 @@
       </a>
 
       <section class="sync-run-detail__header">
-        <div class="flex min-w-0 flex-wrap items-center gap-3">
-          <h1>Sync run — {{ run.createdAt | date: 'dd/MM/yyyy, HH:mm' }}</h1>
-          <app-sync-status-chip [scope]="'run'" [status]="run.status" />
-          @if (store.preview()) {
-            <span class="sync-run-detail__preview">Development preview</span>
+        <div class="flex flex-col items-stretch justify-between gap-4 sm:flex-row sm:items-start">
+          <div class="flex min-w-0 flex-wrap items-center gap-3">
+            <h1>Sync run — {{ run.createdAt | date: 'dd/MM/yyyy, HH:mm' }}</h1>
+            <app-sync-status-chip [scope]="'run'" [status]="run.status" />
+            @if (store.preview()) {
+              <span class="sync-run-detail__preview">Development preview</span>
+            }
+          </div>
+
+          @if (!store.isActiveRun()) {
+            <div class="flex w-full max-w-80 flex-none flex-col items-stretch gap-1.5 sm:w-auto sm:items-end">
+              <button
+                matButton="filled"
+                type="button"
+                class="sync-run-detail__new-sync-button"
+                [disabled]="store.isActionRunning()"
+                (click)="startNewSync()"
+              >
+                @if (store.isActionRunning()) {
+                  <mat-progress-spinner
+                    diameter="18"
+                    mode="indeterminate"
+                    style="--mat-progress-spinner-active-indicator-color: var(--mat-sys-on-primary)"
+                  />
+                } @else {
+                  <ng-container>
+                    <mat-icon>sync</mat-icon>
+                    Sync all
+                  </ng-container>
+                }
+              </button>
+
+              @if (store.actionError(); as error) {
+                <div
+                  class="flex flex-wrap justify-start gap-x-1.5 gap-y-0.5 text-left text-[var(--color-danger)] [font:var(--mat-sys-body-small)] sm:justify-end sm:text-right"
+                  aria-live="polite"
+                >
+                  @switch (error.code) {
+                    @case ('syncRun.inProgress') {
+                      <span>A Sync all run is already in progress.</span>
+                    }
+                    @case ('syncRun.noEnabledChannels') {
+                      <span>Enable at least one channel before starting a sync.</span>
+                      <a routerLink="/channels" class="font-semibold text-[var(--color-accent)] underline">Manage channels</a>
+                    }
+                    @case ('validation.failed') {
+                      <span>{{ error.detail ?? error.title }}</span>
+                    }
+                    @default {
+                      <span>{{ error.status === 0 || error.status >= 500 ? 'Could not start a sync. Please try again.' : (error.detail ?? error.title) }}</span>
+                    }
+                  }
+                </div>
+              }
+            </div>
           }
         </div>
 
@@ -57,11 +107,15 @@
         </section>
       }
 
-      @if (run.status === 'CompletedWithIssues' || run.status === 'Interrupted' || run.status === 'Failed') {
-        <section class="sync-run-detail__run-error" [class.sync-run-detail__run-error--failed]="run.status !== 'CompletedWithIssues'">
-          <mat-icon>{{ run.status === 'CompletedWithIssues' ? 'warning' : 'error' }}</mat-icon>
+      @if (!store.isActiveRun()) {
+        <section
+          class="sync-run-detail__run-outcome"
+          [style.--sync-run-outcome-color]="outcomeTone(run.status)"
+          [style.--sync-run-outcome-background]="outcomeBackground(run.status)"
+        >
+          <mat-icon>{{ outcomeIcon(run.status) }}</mat-icon>
           <div>
-            <strong>{{ run.status === 'CompletedWithIssues' ? 'This run completed with issues.' : 'This run did not complete successfully.' }}</strong>
+            <strong>{{ outcomeTitle(run.status) }}</strong>
             @if (run.errorCode || run.errorMessage) {
               <span>{{ run.errorCode ? run.errorCode + ': ' : '' }}{{ run.errorMessage }}</span>
             }

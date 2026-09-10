@@ -5,6 +5,19 @@
 > [`ai/history.md`](history.md).
 
 ## Đang làm
+- **Sync history / Sync all: code xong, `ng build`/`ng lint` pass, CHƯA verify
+  tay với backend thật.**
+  - Route `/sync-history` là API-backed launcher theo Stitch: tạo run qua
+    `POST /api/jobs/sync`, điều hướng ngay tới detail; map hai lỗi `409` đúng
+    contract và không dựng action active-run giả.
+  - Route `/sync-history/:runId` poll summary + item page 3 giây cho tới trạng
+    thái terminal; có metric/progress, filter status, paginator, lỗi/retry,
+    desktop failure inspector và mobile bottom sheet để xem/copy error code.
+  - Có preview dev-only (`?preview=running|completed-with-issues|interrupted|failed`)
+    vì worker Batch 1–3 hiện mới có thể giữ run ở `Pending`.
+  - Không làm history list/source-date filter/View active run: chờ
+    `GET /api/jobs/sync` hoặc active-run endpoint. Reference visual giữ ở
+    `.stitch/designs/`.
 - **Channel sync (single): code xong, `ng build` pass, CHƯA verify tay với backend thật.**
   - `POST /api/channels/{id}/sync` đã wire qua `ChannelsService` →
     `ChannelsStore` → nút Sync trong từng row; spinner đúng row, reload
@@ -13,10 +26,6 @@
     số video bắt đầu theo dõi, cùng số refreshed/archived;
     lỗi Result pattern dùng luồng action hiện có.
   - Đồng bộ `ChannelDto.uploadsPlaylistId` vào model FE.
-  - **Sync all / Sync history:** UX đã chốt tại
-    [`docs/sync-history.md`](../docs/sync-history.md), nhưng
-    `docs/api-contract.md` chưa có batch/job endpoint; không làm FE loop hoặc
-    nút giả.
 - **Dashboard — Recent Shorts: code xong, `ng build`/`ng lint` pass, CHƯA
   verify tay với backend thật** (checklist verify ở cuối
   `ai/temp/dashboard-recent-shorts-plan.md`).
@@ -112,6 +121,10 @@
   chưa làm.
 
 ## Tiếp theo
+- Verify tay Sync history với backend Batch 1–3: create `202` + route detail,
+  Pending polling, status filter/paginator, `409` mappings và `404`/network
+  retry; dùng preview dev để check terminal/error inspector trong khi worker
+  chưa chuyển state thật.
 - Verify tay Dashboard với backend thật (8 bước ở cuối
   `ai/temp/dashboard-recent-shorts-plan.md`), xong mới xoá file plan đó.
 - Video Detail (mục 8) — hết block; `VideoCard` sẽ có thêm `open` output

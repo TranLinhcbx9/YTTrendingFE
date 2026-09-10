@@ -49,7 +49,7 @@ export type SyncRunPreviewName = 'running' | 'completed-with-issues' | 'interrup
 export const ACTIVE_SYNC_RUN_STATUSES: readonly SyncRunStatus[] = ['Pending', 'Running'];
 
 export const SYNC_RUN_STATUS_LABELS: Record<SyncRunStatus, string> = {
-  Pending: 'Pending',
+  Pending: 'Queued',
   Running: 'Syncing',
   Completed: 'Completed',
   CompletedWithIssues: 'Completed with issues',

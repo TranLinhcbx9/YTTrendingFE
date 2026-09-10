@@ -2,11 +2,17 @@
   <section class="sync-history-page__header">
     <div>
       <h1>Sync history</h1>
-      <p>Track the progress and outcome of channel syncs.</p>
+      <p>Start a channel sync and monitor its live progress.</p>
     </div>
 
     <div class="sync-history-page__action">
-      <button matButton="filled" type="button" [disabled]="store.isActionRunning()" (click)="startSync()">
+      <button
+        matButton="filled"
+        type="button"
+        class="sync-history-page__sync-button"
+        [disabled]="store.isActionRunning()"
+        (click)="startSync()"
+      >
         @if (store.isActionRunning()) {
           <mat-progress-spinner diameter="18" mode="indeterminate" />
         } @else {
@@ -19,33 +25,53 @@
 
       @if (store.actionError(); as error) {
         <div class="sync-history-page__feedback" [class.sync-history-page__feedback--error]="true">
+          <mat-icon>error</mat-icon>
+          <div>
           @switch (error.code) {
             @case ('syncRun.inProgress') {
-              <span>A Sync all run is already in progress.</span>
+              <strong>A Sync all run is already in progress.</strong>
+              <span>Wait for it to finish before starting another run.</span>
             }
             @case ('syncRun.noEnabledChannels') {
+              <strong>No enabled channels</strong>
               <span>Enable at least one channel before starting a sync.</span>
               <a routerLink="/channels">Manage channels</a>
             }
+            @case ('validation.failed') {
+              <strong>Could not start a sync.</strong>
+              <span>{{ error.detail ?? error.title }}</span>
+            }
             @default {
-              @if (error.status !== 404 && error.status < 500) {
-                <span>{{ error.detail ?? error.title }}</span>
-              }
+              <strong>Could not start a sync.</strong>
               @if (error.status === 0 || error.status >= 500) {
+                <span>Please check your connection and try again.</span>
                 <button matButton type="button" (click)="startSync()">Retry</button>
+              } @else {
+                <span>{{ error.detail ?? error.title }}</span>
               }
             }
           }
+          </div>
         </div>
       }
     </div>
   </section>
 
-  <section class="sync-history-page__notice">
-    <app-empty-state
-      icon="history"
-      title="Sync history is not available yet"
-      message="Sync history will appear here when the server provides a history endpoint."
-    />
+  <section class="sync-history-page__sync-context" aria-labelledby="sync-context-title">
+    <div>
+      <h2 id="sync-context-title">Sync all channels</h2>
+      <p>A manual run includes every channel that is enabled when it starts.</p>
+    </div>
+    <div class="sync-history-page__context-facts" aria-label="Sync run details">
+      <span><mat-icon>subscriptions</mat-icon> Enabled channels</span>
+      <span><mat-icon>sync</mat-icon> Live progress</span>
+      <span><mat-icon>format_list_bulleted</mat-icon> Channel results</span>
+    </div>
+  </section>
+
+  <section class="sync-history-page__empty" aria-labelledby="sync-empty-title">
+    <mat-icon>history</mat-icon>
+    <h2 id="sync-empty-title">No sync run selected</h2>
+    <p>Start Sync all to see live channel updates and the final result for that run.</p>
   </section>
 </div>
