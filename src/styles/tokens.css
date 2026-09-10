@@ -15,6 +15,15 @@
   --color-accent-soft: var(--mat-sys-primary-container);
   --color-danger: var(--mat-sys-error);
 
+  /* SyncRun status — map hoàn toàn về M3 roles hiện có để component không
+     tự định nghĩa màu. `issues` dùng tertiary (annotation), không mượn error
+     vì run vẫn đã hoàn thành; `failed` mới là lỗi thực sự. */
+  --color-sync-pending: var(--mat-sys-outline);
+  --color-sync-running: var(--mat-sys-primary);
+  --color-sync-success: var(--mat-sys-primary);
+  --color-sync-issues: var(--mat-sys-tertiary);
+  --color-sync-failed: var(--mat-sys-error);
+
   /* --- Extended color: M3 không có role tương ứng --- */
   --color-status-new: light-dark(#2e6fd1, #6ea8f5);
   --color-status-tracking: light-dark(#0f7a52, #3ddba0);
@@ -79,6 +88,15 @@ body {
   --mat-button-filled-label-text-color: var(--mat-sys-on-error);
   --mat-button-filled-state-layer-color: var(--mat-sys-on-error);
   --mat-button-filled-ripple-color: color-mix(in srgb, var(--mat-sys-on-error) 12%, transparent);
+}
+
+/* Bottom sheet failure inspector cần bỏ padding mặc định của CDK overlay để
+   component tự giữ đúng khung Stitch. Overlay nằm ngoài style encapsulation. */
+.sync-run-failure-sheet .mat-bottom-sheet-container {
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--mat-sys-corner-extra-large) var(--mat-sys-corner-extra-large) 0 0;
+  background: var(--mat-sys-surface-container-lowest);
 }
 
 /* Vá lỗi Angular Material 20.2.14: notched-outline chỉ set

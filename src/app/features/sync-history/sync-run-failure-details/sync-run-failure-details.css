@@ -1,0 +1,70 @@
+:host {
+  display: block;
+}
+
+.failure-details {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  background: var(--mat-sys-surface-container-lowest);
+}
+
+.failure-details__header,
+.failure-details__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border-color: var(--color-border);
+}
+
+.failure-details__header {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.failure-details__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.failure-details__label {
+  color: var(--color-text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.failure-details__trace {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--mat-sys-corner-medium);
+  background: var(--mat-sys-inverse-surface);
+  padding: 12px;
+  color: var(--mat-sys-inverse-on-surface);
+}
+
+.failure-details__trace p {
+  margin: 0;
+  border-left: 1px solid var(--color-border-strong);
+  padding-left: 8px;
+  font: var(--mat-sys-body-small);
+}
+
+.failure-details__footer {
+  justify-content: flex-end;
+  border-top: 1px solid var(--color-border);
+  background: var(--mat-sys-surface);
+}
+
+.failure-details--sheet {
+  min-height: 360px;
+  max-height: 82dvh;
+}

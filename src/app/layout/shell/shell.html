@@ -31,6 +31,18 @@
       </span>
       <span class="rail-item__label">Channels</span>
     </a>
+
+    <a
+      routerLink="/sync-history"
+      routerLinkActive="rail-item--active"
+      class="rail-item"
+      matRipple
+    >
+      <span class="rail-item__indicator">
+        <mat-icon>history</mat-icon>
+      </span>
+      <span class="rail-item__label">Sync history</span>
+    </a>
   </aside>
 
   <div class="flex min-w-0 flex-1 flex-col">
@@ -52,14 +64,18 @@
 
     <mat-sidenav-container class="app-sidenav-container flex-1">
       <mat-sidenav #drawer class="app-sidenav" mode="over" autoFocus="dialog">
-        <nav class="drawer-nav" (click)="drawer.close()">
-          <a routerLink="/dashboard" routerLinkActive="drawer-item--active" class="drawer-item">
+        <nav class="drawer-nav">
+          <a routerLink="/dashboard" routerLinkActive="drawer-item--active" class="drawer-item" (click)="drawer.close()">
             <mat-icon>dashboard</mat-icon>
             <span>Dashboard</span>
           </a>
-          <a routerLink="/channels" routerLinkActive="drawer-item--active" class="drawer-item">
+          <a routerLink="/channels" routerLinkActive="drawer-item--active" class="drawer-item" (click)="drawer.close()">
             <mat-icon>subscriptions</mat-icon>
             <span>Channels</span>
+          </a>
+          <a routerLink="/sync-history" routerLinkActive="drawer-item--active" class="drawer-item" (click)="drawer.close()">
+            <mat-icon>history</mat-icon>
+            <span>Sync history</span>
           </a>
         </nav>
       </mat-sidenav>

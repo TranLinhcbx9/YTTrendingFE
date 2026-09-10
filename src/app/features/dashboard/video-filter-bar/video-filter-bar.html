@@ -15,7 +15,12 @@
 </button>
 
 @if (mobileFiltersOpen()) {
-  <div class="filter-backdrop fixed inset-0 z-20" (click)="mobileFiltersOpen.set(false)"></div>
+  <button
+    type="button"
+    class="filter-backdrop fixed inset-0 z-20"
+    aria-label="Close filters"
+    (click)="mobileFiltersOpen.set(false)"
+  ></button>
 }
 
 <div

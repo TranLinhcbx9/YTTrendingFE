@@ -1,0 +1,56 @@
+.sync-status-chip {
+  --mat-chip-container-height: 28px;
+  --mat-chip-container-shape-radius: 9999px;
+  --mat-chip-outline-width: 0;
+  --mat-chip-label-text-size: 11px;
+  --mat-chip-label-text-weight: 600;
+  --mat-chip-label-text-tracking: 0.03em;
+  gap: 4px;
+}
+
+.sync-status-chip--pending {
+  --mat-chip-elevated-container-color: color-mix(in srgb, var(--color-sync-pending) 12%, transparent);
+  --mat-chip-label-text-color: var(--color-sync-pending);
+}
+
+.sync-status-chip--running {
+  --mat-chip-elevated-container-color: color-mix(in srgb, var(--color-sync-running) 14%, transparent);
+  --mat-chip-label-text-color: var(--color-sync-running);
+}
+
+.sync-status-chip--success {
+  --mat-chip-elevated-container-color: color-mix(in srgb, var(--color-sync-success) 14%, transparent);
+  --mat-chip-label-text-color: var(--color-sync-success);
+}
+
+.sync-status-chip--issues {
+  --mat-chip-elevated-container-color: color-mix(in srgb, var(--color-sync-issues) 15%, transparent);
+  --mat-chip-label-text-color: var(--color-sync-issues);
+}
+
+.sync-status-chip--failed {
+  --mat-chip-elevated-container-color: var(--mat-sys-error-container);
+  --mat-chip-label-text-color: var(--color-sync-failed);
+}
+
+.sync-status-chip__icon {
+  width: 15px;
+  height: 15px;
+  font-size: 15px;
+}
+
+.sync-status-chip--running .sync-status-chip__icon {
+  animation: sync-status-spin 1.5s linear infinite;
+}
+
+@keyframes sync-status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sync-status-chip__icon {
+    animation: none;
+  }
+}

@@ -1,0 +1,51 @@
+<div class="sync-history-page">
+  <section class="sync-history-page__header">
+    <div>
+      <h1>Sync history</h1>
+      <p>Track the progress and outcome of channel syncs.</p>
+    </div>
+
+    <div class="sync-history-page__action">
+      <button matButton="filled" type="button" [disabled]="store.isActionRunning()" (click)="startSync()">
+        @if (store.isActionRunning()) {
+          <mat-progress-spinner diameter="18" mode="indeterminate" />
+        } @else {
+          <ng-container>
+            <mat-icon>sync</mat-icon>
+            Sync all
+          </ng-container>
+        }
+      </button>
+
+      @if (store.actionError(); as error) {
+        <div class="sync-history-page__feedback" [class.sync-history-page__feedback--error]="true">
+          @switch (error.code) {
+            @case ('syncRun.inProgress') {
+              <span>A Sync all run is already in progress.</span>
+            }
+            @case ('syncRun.noEnabledChannels') {
+              <span>Enable at least one channel before starting a sync.</span>
+              <a routerLink="/channels">Manage channels</a>
+            }
+            @default {
+              @if (error.status !== 404 && error.status < 500) {
+                <span>{{ error.detail ?? error.title }}</span>
+              }
+              @if (error.status === 0 || error.status >= 500) {
+                <button matButton type="button" (click)="startSync()">Retry</button>
+              }
+            }
+          }
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="sync-history-page__notice">
+    <app-empty-state
+      icon="history"
+      title="Sync history is not available yet"
+      message="Sync history will appear here when the server provides a history endpoint."
+    />
+  </section>
+</div>

@@ -1,0 +1,187 @@
+@if (invalidRunId()) {
+  <app-empty-state
+    icon="link_off"
+    title="Invalid sync run"
+    message="The sync run ID in this link is invalid."
+  >
+    <a matButton="outlined" routerLink="/sync-history">Back to Sync history</a>
+  </app-empty-state>
+} @else if (store.summaryError()) {
+  <app-empty-state [icon]="store.summaryError()?.code === 'syncRun.notFound' ? 'search_off' : 'error'" [title]="errorTitle()" [message]="errorMessage()">
+    <div class="mt-3 flex flex-wrap justify-center gap-2">
+      @if (store.summaryError()?.code !== 'syncRun.notFound') {
+        <button matButton="outlined" type="button" (click)="store.retrySummary()">Retry</button>
+      }
+      <a matButton="outlined" routerLink="/sync-history">Back to Sync history</a>
+    </div>
+  </app-empty-state>
+} @else if (store.isSummaryLoading() && !store.syncRun()) {
+  <mat-progress-bar mode="indeterminate" class="!h-0.5" />
+} @else if (store.syncRun(); as run) {
+  <div class="sync-run-detail" [class.sync-run-detail--inspecting]="store.selectedFailure()">
+    <main class="sync-run-detail__content">
+      @if (store.isSummaryLoading()) {
+        <mat-progress-bar mode="indeterminate" class="sync-run-detail__loading" />
+      }
+
+      <a routerLink="/sync-history" class="sync-run-detail__back">
+        <mat-icon>arrow_back</mat-icon>
+        Back to Sync history
+      </a>
+
+      <section class="sync-run-detail__header">
+        <div class="flex min-w-0 flex-wrap items-center gap-3">
+          <h1>Sync run — {{ run.createdAt | date: 'dd/MM/yyyy, HH:mm' }}</h1>
+          <app-sync-status-chip [scope]="'run'" [status]="run.status" />
+          @if (store.preview()) {
+            <span class="sync-run-detail__preview">Development preview</span>
+          }
+        </div>
+
+        <div class="sync-run-detail__metadata">
+          <span>{{ run.triggerType }} sync</span>
+          <span>Created {{ run.createdAt | date: 'HH:mm' }}</span>
+          <span>Started {{ run.startedAt ? (run.startedAt | date: 'HH:mm') : '—' }}</span>
+          <span>Finished {{ run.completedAt ? (run.completedAt | date: 'HH:mm') : '—' }}</span>
+          <span>Duration {{ formatDuration(run.startedAt, run.completedAt) }}</span>
+        </div>
+      </section>
+
+      @if (store.isActiveRun()) {
+        <section class="sync-run-detail__progress" aria-live="polite">
+          <div>
+            <span>{{ run.processedCount }} of {{ run.totalCount }} channels processed</span>
+            <span>{{ store.progress() | number: '1.0-0' }}%</span>
+          </div>
+          <mat-progress-bar mode="determinate" [value]="store.progress()" />
+        </section>
+      }
+
+      @if (run.status === 'CompletedWithIssues' || run.status === 'Interrupted' || run.status === 'Failed') {
+        <section class="sync-run-detail__run-error" [class.sync-run-detail__run-error--failed]="run.status !== 'CompletedWithIssues'">
+          <mat-icon>{{ run.status === 'CompletedWithIssues' ? 'warning' : 'error' }}</mat-icon>
+          <div>
+            <strong>{{ run.status === 'CompletedWithIssues' ? 'This run completed with issues.' : 'This run did not complete successfully.' }}</strong>
+            @if (run.errorCode || run.errorMessage) {
+              <span>{{ run.errorCode ? run.errorCode + ': ' : '' }}{{ run.errorMessage }}</span>
+            }
+          </div>
+        </section>
+      }
+
+      <section class="sync-run-detail__metrics" aria-label="Sync run summary">
+        <div class="sync-run-detail__metric">
+          <span>Total channels</span>
+          <mat-icon>list_alt</mat-icon>
+          <strong>{{ run.totalCount }}</strong>
+        </div>
+        <div class="sync-run-detail__metric sync-run-detail__metric--success">
+          <span>Successful</span>
+          <mat-icon>check_circle</mat-icon>
+          <strong>{{ run.successCount }}</strong>
+        </div>
+        <div class="sync-run-detail__metric sync-run-detail__metric--skipped">
+          <span>Skipped</span>
+          <mat-icon>skip_next</mat-icon>
+          <strong>{{ run.skippedCount }}</strong>
+        </div>
+        <div class="sync-run-detail__metric sync-run-detail__metric--failed">
+          <span>Failed</span>
+          <mat-icon>error</mat-icon>
+          <strong>{{ run.failedCount }}</strong>
+        </div>
+      </section>
+
+      <section class="sync-run-detail__results">
+        <div class="sync-run-detail__results-header">
+          <h2>Channels in this run</h2>
+          <div class="sync-run-detail__filters" aria-label="Filter channel results by status">
+            @for (filter of statusFilters; track filter.label) {
+              <button
+                matButton="outlined"
+                type="button"
+                class="sync-run-detail__filter"
+                [class.sync-run-detail__filter--selected]="store.filter().status === filter.value"
+                (click)="setStatus(filter.value)"
+              >
+                {{ filter.label }}
+              </button>
+            }
+          </div>
+        </div>
+
+        @if (store.isLoading()) {
+          <mat-progress-bar mode="indeterminate" class="sync-run-detail__loading" />
+        }
+
+        @if (store.loadError()) {
+          <div class="sync-run-detail__inline-error">
+            <span>Could not load channel results.</span>
+            <button matButton type="button" (click)="store.retryItems()">Retry</button>
+          </div>
+        } @else if (store.items().length === 0 && !store.isLoading()) {
+          <app-empty-state
+            icon="filter_list_off"
+            title="No channels match this status"
+            message="Try another status filter to see results from this run."
+          />
+        } @else {
+          <div class="sync-run-detail__table-shell">
+            <table class="sync-run-detail__table">
+              <thead>
+                <tr>
+                  <th>Channel</th>
+                  <th>Status</th>
+                  <th>Started</th>
+                  <th>Completed</th>
+                  <th>Duration</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of store.items(); track item.id) {
+                  <tr [class.sync-run-detail__row--failed]="item.status === 'Failed'">
+                    <td data-label="Channel">
+                      <span class="flex min-w-0 items-center gap-2">
+                        <app-channel-avatar [name]="item.channelName" [size]="32" />
+                        <span class="min-w-0 truncate font-medium">{{ item.channelName }}</span>
+                      </span>
+                    </td>
+                    <td data-label="Status"><app-sync-status-chip [scope]="'item'" [status]="item.status" /></td>
+                    <td data-label="Started">{{ item.startedAt ? (item.startedAt | date: 'HH:mm') : '—' }}</td>
+                    <td data-label="Completed">{{ item.completedAt ? (item.completedAt | date: 'HH:mm') : '—' }}</td>
+                    <td data-label="Duration">{{ formatDuration(item.startedAt, item.completedAt) }}</td>
+                    <td data-label="Detail">
+                      @if (item.status === 'Failed') {
+                        <button matButton type="button" (click)="openFailureDetails(item)">
+                          View details
+                          <mat-icon>chevron_right</mat-icon>
+                        </button>
+                      } @else {
+                        <span>—</span>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+
+            <mat-paginator
+              [length]="store.totalCount()"
+              [pageSize]="store.pageSize()"
+              [pageIndex]="store.page() - 1"
+              [hidePageSize]="true"
+              (page)="onPageChange($event)"
+            />
+          </div>
+        }
+      </section>
+    </main>
+
+    @if (store.selectedFailure(); as selectedFailure) {
+      <aside class="sync-run-detail__inspector">
+        <app-sync-run-failure-details [item]="selectedFailure" (dismissed)="store.clearSelectedFailure()" />
+      </aside>
+    }
+  </div>
+}

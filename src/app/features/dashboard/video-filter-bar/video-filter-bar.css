@@ -121,7 +121,7 @@ mat-form-field {
    component Material (matButton/matIconButton) nên Tailwind `sm:hidden`
    thua specificity `.mat-mdc-*` (đúng loại lỗi đã ghi ở `.channel-field`
    phía trên) — phải dùng class riêng để ăn `[_ngcontent]` mà thắng chắc.
-   `.filter-backdrop` là div thường nên không dính lỗi này, nhưng gộp
+   `.filter-backdrop` là button thường nên không dính lỗi này, nhưng gộp
    chung cho nhất quán/dễ đọc. */
 @media (min-width: 600px) {
   .mobile-filters-trigger,
