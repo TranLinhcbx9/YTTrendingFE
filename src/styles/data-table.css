@@ -1,0 +1,152 @@
+/* Shared shell for native Angular Material data tables. Feature styles own column widths and
+   specialised cell content; this file owns the common M3 surface and responsive behaviour. */
+.app-data-table-shell {
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--mat-sys-corner-medium);
+  background: var(--mat-sys-surface-container-lowest);
+}
+
+table[mat-table].app-data-table {
+  width: 100%;
+  --mat-table-background-color: var(--color-surface);
+  --mat-table-row-item-outline-color: var(--color-border);
+}
+
+table[mat-table].app-data-table--legacy {
+  --mat-table-background-color: var(--mat-sys-surface-container-lowest);
+  --mat-table-header-container-height: 40px;
+  --mat-table-header-headline-color: var(--color-text-muted);
+  --mat-table-header-headline-size: 11px;
+  --mat-table-header-headline-weight: 600;
+  --mat-table-header-headline-tracking: 0.03em;
+  --mat-table-row-item-container-height: 44px;
+  --mat-table-row-item-label-text-color: var(--color-text-muted);
+}
+
+table[mat-table].app-data-table--legacy .mat-mdc-header-cell {
+  background: var(--color-surface);
+}
+
+table[mat-table].app-data-table--legacy .mdc-data-table__cell,
+table[mat-table].app-data-table--legacy .mdc-data-table__header-cell {
+  padding: 12px;
+}
+
+table[mat-table].app-data-table--legacy .mat-mdc-row:hover .mat-mdc-cell {
+  background: var(--mat-sys-surface-container-low);
+}
+
+.app-data-table__primary-cell {
+  color: var(--color-text);
+}
+
+.app-data-table__paginator {
+  border-top: 1px solid var(--color-border);
+  --mat-paginator-container-background-color: var(--color-surface);
+}
+
+.app-data-table__paginator--legacy {
+  --mat-paginator-container-background-color: var(--mat-sys-surface-container-lowest);
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .app-data-table-shell {
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 599px) {
+  .app-data-table-shell {
+    overflow: visible;
+    border: 0;
+    background: transparent;
+  }
+
+  table[mat-table].app-data-table,
+  .app-data-table tbody,
+  .app-data-table .mat-mdc-row,
+  .app-data-table .mat-mdc-cell {
+    display: block;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .app-data-table .mat-mdc-header-row {
+    display: none;
+  }
+
+  .app-data-table tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .app-data-table .mat-mdc-row {
+    display: grid;
+    height: auto;
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--mat-sys-corner-medium);
+    background: var(--mat-sys-surface-container-lowest);
+    padding: 12px;
+  }
+
+  .app-data-table .mat-mdc-cell {
+    display: flex;
+    min-height: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 0;
+    padding: 0;
+    text-align: right;
+  }
+
+  table[mat-table].app-data-table--legacy .mat-mdc-cell {
+    padding: 0;
+  }
+
+  .app-data-table .mat-mdc-cell::before {
+    flex: none;
+    color: var(--color-text-muted);
+    content: attr(data-label);
+    font: var(--mat-sys-label-small);
+    text-align: left;
+  }
+
+  .app-data-table .app-data-table__primary-cell {
+    display: block;
+    grid-column: 1 / -1;
+    padding-bottom: 4px;
+    text-align: left;
+  }
+
+  .app-data-table .app-data-table__primary-cell::before,
+  .app-data-table .app-data-table__action-cell::before {
+    display: none;
+  }
+
+  .app-data-table .app-data-table__action-cell {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    padding-top: 4px;
+  }
+
+  .app-data-table .app-data-table__detail-cell {
+    grid-column: 1 / -1;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 4px;
+    text-align: left;
+  }
+
+  .app-data-table__paginator {
+    margin-top: 8px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--mat-sys-corner-medium);
+  }
+}

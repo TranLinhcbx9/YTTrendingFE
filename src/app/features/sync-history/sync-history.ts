@@ -9,10 +9,11 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
 
 import { NotificationService } from '@core/ui/notification.service';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
-import { SyncRunStatus, SyncRunTriggerType, SyncRunsFilter } from './sync-history.models';
+import { SyncRun, SyncRunStatus, SyncRunTriggerType, SyncRunsFilter } from './sync-history.models';
 import { SyncHistoryStore } from './sync-history.store';
 import { SyncStatusChip } from './sync-status-chip/sync-status-chip';
 
@@ -36,6 +37,7 @@ interface SelectOption<T> {
     MatProgressBarModule,
     MatProgressSpinnerModule,
     MatSelectModule,
+    MatTableModule,
     EmptyState,
     SyncStatusChip,
   ],
@@ -53,6 +55,16 @@ export class SyncHistory {
   protected readonly fromDate = signal('');
   protected readonly toDate = signal('');
   protected readonly dateRangeError = signal<string | null>(null);
+  protected readonly displayedColumns = [
+    'run',
+    'status',
+    'source',
+    'started',
+    'progress',
+    'results',
+    'actions',
+  ];
+  protected readonly trackByRunId = (_: number, run: SyncRun): number => run.id;
 
   protected readonly statusOptions: readonly SelectOption<SyncRunStatus>[] = [
     { label: 'Queued', value: 'Pending' },

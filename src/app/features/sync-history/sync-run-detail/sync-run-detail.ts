@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
 import { NotificationService } from '@core/ui/notification.service';
@@ -41,6 +42,7 @@ interface StatusFilterOption {
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatTableModule,
     ChannelAvatar,
     EmptyState,
     SyncStatusChip,
@@ -63,6 +65,15 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     { label: 'Skipped', value: 'Skipped' },
     { label: 'Failed', value: 'Failed' },
   ];
+  protected readonly displayedColumns = [
+    'channel',
+    'status',
+    'started',
+    'completed',
+    'duration',
+    'details',
+  ];
+  protected readonly trackByItemId = (_: number, item: SyncRunItem): number => item.id;
   private readonly router = inject(Router);
   private readonly notification = inject(NotificationService);
   private routeSubscription: Subscription | null = null;

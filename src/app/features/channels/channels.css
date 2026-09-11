@@ -4,9 +4,8 @@
    background+border của khung bọc ngoài trong `channels.html`. Đổi sang đúng 2 token
    khung bọc đang dùng — `surface-container-low` (nền) + `outline-variant` (viền) —
    để table và khung bọc đồng nhất như mockup Channels.tablecard. */
-table[mat-table] {
-  --mat-table-background-color: var(--color-surface);
-  --mat-table-row-item-outline-color: var(--color-border);
+.channels__table {
+  min-width: 760px;
 }
 
 /* Mobile: field "Add channel" mặc định cao hơn hẳn 40px đã dùng ở
@@ -21,7 +20,7 @@ table[mat-table] {
     --mat-form-field-container-vertical-padding: 8px;
   }
 
-  table[mat-table] {
+  .channels__table {
     --mat-table-header-container-height: 40px;
     --mat-table-row-item-container-height: 40px;
     --mat-table-row-item-label-text-size: 12.5px;

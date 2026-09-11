@@ -10,8 +10,8 @@ tương ứng, không nhúng implementation vào docs.
 |---|---|---|
 | Chip trạng thái | `mat-chip` | Bọc trong `StatusChip` bên dưới để giữ ngữ nghĩa |
 | Thẻ video | `mat-card appearance="outlined"` | Nền của `VideoCard` |
-| Bảng kênh | `mat-table` | Khai `matColumnDef` từng cột, density −2 |
-| **Phân trang** | `mat-paginator` | Map thẳng `PagedResult<T>` qua `length`/`pageSize`/`pageIndex` |
+| Bảng dữ liệu | `mat-table` | Khai `matColumnDef` từng cột; đặt trong `.app-data-table-shell` + class `.app-data-table`, density −2 |
+| **Phân trang** | `mat-paginator` | Nằm trong `.app-data-table-shell`; map thẳng `PagedResult<T>` qua `length`/`pageSize`/`pageIndex` |
 | Bật/tắt kênh | `mat-slide-toggle` | `[checked]` + `(change)` → `MatSlideToggleChange.checked` |
 | Ô nhập | `mat-form-field appearance="outline"` | `mat-error` lo lỗi 400 field-level |
 | Nút | `<button matButton="filled\|tonal\|outlined\|text\|elevated">` | Mặc định là `text` |
