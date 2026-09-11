@@ -3,7 +3,9 @@
     <header class="failure-details__header">
       <div class="flex min-w-0 items-center gap-2">
         <mat-icon class="text-[var(--color-danger)]">troubleshoot</mat-icon>
-        <span class="min-w-0 truncate font-[family-name:var(--font-display)] font-bold">Failure details</span>
+        <span class="min-w-0 truncate font-[family-name:var(--font-display)] font-bold"
+          >Channel result details</span
+        >
       </div>
       <button matIconButton type="button" aria-label="Close failure details" (click)="dismiss()">
         <mat-icon>close</mat-icon>
@@ -33,7 +35,12 @@
     </div>
 
     <footer class="failure-details__footer">
-      <button matButton="outlined" type="button" [disabled]="!selected.errorCode" (click)="copyErrorCode(selected.errorCode)">
+      <button
+        matButton="outlined"
+        type="button"
+        [disabled]="!selected.errorCode"
+        (click)="copyErrorCode(selected.errorCode)"
+      >
         <mat-icon>content_copy</mat-icon>
         Copy error code
       </button>

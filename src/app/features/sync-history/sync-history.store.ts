@@ -1,6 +1,13 @@
 import { computed, inject } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { patchState, signalStore, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withProps,
+  withState,
+} from '@ngrx/signals';
 import { EMPTY, of } from 'rxjs';
 
 import { toProblemDetails } from '@core/http/problem-details';
@@ -10,46 +17,38 @@ import { getPreviewItemsPage, getSyncRunPreview } from './sync-history.fixtures'
 import {
   getSyncRunProgress,
   isActiveSyncRun,
+  SyncRun,
   SyncRunItem,
-  SyncRunItemsFilter,
+  SyncRunItemStatus,
   SyncRunPreviewName,
+  SyncRunsFilter,
 } from './sync-history.models';
 import { SyncHistoryService } from './sync-history.service';
 
 interface SyncHistoryState {
   runId: number | null;
   preview: SyncRunPreviewName | null;
+  itemPage: number;
+  itemStatus: SyncRunItemStatus | undefined;
   selectedFailure: SyncRunItem | null;
   isPolling: boolean;
 }
 
-/** State cho cả Sync history launcher và Sync run detail. */
+/** State cho trang Sync history và trang chi tiết một SyncRun. */
 export const SyncHistoryStore = signalStore(
   { providedIn: 'root' },
   withState<SyncHistoryState>({
     runId: null,
     preview: null,
+    itemPage: 1,
+    itemStatus: undefined,
     selectedFailure: null,
     isPolling: false,
   }),
-  withPagedResource<SyncRunItem, SyncRunItemsFilter>(
-    () => {
-      const service = inject(SyncHistoryService);
-      return (params) => {
-        if (params.runId == null) return EMPTY;
-        if (params.preview) {
-          return of(getPreviewItemsPage(params.preview, params.page, params.pageSize, params.status));
-        }
-        return service.getSyncRunItems({
-          runId: params.runId,
-          page: params.page,
-          pageSize: params.pageSize,
-          status: params.status,
-        });
-      };
-    },
-    { runId: null, preview: null },
-  ),
+  withPagedResource<SyncRun, SyncRunsFilter>(() => {
+    const service = inject(SyncHistoryService);
+    return (params) => service.getSyncRuns(params);
+  }, {}),
   withMutationState(),
   withProps(() => ({
     _syncHistoryService: inject(SyncHistoryService),
@@ -61,6 +60,30 @@ export const SyncHistoryStore = signalStore(
         if (params.runId == null) return EMPTY;
         if (params.preview) return of(getSyncRunPreview(params.preview).run);
         return store._syncHistoryService.getSyncRun(params.runId);
+      },
+    }),
+    _itemsResource: rxResource({
+      params: () => ({
+        runId: store.runId(),
+        preview: store.preview(),
+        page: store.itemPage(),
+        pageSize: store.pageSize(),
+        status: store.itemStatus(),
+      }),
+      stream: ({ params }) => {
+        const runId = params.runId;
+        if (runId == null) return EMPTY;
+        if (params.preview) {
+          return of(
+            getPreviewItemsPage(params.preview, params.page, params.pageSize, params.status),
+          );
+        }
+        return store._syncHistoryService.getSyncRunItems({
+          runId,
+          page: params.page,
+          pageSize: params.pageSize,
+          status: params.status,
+        });
       },
     }),
   })),
@@ -76,6 +99,10 @@ export const SyncHistoryStore = signalStore(
       const run = store._summaryResource.value();
       return run ? getSyncRunProgress(run) : 0;
     }),
+    syncRunItems: computed(() => store._itemsResource.value()?.items ?? []),
+    syncRunItemsTotalCount: computed(() => store._itemsResource.value()?.totalCount ?? 0),
+    isSyncRunItemsLoading: computed(() => store._itemsResource.isLoading()),
+    syncRunItemsError: computed(() => toProblemDetails(store._itemsResource.error())),
   })),
   withMethods((store) => {
     let pollingTimer: number | null = null;
@@ -92,10 +119,8 @@ export const SyncHistoryStore = signalStore(
 
     const refreshRun = (): void => {
       store._summaryResource.reload();
-      // Khi bảng đang lỗi, không lặp lại request lỗi mỗi 3 giây. User dùng Retry
-      // riêng của bảng để mở lại item polling sau khi kết nối trở lại.
-      if (!store.loadError()) {
-        store.reload();
+      if (!store.syncRunItemsError()) {
+        store._itemsResource.reload();
       }
     };
 
@@ -110,12 +135,12 @@ export const SyncHistoryStore = signalStore(
           return;
         }
         if (run && !isActiveSyncRun(run.status)) {
-          // A summary refresh and its matching item request can resolve in either
-          // order. Reload once more after the terminal status is visible so the
-          // table cannot remain on an earlier, in-progress snapshot.
-          if (!store.loadError()) {
-            store.reload();
+          // One final request makes the item table and history list match the
+          // terminal summary, regardless of which response resolved first.
+          if (!store.syncRunItemsError()) {
+            store._itemsResource.reload();
           }
+          store.resetToFirstPage();
           stopPolling();
           return;
         }
@@ -124,22 +149,42 @@ export const SyncHistoryStore = signalStore(
     };
 
     return {
-      async createSyncRun() {
-        return store.runActionMutationResult(() => store._syncHistoryService.createSyncRun());
+      async createSyncRun(): Promise<SyncRun | null> {
+        const run = await store.runActionMutationResult(() =>
+          store._syncHistoryService.createSyncRun(),
+        );
+        if (run) {
+          store.resetToFirstPage();
+        }
+        return run;
+      },
+
+      setHistoryFilters(filter: SyncRunsFilter): void {
+        store.replaceFilter(filter);
       },
 
       openRun(runId: number, preview: SyncRunPreviewName | null): void {
-        const needsSummaryReload = store.runId() === runId && store.preview() === preview;
+        const needsReload = store.runId() === runId && store.preview() === preview;
         stopPolling();
-        patchState(store, { runId, preview, selectedFailure: null });
-        store.setFilter({ runId, preview, status: undefined });
-        if (needsSummaryReload) {
+        patchState(store, {
+          runId,
+          preview,
+          itemPage: 1,
+          itemStatus: undefined,
+          selectedFailure: null,
+        });
+        if (needsReload) {
           store._summaryResource.reload();
+          store._itemsResource.reload();
         }
       },
 
-      setItemStatus(status: SyncRunItemsFilter['status']): void {
-        store.setFilter({ status });
+      setItemPage(page: number): void {
+        patchState(store, { itemPage: page });
+      },
+
+      setItemStatus(status: SyncRunItemStatus | undefined): void {
+        patchState(store, { itemStatus: status, itemPage: 1 });
       },
 
       retrySummary(): void {
@@ -149,7 +194,7 @@ export const SyncHistoryStore = signalStore(
       },
 
       retryItems(): void {
-        store.reload();
+        store._itemsResource.reload();
       },
 
       refreshRun,

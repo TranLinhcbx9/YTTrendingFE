@@ -146,7 +146,9 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     }
 
     this.invalidRunId.set(false);
-    const previewParam = environment.production ? null : this.route.snapshot.queryParamMap.get('preview');
+    const previewParam = environment.production
+      ? null
+      : this.route.snapshot.queryParamMap.get('preview');
     const preview = isSyncRunPreviewName(previewParam) ? previewParam : null;
 
     this.store.openRun(runId, preview);
@@ -154,7 +156,7 @@ export class SyncRunDetail implements OnInit, OnDestroy {
   }
 
   protected onPageChange(event: PageEvent): void {
-    this.store.setPage(event.pageIndex + 1);
+    this.store.setItemPage(event.pageIndex + 1);
   }
 
   protected setStatus(status: SyncRunItemStatus | undefined): void {
@@ -172,7 +174,7 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     }
 
     this.bottomSheet.open(SyncRunFailureDetails, {
-      ariaLabel: `Failure details for ${item.channelName}`,
+      ariaLabel: `Channel result details for ${item.channelName}`,
       data: item,
       panelClass: 'sync-run-failure-sheet',
     });
@@ -190,5 +192,9 @@ export class SyncRunDetail implements OnInit, OnDestroy {
       return 'This sync run no longer exists, or the link is out of date.';
     }
     return error?.detail ?? 'Please check your connection and try again.';
+  }
+
+  protected hasResultDetails(item: SyncRunItem): boolean {
+    return item.errorCode != null || item.errorMessage != null;
   }
 }

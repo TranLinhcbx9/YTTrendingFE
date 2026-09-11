@@ -1,12 +1,7 @@
 export type SyncRunTriggerType = 'Manual' | 'Scheduled';
 
 export type SyncRunStatus =
-  | 'Pending'
-  | 'Running'
-  | 'Completed'
-  | 'CompletedWithIssues'
-  | 'Interrupted'
-  | 'Failed';
+  'Pending' | 'Running' | 'Completed' | 'CompletedWithIssues' | 'Interrupted' | 'Failed';
 
 export type SyncRunItemStatus = 'Pending' | 'Running' | 'Succeeded' | 'Skipped' | 'Failed';
 
@@ -38,8 +33,18 @@ export interface SyncRunItem {
   completedAt: string | null;
 }
 
+export interface SyncRunsFilter {
+  status?: SyncRunStatus;
+  source?: SyncRunTriggerType;
+  timeRangeInDays?: number;
+  from?: string;
+  to?: string;
+}
+
 export interface SyncRunItemsFilter {
   runId: number | null;
+  page: number;
+  pageSize: number;
   status?: SyncRunItemStatus;
   preview?: SyncRunPreviewName | null;
 }
@@ -74,7 +79,10 @@ export function getSyncRunProgress(run: SyncRun): number {
   return Math.min(100, Math.max(0, (run.processedCount / run.totalCount) * 100));
 }
 
-export function formatSyncRunDuration(startedAt: string | null, completedAt: string | null): string {
+export function formatSyncRunDuration(
+  startedAt: string | null,
+  completedAt: string | null,
+): string {
   if (!startedAt || !completedAt) return '—';
 
   const durationMs = new Date(completedAt).getTime() - new Date(startedAt).getTime();

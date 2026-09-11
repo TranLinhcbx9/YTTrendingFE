@@ -2,7 +2,7 @@
   <section class="sync-history-page__header">
     <div>
       <h1>Sync history</h1>
-      <p>Start a channel sync and monitor its live progress.</p>
+      <p>Review every channel sync run and open a run to inspect its results.</p>
     </div>
 
     <div class="sync-history-page__action">
@@ -24,54 +24,184 @@
       </button>
 
       @if (store.actionError(); as error) {
-        <div class="sync-history-page__feedback" [class.sync-history-page__feedback--error]="true">
+        <div class="sync-history-page__feedback" aria-live="polite">
           <mat-icon>error</mat-icon>
           <div>
-          @switch (error.code) {
-            @case ('syncRun.inProgress') {
-              <strong>A Sync all run is already in progress.</strong>
-              <span>Wait for it to finish before starting another run.</span>
-            }
-            @case ('syncRun.noEnabledChannels') {
-              <strong>No enabled channels</strong>
-              <span>Enable at least one channel before starting a sync.</span>
-              <a routerLink="/channels">Manage channels</a>
-            }
-            @case ('validation.failed') {
-              <strong>Could not start a sync.</strong>
-              <span>{{ error.detail ?? error.title }}</span>
-            }
-            @default {
-              <strong>Could not start a sync.</strong>
-              @if (error.status === 0 || error.status >= 500) {
-                <span>Please check your connection and try again.</span>
-                <button matButton type="button" (click)="startSync()">Retry</button>
-              } @else {
+            @switch (error.code) {
+              @case ('syncRun.inProgress') {
+                <strong>A Sync all run is already in progress.</strong>
+                <span>Wait for it to finish before starting another run.</span>
+              }
+              @case ('syncRun.noEnabledChannels') {
+                <strong>No enabled channels</strong>
+                <span>Enable at least one channel before starting a sync.</span>
+                <a routerLink="/channels">Manage channels</a>
+              }
+              @case ('validation.failed') {
+                <strong>Could not start a sync.</strong>
                 <span>{{ error.detail ?? error.title }}</span>
               }
+              @default {
+                <strong>Could not start a sync.</strong>
+                @if (error.status === 0 || error.status >= 500) {
+                  <span>Please check your connection and try again.</span>
+                  <button matButton type="button" (click)="startSync()">Retry</button>
+                } @else {
+                  <span>{{ error.detail ?? error.title }}</span>
+                }
+              }
             }
-          }
           </div>
         </div>
       }
     </div>
   </section>
 
-  <section class="sync-history-page__sync-context" aria-labelledby="sync-context-title">
-    <div>
-      <h2 id="sync-context-title">Sync all channels</h2>
-      <p>A manual run includes every channel that is enabled when it starts.</p>
+  <section class="sync-history-page__history" aria-labelledby="history-title">
+    <div class="sync-history-page__section-heading">
+      <div>
+        <h2 id="history-title">Sync runs</h2>
+        <p>The server shows its default recent range when no time filter is selected.</p>
+      </div>
+      <button matButton="outlined" type="button" (click)="clearFilters()">
+        <mat-icon>filter_alt_off</mat-icon>
+        Clear filters
+      </button>
     </div>
-    <div class="sync-history-page__context-facts" aria-label="Sync run details">
-      <span><mat-icon>subscriptions</mat-icon> Enabled channels</span>
-      <span><mat-icon>sync</mat-icon> Live progress</span>
-      <span><mat-icon>format_list_bulleted</mat-icon> Channel results</span>
-    </div>
-  </section>
 
-  <section class="sync-history-page__empty" aria-labelledby="sync-empty-title">
-    <mat-icon>history</mat-icon>
-    <h2 id="sync-empty-title">No sync run selected</h2>
-    <p>Start Sync all to see live channel updates and the final result for that run.</p>
+    <div class="sync-history-page__filters" aria-label="Filter sync history">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Status</mat-label>
+        <mat-select [value]="status() ?? ''" (selectionChange)="onStatusSelection($event.value)">
+          <mat-option value="">All statuses</mat-option>
+          @for (option of statusOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Source</mat-label>
+        <mat-select [value]="source() ?? ''" (selectionChange)="onSourceSelection($event.value)">
+          <mat-option value="">All sources</mat-option>
+          @for (option of sourceOptions; track option.value) {
+            <mat-option [value]="option.value">{{ option.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Time range</mat-label>
+        <mat-select [value]="timeRange()" (selectionChange)="onTimeRangeSelection($event.value)">
+          <mat-option value="default">Server default</mat-option>
+          <mat-option value="1">Last 24 hours</mat-option>
+          <mat-option value="7">Last 7 days</mat-option>
+          <mat-option value="30">Last 30 days</mat-option>
+          <mat-option value="custom">Custom range</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      @if (timeRange() === 'custom') {
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>From</mat-label>
+          <input
+            matInput
+            type="date"
+            [value]="fromDate()"
+            (input)="onDateChange('from', $any($event.target).value)"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <mat-label>To</mat-label>
+          <input
+            matInput
+            type="date"
+            [value]="toDate()"
+            (input)="onDateChange('to', $any($event.target).value)"
+          />
+        </mat-form-field>
+      }
+    </div>
+
+    @if (dateRangeError()) {
+      <p class="sync-history-page__filter-error" aria-live="polite">{{ dateRangeError() }}</p>
+    }
+
+    @if (store.isLoading()) {
+      <mat-progress-bar mode="indeterminate" class="sync-history-page__loading" />
+    }
+
+    @if (store.loadError()) {
+      <app-empty-state icon="error" [title]="historyErrorTitle()" [message]="historyErrorMessage()">
+        <button matButton="outlined" type="button" (click)="store.reload()">Retry</button>
+      </app-empty-state>
+    } @else if (store.items().length === 0 && !store.isLoading()) {
+      <app-empty-state
+        icon="history"
+        title="No sync runs found"
+        message="Try another filter, or start a Sync all run when at least one channel is enabled."
+      />
+    } @else {
+      <div class="sync-history-page__table-shell">
+        <table class="sync-history-page__table">
+          <thead>
+            <tr>
+              <th>Run</th>
+              <th>Status</th>
+              <th>Source</th>
+              <th>Started</th>
+              <th>Progress</th>
+              <th>Results</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (run of store.items(); track run.id) {
+              <tr>
+                <td data-label="Run">
+                  <span class="sync-history-page__run-id">#{{ run.id }}</span>
+                  <span class="sync-history-page__created"
+                    >Created {{ run.createdAt | date: 'MMM d, y, HH:mm' }}</span
+                  >
+                </td>
+                <td data-label="Status">
+                  <app-sync-status-chip [scope]="'run'" [status]="run.status" />
+                </td>
+                <td data-label="Source">{{ run.triggerType }}</td>
+                <td data-label="Started">
+                  {{ run.startedAt ?? run.createdAt | date: 'MMM d, HH:mm' }}
+                </td>
+                <td data-label="Progress">
+                  <strong>{{ run.processedCount }}</strong> / {{ run.totalCount }}
+                </td>
+                <td data-label="Results">
+                  <span class="sync-history-page__counter sync-history-page__counter--success"
+                    >{{ run.successCount }} successful</span
+                  >
+                  <span class="sync-history-page__counter">{{ run.skippedCount }} skipped</span>
+                  <span class="sync-history-page__counter sync-history-page__counter--failed"
+                    >{{ run.failedCount }} failed</span
+                  >
+                </td>
+                <td data-label="">
+                  <a matButton="outlined" [routerLink]="['/sync-history', run.id]">
+                    View details
+                    <mat-icon>chevron_right</mat-icon>
+                  </a>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <mat-paginator
+          [length]="store.totalCount()"
+          [pageSize]="store.pageSize()"
+          [pageIndex]="store.page() - 1"
+          [hidePageSize]="true"
+          (page)="onPageChange($event)"
+        />
+      </div>
+    }
   </section>
 </div>

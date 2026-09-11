@@ -7,7 +7,11 @@
     <a matButton="outlined" routerLink="/sync-history">Back to Sync history</a>
   </app-empty-state>
 } @else if (store.summaryError()) {
-  <app-empty-state [icon]="store.summaryError()?.code === 'syncRun.notFound' ? 'search_off' : 'error'" [title]="errorTitle()" [message]="errorMessage()">
+  <app-empty-state
+    [icon]="store.summaryError()?.code === 'syncRun.notFound' ? 'search_off' : 'error'"
+    [title]="errorTitle()"
+    [message]="errorMessage()"
+  >
     <div class="mt-3 flex flex-wrap justify-center gap-2">
       @if (store.summaryError()?.code !== 'syncRun.notFound') {
         <button matButton="outlined" type="button" (click)="store.retrySummary()">Retry</button>
@@ -40,7 +44,9 @@
           </div>
 
           @if (!store.isActiveRun()) {
-            <div class="flex w-full max-w-80 flex-none flex-col items-stretch gap-1.5 sm:w-auto sm:items-end">
+            <div
+              class="flex w-full max-w-80 flex-none flex-col items-stretch gap-1.5 sm:w-auto sm:items-end"
+            >
               <button
                 matButton="filled"
                 type="button"
@@ -73,13 +79,21 @@
                     }
                     @case ('syncRun.noEnabledChannels') {
                       <span>Enable at least one channel before starting a sync.</span>
-                      <a routerLink="/channels" class="font-semibold text-[var(--color-accent)] underline">Manage channels</a>
+                      <a
+                        routerLink="/channels"
+                        class="font-semibold text-[var(--color-accent)] underline"
+                        >Manage channels</a
+                      >
                     }
                     @case ('validation.failed') {
                       <span>{{ error.detail ?? error.title }}</span>
                     }
                     @default {
-                      <span>{{ error.status === 0 || error.status >= 500 ? 'Could not start a sync. Please try again.' : (error.detail ?? error.title) }}</span>
+                      <span>{{
+                        error.status === 0 || error.status >= 500
+                          ? 'Could not start a sync. Please try again.'
+                          : (error.detail ?? error.title)
+                      }}</span>
                     }
                   }
                 </div>
@@ -164,16 +178,16 @@
           </div>
         </div>
 
-        @if (store.isLoading()) {
+        @if (store.isSyncRunItemsLoading()) {
           <mat-progress-bar mode="indeterminate" class="sync-run-detail__loading" />
         }
 
-        @if (store.loadError()) {
+        @if (store.syncRunItemsError()) {
           <div class="sync-run-detail__inline-error">
             <span>Could not load channel results.</span>
             <button matButton type="button" (click)="store.retryItems()">Retry</button>
           </div>
-        } @else if (store.items().length === 0 && !store.isLoading()) {
+        } @else if (store.syncRunItems().length === 0 && !store.isSyncRunItemsLoading()) {
           <app-empty-state
             icon="filter_list_off"
             title="No channels match this status"
@@ -189,11 +203,11 @@
                   <th>Started</th>
                   <th>Completed</th>
                   <th>Duration</th>
-                  <th>Detail</th>
+                  <th>Error details</th>
                 </tr>
               </thead>
               <tbody>
-                @for (item of store.items(); track item.id) {
+                @for (item of store.syncRunItems(); track item.id) {
                   <tr [class.sync-run-detail__row--failed]="item.status === 'Failed'">
                     <td data-label="Channel">
                       <span class="flex min-w-0 items-center gap-2">
@@ -201,12 +215,23 @@
                         <span class="min-w-0 truncate font-medium">{{ item.channelName }}</span>
                       </span>
                     </td>
-                    <td data-label="Status"><app-sync-status-chip [scope]="'item'" [status]="item.status" /></td>
-                    <td data-label="Started">{{ item.startedAt ? (item.startedAt | date: 'HH:mm') : '—' }}</td>
-                    <td data-label="Completed">{{ item.completedAt ? (item.completedAt | date: 'HH:mm') : '—' }}</td>
-                    <td data-label="Duration">{{ formatDuration(item.startedAt, item.completedAt) }}</td>
+                    <td data-label="Status">
+                      <app-sync-status-chip [scope]="'item'" [status]="item.status" />
+                    </td>
+                    <td data-label="Started">
+                      {{ item.startedAt ? (item.startedAt | date: 'HH:mm') : '—' }}
+                    </td>
+                    <td data-label="Completed">
+                      {{ item.completedAt ? (item.completedAt | date: 'HH:mm') : '—' }}
+                    </td>
+                    <td data-label="Duration">
+                      {{ formatDuration(item.startedAt, item.completedAt) }}
+                    </td>
                     <td data-label="Detail">
-                      @if (item.status === 'Failed') {
+                      @if (hasResultDetails(item)) {
+                        <span class="sync-run-detail__error-message">{{
+                          item.errorMessage ?? item.errorCode
+                        }}</span>
                         <button matButton type="button" (click)="openFailureDetails(item)">
                           View details
                           <mat-icon>chevron_right</mat-icon>
@@ -221,7 +246,7 @@
             </table>
 
             <mat-paginator
-              [length]="store.totalCount()"
+              [length]="store.syncRunItemsTotalCount()"
               [pageSize]="store.pageSize()"
               [pageIndex]="store.page() - 1"
               [hidePageSize]="true"
@@ -234,7 +259,10 @@
 
     @if (store.selectedFailure(); as selectedFailure) {
       <aside class="sync-run-detail__inspector">
-        <app-sync-run-failure-details [item]="selectedFailure" (dismissed)="store.clearSelectedFailure()" />
+        <app-sync-run-failure-details
+          [item]="selectedFailure"
+          (dismissed)="store.clearSelectedFailure()"
+        />
       </aside>
     }
   </div>

@@ -429,6 +429,8 @@
 
   .sync-run-detail__table td:last-child {
     grid-column: 1 / -1;
+    align-items: flex-start;
+    flex-direction: column;
     justify-content: flex-start;
     padding-top: 4px;
     text-align: left;
