@@ -1,7 +1,13 @@
 # History — FE
 
 > Việc đã xong, mới nhất trên đầu. Chi tiết đổi gì xem `git log`/`git show
-> <hash>`. Đang làm/block hiện tại xem [`ai/current.md`](current.md).
+<hash>`. Đang làm/block hiện tại xem [`ai/current.md`](current.md).
+
+- **2026-09-12** — UI: chuẩn hoá filter multi-field theo Sync history. Thêm
+  `app-filter-toolbar` cho Dashboard/Sync history; Dashboard dùng Material
+  dropdown có label cho Time range/Status và Clear filters. Không thêm filter
+  giả cho Channels (API hiện không có filter), Sync run giữ status strip.
+  `ng build` và `ng lint` pass.
 
 - **2026-09-11** — Sync history: thay native date input của Custom range bằng
   Material datepicker, giới hạn From/To tới ngày hiện tại và ràng buộc

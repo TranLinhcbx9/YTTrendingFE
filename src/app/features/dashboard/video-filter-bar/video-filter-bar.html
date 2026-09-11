@@ -23,9 +23,11 @@
   ></button>
 }
 
-<div
-  class="filter-fields flex flex-wrap items-end gap-[22px] rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-[18px] py-3.5"
+<app-filter-toolbar
+  class="filter-fields"
   [class.filter-fields--open]="mobileFiltersOpen()"
+  ariaLabel="Filter videos"
+  [stackOnMobile]="true"
 >
   <button
     matIconButton
@@ -37,89 +39,71 @@
     <mat-icon>close</mat-icon>
   </button>
 
-  <div class="flex flex-col gap-[7px]">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
-      >Time range</span
-    >
-    <mat-button-toggle-group
-      [value]="filter().timeRanges"
-      hideSingleSelectionIndicator
-      (change)="onTimeRangesChange($event.value)"
-    >
-      <mat-button-toggle [value]="1">24h</mat-button-toggle>
-      <mat-button-toggle [value]="3">3 days</mat-button-toggle>
-      <mat-button-toggle [value]="7">7 days</mat-button-toggle>
-      <mat-button-toggle [value]="30">30 days</mat-button-toggle>
-    </mat-button-toggle-group>
-  </div>
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
+    <mat-label>Time range</mat-label>
+    <mat-select [value]="filter().timeRanges" (selectionChange)="onTimeRangesChange($event.value)">
+      <mat-option [value]="1">Last 24 hours</mat-option>
+      <mat-option [value]="3">Last 3 days</mat-option>
+      <mat-option [value]="7">Last 7 days</mat-option>
+      <mat-option [value]="30">Last 30 days</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-  <div class="flex flex-col gap-[7px]">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
-      >Channel</span
-    >
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="channel-field">
-      <mat-icon matPrefix class="!h-[18px] !w-[18px] !text-[18px] text-[var(--color-text-muted)]">
-        search
-      </mat-icon>
-      <mat-chip-grid #chipGrid aria-label="Selected channels">
-        @for (channel of selected(); track channel.id) {
-          <mat-chip-row [highlighted]="true" (removed)="onChannelRemove(channel)">
-            {{ channel.name }}
-            <button matChipRemove [attr.aria-label]="'Remove filter ' + channel.name">
-              <mat-icon>close</mat-icon>
-            </button>
-          </mat-chip-row>
-        }
-      </mat-chip-grid>
-      <input
-        placeholder="Search channels…"
-        [matChipInputFor]="chipGrid"
-        [matAutocomplete]="channelAuto"
-        [ngModel]="searchChannel()"
-        (ngModelChange)="searchChannel.set($event)"
-        name="channelSearch"
-        #channelInput
-      />
-      @if (searchChannel()) {
-        <button
-          matIconButton
-          matSuffix
-          type="button"
-          class="!h-6 !w-6 !p-0"
-          (click)="onSearchChannelClear(channelInput)"
-          aria-label="Clear channel search"
-        >
-          <mat-icon class="!h-[18px] !w-[18px] !text-[18px]">close</mat-icon>
-        </button>
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="channel-field">
+    <mat-label>Channel</mat-label>
+    <mat-icon matPrefix class="!h-[18px] !w-[18px] !text-[18px] text-[var(--color-text-muted)]">
+      search
+    </mat-icon>
+    <mat-chip-grid #chipGrid aria-label="Selected channels">
+      @for (channel of selected(); track channel.id) {
+        <mat-chip-row [highlighted]="true" (removed)="onChannelRemove(channel)">
+          {{ channel.name }}
+          <button matChipRemove [attr.aria-label]="'Remove filter ' + channel.name">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-chip-row>
       }
-      <mat-autocomplete #channelAuto (optionSelected)="onChannelAdd($event, channelInput)">
-        @for (channel of suggestions(); track channel.id) {
-          <mat-option [value]="channel">{{ channel.name }}</mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-  </div>
-
-  <div class="flex flex-col gap-[7px]">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
-      >Status</span
-    >
-    <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
-      <mat-select
-        [value]="filter().status ?? STATUS_ALL"
-        (valueChange)="onStatusChange($event)"
-        aria-label="Filter by status"
+    </mat-chip-grid>
+    <input
+      placeholder="Search channels…"
+      [matChipInputFor]="chipGrid"
+      [matAutocomplete]="channelAuto"
+      [ngModel]="searchChannel()"
+      (ngModelChange)="searchChannel.set($event)"
+      name="channelSearch"
+      #channelInput
+    />
+    @if (searchChannel()) {
+      <button
+        matIconButton
+        matSuffix
+        type="button"
+        class="!h-6 !w-6 !p-0"
+        (click)="onSearchChannelClear(channelInput)"
+        aria-label="Clear channel search"
       >
-        <mat-option [value]="STATUS_ALL">All</mat-option>
-        @for (status of statuses; track status[0]) {
-          <mat-option [value]="status[0]">{{ status[1] }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-  </div>
+        <mat-icon class="!h-[18px] !w-[18px] !text-[18px]">close</mat-icon>
+      </button>
+    }
+    <mat-autocomplete #channelAuto (optionSelected)="onChannelAdd($event, channelInput)">
+      @for (channel of suggestions(); track channel.id) {
+        <mat-option [value]="channel">{{ channel.name }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
+    <mat-label>Status</mat-label>
+    <mat-select [value]="filter().status ?? STATUS_ALL" (valueChange)="onStatusChange($event)">
+      <mat-option [value]="STATUS_ALL">All statuses</mat-option>
+      @for (status of statuses; track status[0]) {
+        <mat-option [value]="status[0]">{{ status[1] }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 
   <!-- Score / Min views — present in mockup, backend doesn't accept the param yet -->
-  <div class="flex flex-col gap-[7px]" matTooltip="Backend doesn't accept the score param yet">
+  <div class="filter-slider-field" matTooltip="Backend doesn't accept the score param yet">
     <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
       >Score: 0 – 100</span
     >
@@ -129,27 +113,16 @@
     </mat-slider>
   </div>
 
-  <div class="flex flex-col gap-[7px]">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
-      >Min views</span
-    >
-    <app-clearable-input
-      class="w-[180px]"
-      type="number"
-      placeholder="e.g. 10000"
-      ariaLabel="Minimum views"
-      [(value)]="minViewsRaw"
-    />
-  </div>
+  <app-clearable-input
+    class="w-[180px]"
+    label="Min views"
+    type="number"
+    placeholder="e.g. 10000"
+    [(value)]="minViewsRaw"
+  />
 
-  <button
-    matButton
-    type="button"
-    class="add-filter-button"
-    disabled
-    matTooltip="Waiting for backend to open more filter params"
-  >
-    <mat-icon>tune</mat-icon>
-    Add filter
+  <button matButton="outlined" type="button" class="filter-clear-button" (click)="clearFilters()">
+    <mat-icon>filter_alt_off</mat-icon>
+    Clear filters
   </button>
-</div>
+</app-filter-toolbar>

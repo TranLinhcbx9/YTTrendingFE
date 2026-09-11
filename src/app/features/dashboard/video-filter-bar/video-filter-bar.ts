@@ -5,7 +5,6 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,6 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Channel } from '@shared/models/channel';
 import { VIDEO_STATUS_LABELS, VideoStatus } from '@shared/models/video';
 import { ClearableInput } from '@shared/ui/clearable-input/clearable-input';
+import { FilterToolbar } from '@shared/ui/filter-toolbar/filter-toolbar';
 import { toDebouncedSignal } from '@shared/utils/debounced-signal';
 import { VideoListFilter } from '../dashboard.service';
 
@@ -25,7 +25,6 @@ import { VideoListFilter } from '../dashboard.service';
     FormsModule,
     MatAutocompleteModule,
     MatButtonModule,
-    MatButtonToggleModule,
     MatChipsModule,
     MatFormFieldModule,
     MatIconModule,
@@ -33,6 +32,7 @@ import { VideoListFilter } from '../dashboard.service';
     MatSliderModule,
     MatTooltipModule,
     ClearableInput,
+    FilterToolbar,
   ],
   templateUrl: './video-filter-bar.html',
   styleUrl: './video-filter-bar.css',
@@ -111,6 +111,17 @@ export class VideoFilterBar {
 
   protected onTimeRangesChange(timeRanges: number | null): void {
     this.filterChange.emit({ timeRanges: timeRanges ?? undefined });
+  }
+
+  protected clearFilters(): void {
+    this.minViewsRaw.set(null);
+    this.searchChannel.set('');
+    this.filterChange.emit({
+      channelIds: undefined,
+      status: undefined,
+      minViews: undefined,
+      timeRanges: 7,
+    });
   }
 
   /** Bỏ chọn hết = không lọc: gửi `undefined` để service không đính param rỗng. */

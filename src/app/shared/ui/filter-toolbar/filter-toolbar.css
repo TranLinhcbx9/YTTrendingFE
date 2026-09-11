@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 599px) {
+  .filter-toolbar--stack-on-mobile {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

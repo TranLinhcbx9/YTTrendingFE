@@ -110,9 +110,7 @@
 }
 
 .sync-history-page__filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  min-width: 0;
 }
 
 .sync-history-page__filters mat-form-field {
@@ -186,11 +184,6 @@
 
   .sync-history-page__sync-button {
     --mat-button-filled-container-height: 44px;
-  }
-
-  .sync-history-page__filters {
-    display: grid;
-    grid-template-columns: 1fr;
   }
 
   .sync-history-page__filters mat-form-field {

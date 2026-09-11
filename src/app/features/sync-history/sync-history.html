@@ -69,7 +69,11 @@
       </button>
     </div>
 
-    <div class="sync-history-page__filters" aria-label="Filter sync history">
+    <app-filter-toolbar
+      class="sync-history-page__filters"
+      ariaLabel="Filter sync history"
+      [stackOnMobile]="true"
+    >
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Status</mat-label>
         <mat-select [value]="status() ?? ''" (selectionChange)="onStatusSelection($event.value)">
@@ -128,7 +132,7 @@
           <mat-datepicker #toPicker />
         </mat-form-field>
       }
-    </div>
+    </app-filter-toolbar>
 
     @if (dateRangeError()) {
       <p class="sync-history-page__filter-error" aria-live="polite">{{ dateRangeError() }}</p>

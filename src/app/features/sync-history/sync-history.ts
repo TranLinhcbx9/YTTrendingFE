@@ -14,6 +14,7 @@ import { MatTableModule } from '@angular/material/table';
 
 import { NotificationService } from '@core/ui/notification.service';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
+import { FilterToolbar } from '@shared/ui/filter-toolbar/filter-toolbar';
 import { SyncRun, SyncRunStatus, SyncRunTriggerType, SyncRunsFilter } from './sync-history.models';
 import { SyncHistoryStore } from './sync-history.store';
 import { SyncStatusChip } from './sync-status-chip/sync-status-chip';
@@ -41,6 +42,7 @@ interface SelectOption<T> {
     MatSelectModule,
     MatTableModule,
     EmptyState,
+    FilterToolbar,
     SyncStatusChip,
   ],
   templateUrl: './sync-history.html',

@@ -6,21 +6,21 @@ tương ứng, không nhúng implementation vào docs.
 
 ## Dùng thẳng Angular Material — không tự viết
 
-| Vai trò | Component | Ghi chú |
-|---|---|---|
-| Chip trạng thái | `mat-chip` | Bọc trong `StatusChip` bên dưới để giữ ngữ nghĩa |
-| Thẻ video | `mat-card appearance="outlined"` | Nền của `VideoCard` |
-| Bảng dữ liệu | `mat-table` | Khai `matColumnDef` từng cột; đặt trong `.app-data-table-shell` + class `.app-data-table`, density −2 |
-| **Phân trang** | `mat-paginator` | Nằm trong `.app-data-table-shell`; map thẳng `PagedResult<T>` qua `length`/`pageSize`/`pageIndex` |
-| Bật/tắt kênh | `mat-slide-toggle` | `[checked]` + `(change)` → `MatSlideToggleChange.checked` |
-| Ô nhập | `mat-form-field appearance="outline"` | `mat-error` lo lỗi 400 field-level |
-| Nút | `<button matButton="filled\|tonal\|outlined\|text\|elevated">` | Mặc định là `text` |
-| Thông báo | `MatSnackBar` | Service — không cần thẻ trong template |
-| Dialog | `MatDialog` | Service — xem cảnh báo dưới |
-| Tab Dashboard | `mat-tab-group` | Filter bar nằm **ngoài** tab group. 4 tab đúng mockup; 3 tab chưa có dữ liệu hiện `EmptyState` nêu rõ chờ gì |
-| Time Range | `mat-button-toggle-group` | Thay segmented control tự viết. `VideoFilter.TimeRanges` (BE) — mặc định 7 ngày, seed qua `initialFilter` của `withPagedResource` |
-| Chip-search kênh | `mat-chip-grid` + `mat-autocomplete` trong `mat-form-field` | Ô "Kênh" của filter bar |
-| Slider điểm | `mat-slider` (2 thumb) | Đang `disabled` — backend chưa có param điểm |
+| Vai trò          | Component                                                      | Ghi chú                                                                                                                        |
+| ---------------- | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| Chip trạng thái  | `mat-chip`                                                     | Bọc trong `StatusChip` bên dưới để giữ ngữ nghĩa                                                                               |
+| Thẻ video        | `mat-card appearance="outlined"`                               | Nền của `VideoCard`                                                                                                            |
+| Bảng dữ liệu     | `mat-table`                                                    | Khai `matColumnDef` từng cột; đặt trong `.app-data-table-shell` + class `.app-data-table`, density −2                          |
+| **Phân trang**   | `mat-paginator`                                                | Nằm trong `.app-data-table-shell`; map thẳng `PagedResult<T>` qua `length`/`pageSize`/`pageIndex`                              |
+| Bật/tắt kênh     | `mat-slide-toggle`                                             | `[checked]` + `(change)` → `MatSlideToggleChange.checked`                                                                      |
+| Ô nhập           | `mat-form-field appearance="outline"`                          | `mat-error` lo lỗi 400 field-level                                                                                             |
+| Nút              | `<button matButton="filled\|tonal\|outlined\|text\|elevated">` | Mặc định là `text`                                                                                                             |
+| Thông báo        | `MatSnackBar`                                                  | Service — không cần thẻ trong template                                                                                         |
+| Dialog           | `MatDialog`                                                    | Service — xem cảnh báo dưới                                                                                                    |
+| Tab Dashboard    | `mat-tab-group`                                                | Filter bar nằm **ngoài** tab group. 4 tab đúng mockup; 3 tab chưa có dữ liệu hiện `EmptyState` nêu rõ chờ gì                   |
+| Time Range       | `mat-select` trong `mat-form-field`                            | Chọn một mốc thời gian từ dropdown; `VideoFilter.TimeRanges` mặc định 7 ngày, seed qua `initialFilter` của `withPagedResource` |
+| Chip-search kênh | `mat-chip-grid` + `mat-autocomplete` trong `mat-form-field`    | Ô "Kênh" của filter bar                                                                                                        |
+| Slider điểm      | `mat-slider` (2 thumb)                                         | Đang `disabled` — backend chưa có param điểm                                                                                   |
 
 > **Dialog Material là service, không phải thẻ trong template.** Không có
 > `[(visible)]`: cha gọi `dialog.open(Comp, {data})` rồi đọc
@@ -32,37 +32,38 @@ tương ứng, không nhúng implementation vào docs.
 
 ## Tự viết — Material không có
 
-| Component | Selector | Inputs | Outputs | Ghi chú |
-|---|---|---|---|---|
-| StatusChip | `app-status-chip` | `status = input.required<'New'\|'Tracking'\|'Archived'>()` | — | Bọc `mat-chip`; Archived tĩnh, Tracking có dot pulse (tắt dưới `prefers-reduced-motion`) |
-| ScoreBadge | `app-score-badge` | `score = input<number \| null>(null)` | — | `null` → hiện `—` + tooltip "chờ đủ 2 lần đồng bộ", **không** hiện `0`. Ngưỡng heat: <75 low, <86 mid, còn lại high |
-| VideoCard | `app-video-card` | `video`, `score`, `trendPoints = input<number[]>([])`, `velocityPerHour`, `note`, `saved`, `bookmarkEnabled` | `bookmarkToggle = output<Video>()` | Đủ layout mockup. Dữ liệu ngoài `Video` truyền qua input riêng vì `VideoDto` chưa có — Recent Shorts để mặc định → badge `—`, footer "chờ dữ liệu", nút bookmark disabled |
-| ChannelAvatar | `app-channel-avatar` | `name = input.required<string>()`, `size = input(18)` | — | Avatar tròn 2 chữ cái đầu; dùng ở bảng Channels + `VideoCard`. Đổi sang ảnh thật khi `ChannelDto` có field avatar |
-| EmptyState | `app-empty-state` | `icon`, `title`, `message = input<string>()` | — | Dùng chung cho mọi tab/màn hình rỗng; `ng-content` để nhét nút hành động |
-| Sparkline | `app-sparkline` | `points = input.required<number[]>()` | — | SVG polyline thuần 46×18, tự chuẩn hoá min/max — không Chart.js vì mỗi trang hàng chục card |
-| NavRail | trong `layout/shell/` | — | — | Angular Material **không có** nav rail (chỉ có `mat-sidenav` là drawer) |
-| ConfirmDialog | `app-confirm-dialog` | data qua `MAT_DIALOG_DATA`: `{ title, message, confirmLabel?, cancelLabel? }` | `dialogRef.close(true\|undefined)` | `shared/ui/confirm-dialog/` — 1 component dùng chung cho mọi hành động cần xác nhận (vd xoá kênh) |
+| Component     | Selector              | Inputs                                                                                                       | Outputs                            | Ghi chú                                                                                                                                                                   |
+| ------------- | --------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| StatusChip    | `app-status-chip`     | `status = input.required<'New'\|'Tracking'\|'Archived'>()`                                                   | —                                  | Bọc `mat-chip`; Archived tĩnh, Tracking có dot pulse (tắt dưới `prefers-reduced-motion`)                                                                                  |
+| ScoreBadge    | `app-score-badge`     | `score = input<number \| null>(null)`                                                                        | —                                  | `null` → hiện `—` + tooltip "chờ đủ 2 lần đồng bộ", **không** hiện `0`. Ngưỡng heat: <75 low, <86 mid, còn lại high                                                       |
+| VideoCard     | `app-video-card`      | `video`, `score`, `trendPoints = input<number[]>([])`, `velocityPerHour`, `note`, `saved`, `bookmarkEnabled` | `bookmarkToggle = output<Video>()` | Đủ layout mockup. Dữ liệu ngoài `Video` truyền qua input riêng vì `VideoDto` chưa có — Recent Shorts để mặc định → badge `—`, footer "chờ dữ liệu", nút bookmark disabled |
+| ChannelAvatar | `app-channel-avatar`  | `name = input.required<string>()`, `size = input(18)`                                                        | —                                  | Avatar tròn 2 chữ cái đầu; dùng ở bảng Channels + `VideoCard`. Đổi sang ảnh thật khi `ChannelDto` có field avatar                                                         |
+| EmptyState    | `app-empty-state`     | `icon`, `title`, `message = input<string>()`                                                                 | —                                  | Dùng chung cho mọi tab/màn hình rỗng; `ng-content` để nhét nút hành động                                                                                                  |
+| FilterToolbar | `app-filter-toolbar`  | `ariaLabel`, `stackOnMobile = input(false)`                                                                  | —                                  | Layout chung cho list filter; content là `mat-form-field`/`mat-select` của feature, không biến option thành pill                                                          |
+| Sparkline     | `app-sparkline`       | `points = input.required<number[]>()`                                                                        | —                                  | SVG polyline thuần 46×18, tự chuẩn hoá min/max — không Chart.js vì mỗi trang hàng chục card                                                                               |
+| NavRail       | trong `layout/shell/` | —                                                                                                            | —                                  | Angular Material **không có** nav rail (chỉ có `mat-sidenav` là drawer)                                                                                                   |
+| ConfirmDialog | `app-confirm-dialog`  | data qua `MAT_DIALOG_DATA`: `{ title, message, confirmLabel?, cancelLabel? }`                                | `dialogRef.close(true\|undefined)` | `shared/ui/confirm-dialog/` — 1 component dùng chung cho mọi hành động cần xác nhận (vd xoá kênh)                                                                         |
 
 > `Pagination` tự viết đã **bỏ** — `mat-paginator` làm đúng việc đó.
 
 ## Pipes dùng chung (`shared/pipes/`)
 
-| Pipe | Input → Output | Ghi chú |
-|---|---|---|
-| `relativeTime` | `string \| null` (ISO) → `"2 giờ trước"` / `"Vừa xong"` / `"Chưa đồng bộ"` (null) | Dùng cho `lastSyncAt` ở trang Channels |
-| `compactNumber` | `number` → `"1.2M"` | View/like/comment ở `VideoCard` |
-| `duration` | `number` (giây) → `"0:38"` | Badge thời lượng trên thumbnail; Shorts < 1 giờ nên không có nhánh `h:mm:ss` |
+| Pipe            | Input → Output                                                                    | Ghi chú                                                                      |
+| --------------- | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `relativeTime`  | `string \| null` (ISO) → `"2 giờ trước"` / `"Vừa xong"` / `"Chưa đồng bộ"` (null) | Dùng cho `lastSyncAt` ở trang Channels                                       |
+| `compactNumber` | `number` → `"1.2M"`                                                               | View/like/comment ở `VideoCard`                                              |
+| `duration`      | `number` (giây) → `"0:38"`                                                        | Badge thời lượng trên thumbnail; Shorts < 1 giờ nên không có nhánh `h:mm:ss` |
 
 ## Bảng Channels — cột theo đúng Blueprint §Channels
 
-| Cột | Nội dung | Ghi chú |
-|---|---|---|
-| Kênh | avatar tròn 18px (2 chữ cái đầu tên, nền `--mat-sys-primary`) + tên | Không có cột Channel ID riêng — trùng ý Blueprint |
-| URL | URL bỏ `https://`/`www.` để hiển thị, kèm icon `open_in_new`, `href` vẫn dùng URL gốc | |
-| Trạng thái | `mat-slide-toggle` — không có label cạnh | |
-| Đồng bộ lần cuối | qua pipe `relativeTime` | |
-| Ngày thêm | `createdAt \| date:'dd/MM/yyyy'` | |
-| Thao tác | icon-button Sửa/Đồng bộ/Xoá | Đồng bộ hiện spinner đúng dòng; hộp xác nhận Xoá giữ mở và hiện spinner đến khi lệnh hoàn tất |
+| Cột              | Nội dung                                                                              | Ghi chú                                                                                       |
+| ---------------- | ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Kênh             | avatar tròn 18px (2 chữ cái đầu tên, nền `--mat-sys-primary`) + tên                   | Không có cột Channel ID riêng — trùng ý Blueprint                                             |
+| URL              | URL bỏ `https://`/`www.` để hiển thị, kèm icon `open_in_new`, `href` vẫn dùng URL gốc |                                                                                               |
+| Trạng thái       | `mat-slide-toggle` — không có label cạnh                                              |                                                                                               |
+| Đồng bộ lần cuối | qua pipe `relativeTime`                                                               |                                                                                               |
+| Ngày thêm        | `createdAt \| date:'dd/MM/yyyy'`                                                      |                                                                                               |
+| Thao tác         | icon-button Sửa/Đồng bộ/Xoá                                                           | Đồng bộ hiện spinner đúng dòng; hộp xác nhận Xoá giữ mở và hiện spinner đến khi lệnh hoàn tất |
 
 > Đồng bộ ở bảng này chỉ là Sync của từng channel. Global Sync all, tiến trình
 > của run và lỗi theo channel nằm ở Sync history / Sync run detail.
