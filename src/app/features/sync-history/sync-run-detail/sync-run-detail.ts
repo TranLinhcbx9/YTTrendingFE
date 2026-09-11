@@ -3,20 +3,24 @@ import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
 import { NotificationService } from '@core/ui/notification.service';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { ChannelAvatar } from '@shared/ui/channel-avatar/channel-avatar';
+import { FilterToolbar } from '@shared/ui/filter-toolbar/filter-toolbar';
 import { environment } from '@env/environment';
 import { isSyncRunPreviewName } from '../sync-history.fixtures';
 import {
   formatSyncRunDuration,
+  SYNC_RUN_ITEM_STATUS_LABELS,
   SyncRunItem,
   SyncRunItemStatus,
   SyncRunStatus,
@@ -24,11 +28,6 @@ import {
 import { SyncHistoryStore } from '../sync-history.store';
 import { SyncRunFailureDetails } from '../sync-run-failure-details/sync-run-failure-details';
 import { SyncStatusChip } from '../sync-status-chip/sync-status-chip';
-
-interface StatusFilterOption {
-  label: string;
-  value: SyncRunItemStatus | undefined;
-}
 
 @Component({
   selector: 'app-sync-run-detail-page',
@@ -38,13 +37,16 @@ interface StatusFilterOption {
     RouterLink,
     MatBottomSheetModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatIconModule,
     MatPaginatorModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
     MatTableModule,
     ChannelAvatar,
     EmptyState,
+    FilterToolbar,
     SyncStatusChip,
     SyncRunFailureDetails,
   ],
@@ -57,14 +59,15 @@ export class SyncRunDetail implements OnInit, OnDestroy {
   private readonly bottomSheet = inject(MatBottomSheet);
 
   protected readonly invalidRunId = signal(false);
-  protected readonly statusFilters: readonly StatusFilterOption[] = [
-    { label: 'All', value: undefined },
-    { label: 'Pending', value: 'Pending' },
-    { label: 'Running', value: 'Running' },
-    { label: 'Successful', value: 'Succeeded' },
-    { label: 'Skipped', value: 'Skipped' },
-    { label: 'Failed', value: 'Failed' },
+  protected readonly statusAll = '';
+  protected readonly itemStatuses: readonly SyncRunItemStatus[] = [
+    'Pending',
+    'Running',
+    'Succeeded',
+    'Skipped',
+    'Failed',
   ];
+  protected readonly itemStatusLabels = SYNC_RUN_ITEM_STATUS_LABELS;
   protected readonly displayedColumns = [
     'channel',
     'status',
@@ -170,8 +173,8 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     this.store.setItemPage(event.pageIndex + 1);
   }
 
-  protected setStatus(status: SyncRunItemStatus | undefined): void {
-    this.store.setItemStatus(status);
+  protected onStatusChange(status: SyncRunItemStatus | ''): void {
+    this.store.setItemStatus(status || undefined);
   }
 
   protected formatDuration(startedAt: string | null, completedAt: string | null): string {

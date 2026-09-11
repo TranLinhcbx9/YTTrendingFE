@@ -163,19 +163,20 @@
       <section class="sync-run-detail__results">
         <div class="sync-run-detail__results-header">
           <h2>Channels in this run</h2>
-          <div class="sync-run-detail__filters" aria-label="Filter channel results by status">
-            @for (filter of statusFilters; track filter.label) {
-              <button
-                matButton="outlined"
-                type="button"
-                class="sync-run-detail__filter"
-                [class.sync-run-detail__filter--selected]="store.filter().status === filter.value"
-                (click)="setStatus(filter.value)"
+          <app-filter-toolbar class="sync-run-detail__filters" ariaLabel="Filter channel results">
+            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+              <mat-label>Status</mat-label>
+              <mat-select
+                [value]="store.filter().status ?? statusAll"
+                (valueChange)="onStatusChange($event)"
               >
-                {{ filter.label }}
-              </button>
-            }
-          </div>
+                <mat-option [value]="statusAll">All statuses</mat-option>
+                @for (status of itemStatuses; track status) {
+                  <mat-option [value]="status">{{ itemStatusLabels[status] }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+          </app-filter-toolbar>
         </div>
 
         @if (store.isSyncRunItemsLoading()) {
