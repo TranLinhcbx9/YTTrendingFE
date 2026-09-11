@@ -104,10 +104,10 @@
 
   <!-- Score / Min views — present in mockup, backend doesn't accept the param yet -->
   <div class="filter-slider-field" matTooltip="Backend doesn't accept the score param yet">
-    <span class="text-[11px] font-semibold tracking-[0.02em] text-[var(--color-text-muted)]"
+    <span class="filter-slider-field__label"
       >Score: 0 – 100</span
     >
-    <mat-slider class="w-[180px]" [min]="0" [max]="100" disabled>
+    <mat-slider class="filter-slider-field__slider" [min]="0" [max]="100" disabled>
       <input matSliderStartThumb [value]="0" />
       <input matSliderEndThumb [value]="100" />
     </mat-slider>
