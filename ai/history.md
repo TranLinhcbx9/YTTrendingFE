@@ -3,6 +3,11 @@
 > Việc đã xong, mới nhất trên đầu. Chi tiết đổi gì xem `git log`/`git show
 > <hash>`. Đang làm/block hiện tại xem [`ai/current.md`](current.md).
 
+- **2026-09-11** — Sync history: thay native date input của Custom range bằng
+  Material datepicker, giới hạn From/To tới ngày hiện tại và ràng buộc
+  `From <= To`; serialize theo ngày đã chọn, không lệch timezone. `ng build`
+  và `ng lint` pass.
+
 - **2026-09-09** — Stitch/UX: chốt Global Sync all tạo một run rồi điều
   hướng ngay đến Sync run detail; tiến trình/lỗi batch rời khỏi Channels và
   nằm ở Sync history + detail (desktop/mobile). Bỏ các state batch cũ của

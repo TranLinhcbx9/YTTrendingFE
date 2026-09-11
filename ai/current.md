@@ -5,19 +5,27 @@
 > [`ai/history.md`](history.md).
 
 ## Đang làm
+- **Table template standardization: code complete; `ng build`/`ng lint` and
+  Prettier pass. Manual responsive verification with rendered data remains.**
+  - Channels, Sync history and Sync run detail now share Material
+    `mat-table` plus the global `app-data-table-shell`; filters, actions,
+    pagination and store/API flows are unchanged.
 - **Sync history / Sync all: code xong, `ng build`/`ng lint` pass, CHƯA verify
   tay với backend thật.**
-  - Route `/sync-history` là API-backed launcher theo Stitch: tạo run qua
-    `POST /api/jobs/sync`, điều hướng ngay tới detail; map hai lỗi `409` đúng
-    contract và không dựng action active-run giả.
+  - Route `/sync-history` tạo run qua `POST /api/jobs/sync`, điều hướng ngay
+    tới detail, map hai lỗi `409` đúng contract; có history thật từ
+    `GET /api/jobs`, filter status/source/time range (cả custom range), loading/
+    empty/error states và pagination.
+  - Custom range dùng Material datepicker; From/To không chọn được ngày tương
+    lai, To tối đa ngày hiện tại và hai đầu luôn giữ `From <= To`. Giá trị gửi
+    lên API giữ đúng ngày user chọn, không bị lệch timezone.
   - Route `/sync-history/:runId` poll summary + item page 3 giây cho tới trạng
     thái terminal; có metric/progress, filter status, paginator, lỗi/retry,
     desktop failure inspector và mobile bottom sheet để xem/copy error code.
   - Có preview dev-only (`?preview=running|completed-with-issues|interrupted|failed`)
     vì worker Batch 1–3 hiện mới có thể giữ run ở `Pending`.
-  - Không làm history list/source-date filter/View active run: chờ
-    `GET /api/jobs/sync` hoặc active-run endpoint. Reference visual giữ ở
-    `.stitch/designs/`.
+  - Không làm action cancel/retry item/retry run/resume; mọi retry vẫn là tạo
+    Sync all run mới. Reference visual giữ ở `.stitch/designs/`.
 - **Channel sync (single): code xong, `ng build` pass, CHƯA verify tay với backend thật.**
   - `POST /api/channels/{id}/sync` đã wire qua `ChannelsService` →
     `ChannelsStore` → nút Sync trong từng row; spinner đúng row, reload

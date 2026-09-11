@@ -121,11 +121,22 @@ Sync-all chạy bất đồng bộ qua một `SyncRun`. Request tạo run chỉ 
 lưu xong thì enqueue cho worker nội bộ và trả ngay; FE dùng `GET` để poll summary, rồi đọc danh
 sách item qua endpoint paged riêng. Worker chỉ xử lý một run và các item của run đó theo tuần tự.
 
-| Verb | Route                       | Request                                          | Response thành công                |
-| ---- | --------------------------- | ------------------------------------------------ | ---------------------------------- |
-| POST | `/api/jobs/sync`            | Không body; trigger luôn là `Manual`             | **202**, `SyncRunDto`              |
-| GET  | `/api/jobs/sync/{id}`       | route `id`                                       | 200, `SyncRunDto`                  |
-| GET  | `/api/jobs/sync/{id}/items` | route `id` + query `page`, `pageSize`, `status?` | 200, `PagedResult<SyncRunItemDto>` |
+| Verb | Route                       | Request                                                       | Response thành công                |
+| ---- | --------------------------- | ------------------------------------------------------------- | ---------------------------------- |
+| GET  | `/api/jobs`                 | query `page`, `pageSize`, `status?`, `source?`, range filter? | 200, `PagedResult<SyncRunDto>`     |
+| POST | `/api/jobs/sync`            | Không body; trigger luôn là `Manual`                          | **202**, `SyncRunDto`              |
+| GET  | `/api/jobs/sync/{id}`       | route `id`                                                    | 200, `SyncRunDto`                  |
+| GET  | `/api/jobs/sync/{id}/items` | route `id` + query `page`, `pageSize`, `status?`              | 200, `PagedResult<SyncRunItemDto>` |
+
+### Query params — `GET /api/jobs`
+
+- `page`, `pageSize`: theo mục 5.
+- `status` (optional): `Pending` / `Running` / `Completed` /
+  `CompletedWithIssues` / `Interrupted` / `Failed`.
+- `source` (optional): `Manual` / `Scheduled`.
+- FE gửi một range filter (optional): `timeRangeInDays` hoặc cặp `from` và
+  `to`. Custom range luôn gửi đủ `from`/`to` dạng ISO 8601, tính cả hai đầu
+  ngày.
 
 `POST /api/jobs/sync` trả `409` với code `syncRun.inProgress` nếu đã có run ở trạng thái
 `Pending` hoặc `Running`, và trả `409` với code `syncRun.noEnabledChannels` nếu không có channel
@@ -315,5 +326,7 @@ Khi channel đang được một request khác sync, server trả `409` với co
 - Không có `VideoDetailDto` riêng biệt — trang detail phải tự đủ dùng với `VideoDto`.
 - `POST` tạo resource trả `200`, không phải `201` — đừng dựa vào status code để phân biệt create/read.
 - Video: FE chỉ có Query (list/detail), không có Command (add/update/delete). Video được tạo/cập nhật từ `POST /api/channels/{id}/sync`; SyncRun worker xử lý Sync all theo polling API ở trên. Metrics Update Job vẫn chưa expose API cho FE.
-- SyncRun chưa có endpoint list history, cancel, retry hay resume. `POST /api/jobs/sync` chỉ tạo run mới; nếu nhận `syncRun.inProgress`, response không mang id của run đang chạy để FE chuyển sang theo dõi.
+- SyncRun có endpoint list history, nhưng chưa có cancel, retry hay resume.
+  `POST /api/jobs/sync` chỉ tạo run mới; nếu nhận `syncRun.inProgress`, response
+  không mang id của run đang chạy để FE chuyển sang theo dõi.
   v88

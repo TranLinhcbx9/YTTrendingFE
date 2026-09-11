@@ -2,6 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -30,6 +31,7 @@ interface SelectOption<T> {
     DatePipe,
     RouterLink,
     MatButtonModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -52,8 +54,9 @@ export class SyncHistory {
   protected readonly status = signal<SyncRunStatus | undefined>(undefined);
   protected readonly source = signal<SyncRunTriggerType | undefined>(undefined);
   protected readonly timeRange = signal<HistoryTimeRange>('default');
-  protected readonly fromDate = signal('');
-  protected readonly toDate = signal('');
+  protected readonly today = new Date();
+  protected readonly fromDate = signal<Date | null>(null);
+  protected readonly toDate = signal<Date | null>(null);
   protected readonly dateRangeError = signal<string | null>(null);
   protected readonly displayedColumns = [
     'run',
@@ -107,7 +110,7 @@ export class SyncHistory {
     this.applyFilters();
   }
 
-  protected onDateChange(field: 'from' | 'to', value: string): void {
+  protected onDateChange(field: 'from' | 'to', value: Date | null): void {
     if (field === 'from') {
       this.fromDate.set(value);
     } else {
@@ -120,8 +123,8 @@ export class SyncHistory {
     this.status.set(undefined);
     this.source.set(undefined);
     this.timeRange.set('default');
-    this.fromDate.set('');
-    this.toDate.set('');
+    this.fromDate.set(null);
+    this.toDate.set(null);
     this.dateRangeError.set(null);
     this.store.setHistoryFilters({});
   }
@@ -164,8 +167,8 @@ export class SyncHistory {
         return;
       }
 
-      filter.from = `${from}T00:00:00.000Z`;
-      filter.to = `${to}T23:59:59.999Z`;
+      filter.from = `${this.toDateString(from)}T00:00:00.000Z`;
+      filter.to = `${this.toDateString(to)}T23:59:59.999Z`;
     } else if (timeRange !== 'default') {
       filter.timeRangeInDays = Number(timeRange);
     }
@@ -176,5 +179,12 @@ export class SyncHistory {
 
   private firstFieldError(errors: Record<string, string[]> | undefined): string | null {
     return errors ? (Object.values(errors).flat()[0] ?? null) : null;
+  }
+
+  private toDateString(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }
