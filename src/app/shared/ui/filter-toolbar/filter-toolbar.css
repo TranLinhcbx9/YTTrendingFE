@@ -11,9 +11,44 @@
   gap: 12px;
 }
 
+.filter-toolbar__mobile-trigger {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  --mat-button-outlined-container-height: 44px;
+}
+
+.filter-toolbar__active-count {
+  display: grid;
+  min-width: 16px;
+  height: 16px;
+  place-items: center;
+  border-radius: 9999px;
+  background: var(--color-accent);
+  padding-inline: 4px;
+  color: var(--color-accent-contrast);
+  font: var(--mat-sys-label-small);
+  font-weight: 700;
+}
+
 @media (max-width: 599px) {
+  .filter-toolbar__mobile-trigger {
+    display: inline-flex;
+  }
+
   .filter-toolbar--stack-on-mobile {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .filter-toolbar--collapse-on-mobile {
+    display: none;
+  }
+
+  .filter-toolbar--collapse-on-mobile.filter-toolbar--open {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    margin-top: 12px;
   }
 }

@@ -1,5 +1,5 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { Component, OnDestroy, OnInit, inject, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
@@ -68,6 +68,7 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     'Failed',
   ];
   protected readonly itemStatusLabels = SYNC_RUN_ITEM_STATUS_LABELS;
+  protected readonly activeFilterCount = computed(() => (this.store.filter().status ? 1 : 0));
   protected readonly displayedColumns = [
     'channel',
     'status',

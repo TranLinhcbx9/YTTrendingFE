@@ -163,7 +163,12 @@
       <section class="sync-run-detail__results">
         <div class="sync-run-detail__results-header">
           <h2>Channels in this run</h2>
-          <app-filter-toolbar class="sync-run-detail__filters" ariaLabel="Filter channel results">
+          <app-filter-toolbar
+            class="sync-run-detail__filters"
+            ariaLabel="Filter channel results"
+            [collapseOnMobile]="true"
+            [activeFilterCount]="activeFilterCount()"
+          >
             <mat-form-field appearance="outline" subscriptSizing="dynamic">
               <mat-label>Status</mat-label>
               <mat-select

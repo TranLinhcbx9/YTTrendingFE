@@ -3,6 +3,12 @@
 > Việc đã xong, mới nhất trên đầu. Chi tiết đổi gì xem `git log`/`git show
 <hash>`. Đang làm/block hiện tại xem [`ai/current.md`](current.md).
 
+- **2026-09-12** — Responsive UI: chuẩn hoá mobile filter cho Dashboard,
+  Sync history và Sync run detail qua `app-filter-toolbar`. Dưới 600px,
+  mỗi màn chỉ hiện nút `Filters` (kèm badge filter đang bật); bấm để
+  mở/thu gọn field ngay bên dưới. Dashboard bỏ bottom sheet cũ.
+  `ng build` và `ng lint` pass.
+
 - **2026-09-12** — UI: chuẩn hoá filter multi-field theo Sync history. Thêm
   `app-filter-toolbar` cho Dashboard/Sync history; Dashboard dùng Material
   dropdown có label cho Time range/Status và Clear filters. Không thêm filter

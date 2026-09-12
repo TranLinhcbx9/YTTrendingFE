@@ -73,6 +73,8 @@
       class="sync-history-page__filters"
       ariaLabel="Filter sync history"
       [stackOnMobile]="true"
+      [collapseOnMobile]="true"
+      [activeFilterCount]="activeFilterCount()"
     >
       <mat-form-field appearance="outline" subscriptSizing="dynamic">
         <mat-label>Status</mat-label>

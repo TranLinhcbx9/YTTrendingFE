@@ -1,45 +1,10 @@
-<button
-  matButton="outlined"
-  type="button"
-  class="mobile-filters-trigger"
-  (click)="mobileFiltersOpen.set(true)"
->
-  <mat-icon>tune</mat-icon>
-  Filters
-  @if (activeFilterCount(); as count) {
-    <span
-      class="grid h-4 min-w-4 place-items-center rounded-full bg-[var(--color-accent)] px-1 text-[10px] font-bold text-[var(--color-accent-contrast)]"
-      >{{ count }}</span
-    >
-  }
-</button>
-
-@if (mobileFiltersOpen()) {
-  <button
-    type="button"
-    class="filter-backdrop fixed inset-0 z-20"
-    aria-label="Close filters"
-    (click)="mobileFiltersOpen.set(false)"
-  ></button>
-}
-
 <app-filter-toolbar
-  class="filter-fields"
-  [class.filter-fields--open]="mobileFiltersOpen()"
   ariaLabel="Filter videos"
   [stackOnMobile]="true"
+  [collapseOnMobile]="true"
+  [activeFilterCount]="activeFilterCount()"
 >
-  <button
-    matIconButton
-    type="button"
-    class="filter-close"
-    (click)="mobileFiltersOpen.set(false)"
-    aria-label="Close filters"
-  >
-    <mat-icon>close</mat-icon>
-  </button>
-
-  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-select-field">
     <mat-label>Time range</mat-label>
     <mat-select [value]="filter().timeRanges" (selectionChange)="onTimeRangesChange($event.value)">
       <mat-option [value]="1">Last 24 hours</mat-option>
@@ -92,7 +57,7 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="w-[180px]">
+  <mat-form-field appearance="outline" subscriptSizing="dynamic" class="filter-select-field">
     <mat-label>Status</mat-label>
     <mat-select [value]="filter().status ?? STATUS_ALL" (valueChange)="onStatusChange($event)">
       <mat-option [value]="STATUS_ALL">All statuses</mat-option>
@@ -104,9 +69,7 @@
 
   <!-- Score / Min views — present in mockup, backend doesn't accept the param yet -->
   <div class="filter-slider-field" matTooltip="Backend doesn't accept the score param yet">
-    <span class="filter-slider-field__label"
-      >Score: 0 – 100</span
-    >
+    <span class="filter-slider-field__label">Score: 0 – 100</span>
     <mat-slider class="filter-slider-field__slider" [min]="0" [max]="100" disabled>
       <input matSliderStartThumb [value]="0" />
       <input matSliderEndThumb [value]="100" />
@@ -114,7 +77,7 @@
   </div>
 
   <app-clearable-input
-    class="w-[180px]"
+    class="filter-min-views-field"
     label="Min views"
     type="number"
     placeholder="e.g. 10000"

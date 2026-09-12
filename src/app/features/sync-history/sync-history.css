@@ -188,5 +188,6 @@
 
   .sync-history-page__filters mat-form-field {
     min-width: 0;
+    width: 100%;
   }
 }

@@ -297,4 +297,7 @@
     line-height: 24px;
   }
 
+  .sync-run-detail__filters {
+    width: 100%;
+  }
 }

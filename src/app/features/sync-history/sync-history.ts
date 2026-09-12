@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -60,6 +60,10 @@ export class SyncHistory {
   protected readonly fromDate = signal<Date | null>(null);
   protected readonly toDate = signal<Date | null>(null);
   protected readonly dateRangeError = signal<string | null>(null);
+  protected readonly activeFilterCount = computed(
+    () =>
+      (this.status() ? 1 : 0) + (this.source() ? 1 : 0) + (this.timeRange() !== 'default' ? 1 : 0),
+  );
   protected readonly displayedColumns = [
     'run',
     'status',
