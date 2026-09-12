@@ -5,7 +5,6 @@ import { DurationPipe } from '@shared/pipes/duration';
 import { RelativeTimePipe } from '@shared/pipes/relative-time';
 import { Video } from '@shared/models/video';
 import { ChannelAvatar } from '@shared/ui/channel-avatar/channel-avatar';
-import { ScoreBadge } from '@shared/ui/score-badge/score-badge';
 import { Sparkline } from '@shared/ui/sparkline/sparkline';
 import { StatusChip } from '@shared/ui/status-chip/status-chip';
 
@@ -24,7 +23,6 @@ import { StatusChip } from '@shared/ui/status-chip/status-chip';
     CompactNumberPipe,
     DurationPipe,
     RelativeTimePipe,
-    ScoreBadge,
     Sparkline,
     StatusChip,
   ],

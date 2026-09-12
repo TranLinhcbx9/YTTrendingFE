@@ -73,6 +73,12 @@
       "title": "Sync Run Detail (Mobile Investigation)",
       "route": "/sync-history/:runId",
       "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "8615278145743362869",
+      "title": "Recent Shorts Dashboard (Desktop)",
+      "route": "/dashboard",
+      "deviceType": "DESKTOP"
     }
   ],
   "designSystem": {

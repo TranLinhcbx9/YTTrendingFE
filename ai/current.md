@@ -66,15 +66,20 @@
     `compactNumber`/`duration`. `StatusChip` hết tự khai `VideoStatus` —
     dùng chung `VIDEO_STATUS_LABELS` ở `shared/models/video.ts`.
   - UI dựng **đúng mockup Screens §RecentShorts**: filter bar 5 nhóm (label
-    trên control) + `mat-tab-group` 4 tab + grid 5 cột + card có
-    `ScoreBadge`/bookmark/sparkline. Những gì backend chưa có thì **hiện
+    trên control) + `mat-tab-group` 4 tab + grid 5 cột + card có score
+    overlay/bookmark/sparkline. Những gì backend chưa có thì **hiện
     nhưng disabled/pending**, không phải nút giả bấm được:
     - Filter điểm: `disabled` + tooltip ("`VideoFilter` chưa có param tương
       ứng").
     - Tab Trending / Fast Growing / Saved: hiện `EmptyState` nói rõ chờ gì.
-    - `ScoreBadge` luôn `—` (pending), footer card "chờ dữ liệu", nút
+    - Score luôn `—` (pending), footer card "chờ dữ liệu", nút
       bookmark disabled — bật bằng input `score`/`trendPoints`/
       `bookmarkEnabled` khi có API.
+  - VideoCard vừa đối chiếu lại source screen Stitch
+    `Recent Shorts Dashboard (Desktop)`: badge kênh/score/duration nằm trên
+    thumbnail, metric gộp một dòng và footer có divider, status/velocity cùng
+    action mở YouTube/lưu ý tưởng. Mobile vẫn là hàng ngang dùng cùng cấu trúc;
+    không đổi store, API hay behavior action.
   - Filter chạy thật: chip-search kênh (`mat-chip-grid` + autocomplete,
     đúng mockup), Trạng thái, Views tối thiểu và Time range
     (`VideoFilter.Status`/`MinViews`/`TimeRanges` có sẵn ở BE) — Time range
