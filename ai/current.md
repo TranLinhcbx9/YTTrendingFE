@@ -6,6 +6,10 @@
 
 ## Đang làm
 
+- **Global Sync all header action: code complete; build/lint/Prettier pass.**
+  - The persistent header is now the sole entry point for a global sync; it
+    retains the existing loading, error, and run-detail navigation flow.
+
 - **Table template standardization: code complete; `ng build`/`ng lint` and
   Prettier pass. Manual responsive verification with rendered data remains.**
   - Channels, Sync history and Sync run detail now share Material

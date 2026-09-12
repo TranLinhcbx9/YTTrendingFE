@@ -8,36 +8,21 @@
       <mat-icon class="!h-6 !w-6 !text-[24px]">trending_up</mat-icon>
     </div>
 
-    <a
-      routerLink="/dashboard"
-      routerLinkActive="rail-item--active"
-      class="rail-item"
-      matRipple
-    >
+    <a routerLink="/dashboard" routerLinkActive="rail-item--active" class="rail-item" matRipple>
       <span class="rail-item__indicator">
         <mat-icon>dashboard</mat-icon>
       </span>
       <span class="rail-item__label">Dashboard</span>
     </a>
 
-    <a
-      routerLink="/channels"
-      routerLinkActive="rail-item--active"
-      class="rail-item"
-      matRipple
-    >
+    <a routerLink="/channels" routerLinkActive="rail-item--active" class="rail-item" matRipple>
       <span class="rail-item__indicator">
         <mat-icon>subscriptions</mat-icon>
       </span>
       <span class="rail-item__label">Channels</span>
     </a>
 
-    <a
-      routerLink="/sync-history"
-      routerLinkActive="rail-item--active"
-      class="rail-item"
-      matRipple
-    >
+    <a routerLink="/sync-history" routerLinkActive="rail-item--active" class="rail-item" matRipple>
       <span class="rail-item__indicator">
         <mat-icon>history</mat-icon>
       </span>
@@ -55,8 +40,25 @@
       >
         <mat-icon>menu</mat-icon>
       </button>
-      <span class="flex-1 font-[family-name:var(--font-display)]">{{ pageTitle() }}</span>
-      <span class="flex items-center gap-2 text-[var(--color-text-muted)]">
+      <span class="app-toolbar__title">{{ pageTitle() }}</span>
+      <button
+        matButton="filled"
+        type="button"
+        class="app-toolbar__sync-button"
+        aria-label="Sync all channels"
+        [disabled]="syncHistoryStore.isActionRunning()"
+        (click)="startSync()"
+      >
+        @if (syncHistoryStore.isActionRunning()) {
+          <mat-progress-spinner diameter="18" mode="indeterminate" />
+        } @else {
+          <ng-container>
+            <mat-icon>sync</mat-icon>
+            <span class="app-toolbar__sync-label">Sync all</span>
+          </ng-container>
+        }
+      </button>
+      <span class="app-toolbar__last-sync flex items-center gap-2 text-[var(--color-text-muted)]">
         <mat-icon class="!h-5 !w-5 !text-[20px]">sync</mat-icon>
         <span class="text-sm">Last synced: —</span>
       </span>
@@ -65,15 +67,30 @@
     <mat-sidenav-container class="app-sidenav-container flex-1">
       <mat-sidenav #drawer class="app-sidenav" mode="over" autoFocus="dialog">
         <nav class="drawer-nav">
-          <a routerLink="/dashboard" routerLinkActive="drawer-item--active" class="drawer-item" (click)="drawer.close()">
+          <a
+            routerLink="/dashboard"
+            routerLinkActive="drawer-item--active"
+            class="drawer-item"
+            (click)="drawer.close()"
+          >
             <mat-icon>dashboard</mat-icon>
             <span>Dashboard</span>
           </a>
-          <a routerLink="/channels" routerLinkActive="drawer-item--active" class="drawer-item" (click)="drawer.close()">
+          <a
+            routerLink="/channels"
+            routerLinkActive="drawer-item--active"
+            class="drawer-item"
+            (click)="drawer.close()"
+          >
             <mat-icon>subscriptions</mat-icon>
             <span>Channels</span>
           </a>
-          <a routerLink="/sync-history" routerLinkActive="drawer-item--active" class="drawer-item" (click)="drawer.close()">
+          <a
+            routerLink="/sync-history"
+            routerLinkActive="drawer-item--active"
+            class="drawer-item"
+            (click)="drawer.close()"
+          >
             <mat-icon>history</mat-icon>
             <span>Sync history</span>
           </a>

@@ -266,10 +266,6 @@
     line-height: 32px;
   }
 
-  .sync-run-detail__new-sync-button {
-    --mat-button-filled-container-height: 44px;
-  }
-
   .sync-run-detail__metadata span:not(:last-child)::after {
     content: '';
   }

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,11 +8,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 
-import { NotificationService } from '@core/ui/notification.service';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { FilterToolbar } from '@shared/ui/filter-toolbar/filter-toolbar';
 import { SyncRun, SyncRunStatus, SyncRunTriggerType, SyncRunsFilter } from './sync-history.models';
@@ -38,7 +36,6 @@ interface SelectOption<T> {
     MatInputModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule,
     MatSelectModule,
     MatTableModule,
     EmptyState,
@@ -50,8 +47,6 @@ interface SelectOption<T> {
 })
 export class SyncHistory {
   protected readonly store = inject(SyncHistoryStore);
-  private readonly router = inject(Router);
-  private readonly notification = inject(NotificationService);
 
   protected readonly status = signal<SyncRunStatus | undefined>(undefined);
   protected readonly source = signal<SyncRunTriggerType | undefined>(undefined);
@@ -87,19 +82,6 @@ export class SyncHistory {
     { label: 'Manual', value: 'Manual' },
     { label: 'Scheduled', value: 'Scheduled' },
   ];
-
-  protected async startSync(): Promise<void> {
-    const run = await this.store.createSyncRun();
-    if (run) {
-      await this.router.navigate(['/sync-history', run.id]);
-      return;
-    }
-
-    const error = this.store.actionError();
-    if (error?.code !== 'syncRun.inProgress' && error?.code !== 'syncRun.noEnabledChannels') {
-      this.notification.mutationError(error, 'Could not start sync.');
-    }
-  }
 
   protected onStatusSelection(value: SyncRunStatus | ''): void {
     this.status.set(value || undefined);

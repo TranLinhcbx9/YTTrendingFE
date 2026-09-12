@@ -42,64 +42,6 @@
               <span class="sync-run-detail__preview">Development preview</span>
             }
           </div>
-
-          @if (!store.isActiveRun()) {
-            <div
-              class="flex w-full max-w-80 flex-none flex-col items-stretch gap-1.5 sm:w-auto sm:items-end"
-            >
-              <button
-                matButton="filled"
-                type="button"
-                class="sync-run-detail__new-sync-button"
-                [disabled]="store.isActionRunning()"
-                (click)="startNewSync()"
-              >
-                @if (store.isActionRunning()) {
-                  <mat-progress-spinner
-                    diameter="18"
-                    mode="indeterminate"
-                    style="--mat-progress-spinner-active-indicator-color: var(--mat-sys-on-primary)"
-                  />
-                } @else {
-                  <ng-container>
-                    <mat-icon>sync</mat-icon>
-                    Sync all
-                  </ng-container>
-                }
-              </button>
-
-              @if (store.actionError(); as error) {
-                <div
-                  class="flex flex-wrap justify-start gap-x-1.5 gap-y-0.5 text-left text-[var(--color-danger)] [font:var(--mat-sys-body-small)] sm:justify-end sm:text-right"
-                  aria-live="polite"
-                >
-                  @switch (error.code) {
-                    @case ('syncRun.inProgress') {
-                      <span>A Sync all run is already in progress.</span>
-                    }
-                    @case ('syncRun.noEnabledChannels') {
-                      <span>Enable at least one channel before starting a sync.</span>
-                      <a
-                        routerLink="/channels"
-                        class="font-semibold text-[var(--color-accent)] underline"
-                        >Manage channels</a
-                      >
-                    }
-                    @case ('validation.failed') {
-                      <span>{{ error.detail ?? error.title }}</span>
-                    }
-                    @default {
-                      <span>{{
-                        error.status === 0 || error.status >= 500
-                          ? 'Could not start a sync. Please try again.'
-                          : (error.detail ?? error.title)
-                      }}</span>
-                    }
-                  }
-                </div>
-              }
-            </div>
-          }
         </div>
 
         <div class="sync-run-detail__metadata">

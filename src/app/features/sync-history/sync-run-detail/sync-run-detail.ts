@@ -1,18 +1,16 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 
-import { NotificationService } from '@core/ui/notification.service';
 import { EmptyState } from '@shared/ui/empty-state/empty-state';
 import { ChannelAvatar } from '@shared/ui/channel-avatar/channel-avatar';
 import { FilterToolbar } from '@shared/ui/filter-toolbar/filter-toolbar';
@@ -41,7 +39,6 @@ import { SyncStatusChip } from '../sync-status-chip/sync-status-chip';
     MatIconModule,
     MatPaginatorModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule,
     MatSelectModule,
     MatTableModule,
     ChannelAvatar,
@@ -78,8 +75,6 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     'details',
   ];
   protected readonly trackByItemId = (_: number, item: SyncRunItem): number => item.id;
-  private readonly router = inject(Router);
-  private readonly notification = inject(NotificationService);
   private routeSubscription: Subscription | null = null;
 
   ngOnInit(): void {
@@ -92,19 +87,6 @@ export class SyncRunDetail implements OnInit, OnDestroy {
     this.routeSubscription?.unsubscribe();
     this.store.stopPolling();
     this.store.clearSelectedFailure();
-  }
-
-  protected async startNewSync(): Promise<void> {
-    const run = await this.store.createSyncRun();
-    if (run) {
-      await this.router.navigate(['/sync-history', run.id]);
-      return;
-    }
-
-    const error = this.store.actionError();
-    if (error?.code !== 'syncRun.inProgress' && error?.code !== 'syncRun.noEnabledChannels') {
-      this.notification.mutationError(error, 'Could not start sync.');
-    }
   }
 
   protected outcomeIcon(status: SyncRunStatus): string {

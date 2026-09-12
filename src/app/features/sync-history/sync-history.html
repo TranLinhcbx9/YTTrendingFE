@@ -4,57 +4,6 @@
       <h1>Sync history</h1>
       <p>Review every channel sync run and open a run to inspect its results.</p>
     </div>
-
-    <div class="sync-history-page__action">
-      <button
-        matButton="filled"
-        type="button"
-        class="sync-history-page__sync-button"
-        [disabled]="store.isActionRunning()"
-        (click)="startSync()"
-      >
-        @if (store.isActionRunning()) {
-          <mat-progress-spinner diameter="18" mode="indeterminate" />
-        } @else {
-          <ng-container>
-            <mat-icon>sync</mat-icon>
-            Sync all
-          </ng-container>
-        }
-      </button>
-
-      @if (store.actionError(); as error) {
-        <div class="sync-history-page__feedback" aria-live="polite">
-          <mat-icon>error</mat-icon>
-          <div>
-            @switch (error.code) {
-              @case ('syncRun.inProgress') {
-                <strong>A Sync all run is already in progress.</strong>
-                <span>Wait for it to finish before starting another run.</span>
-              }
-              @case ('syncRun.noEnabledChannels') {
-                <strong>No enabled channels</strong>
-                <span>Enable at least one channel before starting a sync.</span>
-                <a routerLink="/channels">Manage channels</a>
-              }
-              @case ('validation.failed') {
-                <strong>Could not start a sync.</strong>
-                <span>{{ error.detail ?? error.title }}</span>
-              }
-              @default {
-                <strong>Could not start a sync.</strong>
-                @if (error.status === 0 || error.status >= 500) {
-                  <span>Please check your connection and try again.</span>
-                  <button matButton type="button" (click)="startSync()">Retry</button>
-                } @else {
-                  <span>{{ error.detail ?? error.title }}</span>
-                }
-              }
-            }
-          </div>
-        </div>
-      }
-    </div>
   </section>
 
   <section class="sync-history-page__history" aria-labelledby="history-title">
