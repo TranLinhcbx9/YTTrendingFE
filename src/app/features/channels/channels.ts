@@ -82,7 +82,9 @@ export class Channels {
     const ok = await this.store.setChannelEnabled(channel, event.checked);
     if (ok) {
       this.notification.success(
-        event.checked ? `Tracking enabled for "${channel.name}"` : `Tracking disabled for "${channel.name}"`,
+        event.checked
+          ? `Tracking enabled for "${channel.name}"`
+          : `Tracking disabled for "${channel.name}"`,
       );
     } else {
       this.notification.mutationError(this.store.actionError(), 'Failed to update channel');
@@ -101,7 +103,11 @@ export class Channels {
   }
 
   protected openEdit(channel: Channel): void {
-    this.dialog.open(ChannelEditDialog, { data: channel, width: '28rem' });
+    this.dialog.open(ChannelEditDialog, {
+      data: channel,
+      width: '28rem',
+      panelClass: 'app-dialog-panel',
+    });
   }
 
   protected onPageChange(event: PageEvent): void {
@@ -110,9 +116,11 @@ export class Channels {
 
   protected async confirmDelete(channel: Channel): Promise<void> {
     this.dialog.open(ConfirmDialog, {
+      panelClass: 'app-dialog-panel',
       data: {
         title: `Delete channel ${channel.name}?`,
-        message: 'All videos tracked from this channel will also be deleted. This action cannot be undone.',
+        message:
+          'All videos tracked from this channel will also be deleted. This action cannot be undone.',
         confirmLabel: 'Delete',
         cancelLabel: 'Cancel',
         tone: 'danger',

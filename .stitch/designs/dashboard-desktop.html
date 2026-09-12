@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shorts Trend Monitor - Dashboard</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "primary-container": "#006a60",
+          "surface-bright": "#f0fcf9",
+          "surface": "#f0fcf9",
+          "inverse-primary": "#84d5c8",
+          "primary": "#005048",
+          "surface-high": "#DCECE8",
+          "secondary-fixed": "#b8ede4",
+          "background": "#EDFDF9",
+          "surface-variant": "#dae5e2",
+          "on-tertiary-fixed": "#1f0b50",
+          "tertiary-fixed": "#e8deff",
+          "surface-container": "#E1F1ED",
+          "secondary": "#346760",
+          "outline": "#6e7977",
+          "on-primary-container": "#95e7da",
+          "on-surface-variant": "#3E4947",
+          "surface-container-highest": "#dae5e2",
+          "secondary-fixed-dim": "#9cd1c8",
+          "on-primary-fixed": "#00201c",
+          "on-tertiary-fixed-variant": "#4c3c7e",
+          "on-surface": "#101E1C",
+          "error-container": "#ffdad6",
+          "on-tertiary": "#ffffff",
+          "on-secondary-fixed-variant": "#194f48",
+          "surface-lowest": "#FFFFFF",
+          "surface-low": "#E7F7F3",
+          "outline-variant": "#BEC9C6",
+          "on-primary": "#ffffff",
+          "on-secondary": "#ffffff",
+          "tertiary-container": "#635397",
+          "surface-tint": "#016a60",
+          "surface-container-high": "#dfebe8",
+          "surface-container-lowest": "#ffffff",
+          "on-secondary-fixed": "#00201c",
+          "secondary-container": "#b5eae1",
+          "inverse-surface": "#283231",
+          "error": "#BA1A1A",
+          "on-background": "#131d1c",
+          "primary-fixed-dim": "#84d5c8",
+          "tertiary-fixed-dim": "#cdbdff",
+          "on-error": "#ffffff",
+          "primary-fixed": "#9ff2e4",
+          "inverse-on-surface": "#e8f3f0",
+          "on-secondary-container": "#386b64",
+          "on-tertiary-container": "#ddd1ff",
+          "surface-dim": "#d1dcda",
+          "on-primary-fixed-variant": "#005048",
+          "on-error-container": "#93000a",
+          "tertiary": "#4b3b7d",
+          "surface-container-low": "#ebf6f3"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.25rem",
+          "lg": "0.5rem",
+          "xl": "0.75rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "xs": "4px",
+          "3xl": "40px",
+          "lg": "16px",
+          "md": "12px",
+          "gutter-desktop": "24px",
+          "unit": "4px",
+          "sm": "8px",
+          "2xl": "32px",
+          "gutter-mobile": "16px",
+          "xl": "24px"
+        },
+        "fontFamily": {
+          "headline-lg": [
+            "Be Vietnam Pro"
+          ],
+          "headline-md": [
+            "Be Vietnam Pro"
+          ],
+          "metric-md": [
+            "JetBrains Mono"
+          ],
+          "label-md": [
+            "Inter"
+          ],
+          "display-lg": [
+            "Be Vietnam Pro"
+          ],
+          "body-md": [
+            "Inter"
+          ],
+          "body-sm": [
+            "Inter"
+          ],
+          "title-md": [
+            "Inter"
+          ],
+          "metric-sm": [
+            "JetBrains Mono"
+          ]
+        },
+        "fontSize": {
+          "headline-lg": [
+            "28px",
+            {
+              "lineHeight": "36px",
+              "letterSpacing": "-0.015em",
+              "fontWeight": "700"
+            }
+          ],
+          "headline-md": [
+            "22px",
+            {
+              "lineHeight": "28px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "metric-md": [
+            "20px",
+            {
+              "lineHeight": "24px",
+              "fontWeight": "600"
+            }
+          ],
+          "label-md": [
+            "11px",
+            {
+              "lineHeight": "16px",
+              "letterSpacing": "0.03em",
+              "fontWeight": "600"
+            }
+          ],
+          "display-lg": [
+            "36px",
+            {
+              "lineHeight": "44px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-md": [
+            "14px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "400"
+            }
+          ],
+          "body-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "400"
+            }
+          ],
+          "title-md": [
+            "15px",
+            {
+              "lineHeight": "20px",
+              "fontWeight": "600"
+            }
+          ],
+          "metric-sm": [
+            "12px",
+            {
+              "lineHeight": "16px",
+              "fontWeight": "500"
+            }
+          ]
+        }
+      },
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md min-h-screen flex selection:bg-primary-container selection:text-on-primary-container">
+<!-- Shared Component: SideNavBar -->
+<nav class="bg-surface-lowest fixed left-0 top-0 h-full w-[80px] z-50 flex flex-col border-r border-outline-variant flex flex-col items-center py-6 gap-6">
+<div class="font-headline-md text-headline-md font-bold text-primary mb-xl" title="Brand Logo">
+<span class="material-symbols-outlined text-[32px]">bar_chart</span>
+</div>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg p-2 font-label-md text-label-md w-[64px] h-[64px] opacity-90 transition-all" href="#">
+<span class="material-symbols-outlined mb-unit" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:bg-surface-container-high transition-colors font-label-md text-label-md w-[64px] h-[64px] rounded-lg" href="#">
+<span class="material-symbols-outlined mb-unit">subscriptions</span>
+<span>Channels</span>
+</a>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[80px] flex flex-col min-h-screen">
+<!-- Shared Component: TopAppBar -->
+<header class="bg-surface docked full-width top-0 sticky z-40 border-b border-outline-variant flex justify-between items-center h-16 px-gutter-desktop">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Shorts Intelligence</h1>
+<div class="font-body-md text-body-md text-on-surface-variant flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">sync</span>
+                Last synced: 2 mins ago
+            </div>
+</header>
+<!-- Content Canvas -->
+<div class="p-gutter-desktop flex flex-col gap-xl max-w-[1600px] mx-auto w-full">
+<!-- Page Context Header (Accommodating prompt's "Dashboard" title request within canvas) -->
+<div class="flex items-center justify-between">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Dashboard</h2>
+</div>
+<!-- Filter Tray -->
+<div class="bg-surface-lowest border border-outline-variant rounded-lg p-md flex flex-wrap items-center gap-lg">
+<!-- Time Range -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase">Time Range</label>
+<div class="flex items-center border border-outline-variant rounded bg-surface overflow-hidden h-[32px]">
+<button class="px-md h-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors border-r border-outline-variant">24h</button>
+<button class="px-md h-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors border-r border-outline-variant">3d</button>
+<button class="px-md h-full font-label-md text-label-md bg-primary-container text-on-primary-container border-r border-outline-variant font-bold">7d</button>
+<button class="px-md h-full font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors">30d</button>
+</div>
+</div>
+<!-- Channel -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase">Channel</label>
+<div class="flex items-center gap-sm h-[32px]">
+<div class="flex items-center gap-xs px-sm h-full bg-surface-low border border-outline-variant rounded-full font-label-md text-label-md text-on-surface">
+                            MKBHD <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</div>
+<div class="flex items-center gap-xs px-sm h-full bg-surface-low border border-outline-variant rounded-full font-label-md text-label-md text-on-surface">
+                            MrBeast <span class="material-symbols-outlined text-[14px] cursor-pointer hover:text-error">close</span>
+</div>
+<button class="flex items-center justify-center w-[32px] h-[32px] border border-outline-variant border-dashed rounded-full text-on-surface-variant hover:bg-surface-container-high hover:border-outline transition-colors" title="Search Channel">
+<span class="material-symbols-outlined text-[16px]">search</span>
+</button>
+</div>
+</div>
+<div class="w-[1px] h-[40px] bg-outline-variant mx-sm"></div>
+<!-- Status Dropdown -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase">Status</label>
+<button class="flex items-center justify-between gap-xl px-sm h-[32px] border border-outline-variant rounded bg-surface hover:border-outline transition-colors font-body-sm text-body-sm w-[120px]">
+<span>All</span>
+<span class="material-symbols-outlined text-[18px] text-on-surface-variant">arrow_drop_down</span>
+</button>
+</div>
+<!-- Score Slider (Disabled) -->
+<div class="flex flex-col gap-xs opacity-50 cursor-not-allowed group relative">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase flex items-center gap-xs">
+                        Score (0-100)
+                        <span class="material-symbols-outlined text-[14px]">info</span>
+</label>
+<div class="h-[32px] flex items-center w-[120px]">
+<div class="w-full h-[4px] bg-surface-variant rounded-full relative">
+<div class="absolute left-0 top-0 h-full w-1/3 bg-outline rounded-full"></div>
+<div class="absolute left-1/3 top-1/2 -translate-y-1/2 w-[12px] h-[12px] bg-surface-lowest border-2 border-outline rounded-full"></div>
+</div>
+</div>
+<!-- Tooltip -->
+<div class="absolute bottom-full mb-unit left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface font-label-md text-label-md px-sm py-[2px] rounded hidden group-hover:block whitespace-nowrap">
+                        Pending Data
+                    </div>
+</div>
+<!-- Min Views Input -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase">Min Views</label>
+<input class="h-[32px] w-[100px] px-sm border border-outline-variant rounded bg-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary font-metric-sm text-metric-sm text-right text-on-surface tabular-nums" type="text" value="10,000"/>
+</div>
+<div class="flex-1"></div>
+<!-- Add Filter Action -->
+<button class="h-[32px] px-md border border-outline-variant rounded text-on-surface-variant font-title-md text-title-md flex items-center gap-xs hover:bg-surface-container-high transition-colors bg-surface-lowest">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                    Add Filter
+                </button>
+</div>
+<!-- Tab Bar -->
+<div class="flex border-b border-outline-variant">
+<button class="px-md py-sm font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors">Trending</button>
+<button class="px-md py-sm font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors">Fast Growing</button>
+<button class="px-md py-sm font-title-md text-title-md text-primary border-b-2 border-primary">Recent Shorts</button>
+<button class="px-md py-sm font-title-md text-title-md text-on-surface-variant hover:text-on-surface transition-colors">Saved</button>
+</div>
+<!-- Video Grid -->
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-lg">
+<!-- Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] flex flex-col overflow-hidden hover:border-outline transition-all group relative">
+<!-- Thumbnail Area -->
+<div class="aspect-[9/16] relative bg-surface-variant w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A portrait-oriented digital thumbnail image optimized for a high-density analytical dashboard. The image features a sleek, tech-focused graphical representation of a smartphone interface, rendered in bright, high-key lighting consistent with a light-mode mineral canvas aesthetic. The color palette is highly controlled, utilizing soft teal accents against crisp white and pale gray backgrounds. The overall mood is precise, professional, and data-driven." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAh0pLGvdSGmNcrdE98AYnAnRSrjuFWwRGa8qUm0Lc7zNPihcdwAS0f25ImyicPPlyE3hYROWyV6rmiSmSHd7-iir_YeQ3wrOKNxv7YHh0PsJb_Mq-O1fld47dC8_3OoA1Vdkh1LNjxN81Jr81br8NkZzURTCsMem4rM2fh1RxZrIT-Mpv6N1CnJC6efhEgPsBLStjCP2CzMijUkaTF066Z7gPcu8bsKlFoJZMH2yMTyDyN3Auh1oaggA_myfzK_qrJgzfIx5S1wYw')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<!-- Top Badges -->
+<div class="absolute top-sm right-sm bg-inverse-surface/90 text-inverse-on-surface px-sm py-[2px] rounded font-metric-sm text-metric-sm backdrop-blur-sm tabular-nums">0:54</div>
+<!-- Bottom Badges -->
+<div class="absolute bottom-sm left-sm bg-surface-lowest/95 text-on-surface px-sm py-[2px] border border-outline-variant rounded font-metric-sm text-metric-sm backdrop-blur-sm font-bold text-primary tabular-nums">—</div>
+</div>
+<!-- Content Area -->
+<div class="p-md flex flex-col gap-sm flex-1">
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 leading-tight" title="The ultimate tech everyday carry for 2024">The ultimate tech everyday carry for 2024</h3>
+<div class="flex items-center gap-xs mt-auto">
+<div class="w-[20px] h-[20px] rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-md text-label-md text-[9px]">MK</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">MKBHD</span>
+</div>
+<div class="flex justify-between items-end mt-xs pt-xs border-t border-outline-variant/50">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Views</span>
+<span class="font-metric-md text-metric-md text-on-surface tabular-nums">45K</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums">2h ago</span>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="bg-surface-low px-md py-sm border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-unit">
+<span class="w-[6px] h-[6px] rounded-full bg-outline animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Tracking</span>
+</div>
+<div class="flex gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors" title="Open External">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="text-outline hover:text-primary transition-colors cursor-not-allowed opacity-50" title="Save Idea (Disabled)">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] flex flex-col overflow-hidden hover:border-outline transition-all group relative">
+<div class="aspect-[9/16] relative bg-surface-variant w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A portrait-oriented digital thumbnail image optimized for an analytical dashboard. The image displays a stylized, abstract visualization of geometric shapes bursting with energy, rendered in bright, high-key lighting for a light-mode mineral canvas aesthetic. The color palette focuses on soft teal accents against crisp white and pale gray backgrounds. The overall mood is dynamic yet precise, professional, and data-driven." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD0h4sCpwy-Xpx-SNmTGpvLv5WrP__m1j5RCgu8eXWSuqxnhBXrSpFeyRoOx9HU0_kK2EDrl97H9pcRH4GphFizdhpiuWdoJugTcFtOVVoTelcBX_SH7eK1psKiRzEHkVHdIwRDO2il-RXnYr3H0oC171-05EMKOBwr3IXXmy0bkgTYIKFY_QTGpTKlm78bEWUcU9hnI8h4-8MYv6G3DaVFAIE9zoQPnB0oaTyBWV24p6n5OFfrzIFYGU96oA9a5f2wpFj4Tv_p7PI')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-sm right-sm bg-inverse-surface/90 text-inverse-on-surface px-sm py-[2px] rounded font-metric-sm text-metric-sm backdrop-blur-sm tabular-nums">1:00</div>
+<div class="absolute bottom-sm left-sm bg-surface-lowest/95 text-on-surface px-sm py-[2px] border border-outline-variant rounded font-metric-sm text-metric-sm backdrop-blur-sm font-bold text-primary tabular-nums">—</div>
+</div>
+<div class="p-md flex flex-col gap-sm flex-1">
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 leading-tight" title="I Survived 50 Hours In Antarctica">I Survived 50 Hours In Antarctica</h3>
+<div class="flex items-center gap-xs mt-auto">
+<div class="w-[20px] h-[20px] rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-md text-label-md text-[9px]">MB</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">MrBeast</span>
+</div>
+<div class="flex justify-between items-end mt-xs pt-xs border-t border-outline-variant/50">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Views</span>
+<span class="font-metric-md text-metric-md text-on-surface tabular-nums">1.2M</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums">4h ago</span>
+</div>
+</div>
+<div class="bg-surface-low px-md py-sm border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-unit">
+<span class="w-[6px] h-[6px] rounded-full bg-outline animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Tracking</span>
+</div>
+<div class="flex gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="text-outline cursor-not-allowed opacity-50">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[10px] flex flex-col overflow-hidden hover:border-outline transition-all group relative">
+<div class="aspect-[9/16] relative bg-surface-variant w-full overflow-hidden">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="A portrait-oriented digital thumbnail image optimized for a professional dashboard. The visual depicts a minimalist desk setup with modern computing accessories, captured in bright, high-key lighting indicative of a light-mode mineral canvas aesthetic. The color palette relies on soft teal accents set against crisp white and pale gray backgrounds. The atmosphere is calm, highly organized, and data-driven." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDp27sz3tC15P5oVC3K8aSmOqnGk_kKph5GoI3n3CMMHhclYO1AABjFGD6GnCtljnLNSvLYvTk1L_OnFlxb67ddUr5eeECv_1ETcKG4p8xArxiB0v0VGFpEG1iwcFJEYkkAQaL53M3jqeSdAeO7YHL7zt7bF8MVRZ-hlWyeAW2YRZaGa4YDBaMCFQ07mt0BOHu0FdkB973PTqBdn78IXqb83XEpwBZR4BLFUlXtBJB0wnsLPu7ZYORxz1bFdjWHKykWc1yQO9YW8J4')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute top-sm right-sm bg-inverse-surface/90 text-inverse-on-surface px-sm py-[2px] rounded font-metric-sm text-metric-sm backdrop-blur-sm tabular-nums">0:32</div>
+<div class="absolute bottom-sm left-sm bg-surface-lowest/95 text-on-surface px-sm py-[2px] border border-outline-variant rounded font-metric-sm text-metric-sm backdrop-blur-sm font-bold text-primary tabular-nums">—</div>
+</div>
+<div class="p-md flex flex-col gap-sm flex-1">
+<h3 class="font-title-md text-title-md text-on-surface line-clamp-2 leading-tight" title="Why you shouldn't buy the new Pro model yet">Why you shouldn't buy the new Pro model yet</h3>
+<div class="flex items-center gap-xs mt-auto">
+<div class="w-[20px] h-[20px] rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label-md text-label-md text-[9px]">MK</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">MKBHD</span>
+</div>
+<div class="flex justify-between items-end mt-xs pt-xs border-t border-outline-variant/50">
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase">Views</span>
+<span class="font-metric-md text-metric-md text-on-surface tabular-nums">89K</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant tabular-nums">6h ago</span>
+</div>
+</div>
+<div class="bg-surface-low px-md py-sm border-t border-outline-variant flex items-center justify-between">
+<div class="flex items-center gap-unit">
+<span class="w-[6px] h-[6px] rounded-full bg-outline animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface-variant">Tracking</span>
+</div>
+<div class="flex gap-sm">
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+<button class="text-outline cursor-not-allowed opacity-50">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Compact Paginator -->
+<div class="flex justify-end items-center mt-xl border-t border-outline-variant pt-md text-on-surface-variant font-body-sm text-body-sm">
+<div class="flex items-center gap-md">
+<span>Items per page:</span>
+<button class="flex items-center gap-xs hover:bg-surface-container-high px-sm py-[2px] rounded transition-colors tabular-nums">
+                        50 <span class="material-symbols-outlined text-[16px]">arrow_drop_down</span>
+</button>
+<span class="mx-md tabular-nums">1-3 of 3</span>
+<div class="flex items-center gap-sm">
+<button class="p-xs hover:bg-surface-container-high rounded text-outline cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="p-xs hover:bg-surface-container-high rounded text-outline cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

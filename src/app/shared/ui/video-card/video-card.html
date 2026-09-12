@@ -6,7 +6,7 @@
      left, info column filling the rest — so a 1-column list stays scannable at
      phone width; `sm:` switches back to the stacked desktop layout. -->
 <article
-  class="[container-type:inline-size] flex cursor-pointer flex-row overflow-hidden rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] shadow-[inset_0_0_0_1px_var(--color-border)] sm:flex-col"
+  class="[container-type:inline-size] flex cursor-pointer flex-row overflow-hidden rounded-[var(--mat-sys-corner-medium)] bg-[var(--mat-sys-surface-container-lowest)] shadow-[inset_0_0_0_1px_var(--color-border)] sm:flex-col"
   role="link"
   tabindex="0"
   [attr.aria-label]="'Open ' + video().title"
@@ -78,7 +78,7 @@
         [href]="video().youtubeVideoUrl"
         target="_blank"
         rel="noopener noreferrer"
-        class="grid h-6 w-6 place-items-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-muted)]"
+        class="grid h-11 w-11 place-items-center rounded-full bg-[var(--color-surface-2)] text-[var(--color-text-muted)]"
         [title]="'Open ' + video().title"
         [attr.aria-label]="'Open ' + video().title + ' in a new tab'"
         (click)="$event.stopPropagation()"
@@ -88,7 +88,7 @@
 
       <button
         type="button"
-        class="grid h-6 w-6 place-items-center rounded-full disabled:opacity-60"
+        class="grid h-11 w-11 place-items-center rounded-full disabled:opacity-60"
         [class]="
           saved()
             ? 'bg-[var(--color-surface-2)] text-[var(--color-text-muted)]'

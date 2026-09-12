@@ -171,7 +171,7 @@ Use a strict 4px scale: 4, 8, 12, 16, 24, 32, 40. Default component gap is 12 or
 
 - Standard forms use outlined Material fields with a persistent label, 40px density, 8px corner, low surface fill, and explicit helper/error text below.
 - Focus uses a 2px primary outline and no glow. Disabled controls retain readable labels with a clear disabled affordance.
-- The dashboard filter area is one reusable **filter tray**: field label above control, 12–16px internal rhythm, compact selected chips, time-range segmented control, and a clear grouping boundary. At under 600px it becomes the existing single-trigger bottom sheet with a scrim; controls stack without duplicating markup.
+- The dashboard filter area is one reusable **filter tray**: field label above control, 12–16px internal rhythm, compact selected chips, outlined select controls (including time range), and a clear grouping boundary. At under 600px it becomes the existing single-trigger bottom sheet with a scrim; controls stack without duplicating markup.
 - Chips are full pills. Filter chips have neutral/selected states; status chips keep their semantic dot and label. Score badges use compact mono text over the thumbnail scrim.
 
 ### Cards & Video Units
@@ -182,7 +182,7 @@ Use a strict 4px scale: 4, 8, 12, 16, 24, 32, 40. Default component gap is 12 or
 
 ### Tables, Pagination & Lists
 
-- Tables share the standard card shell. Header rows are slightly raised, labels are compact and muted, body rows have 1px dividers, and row hover uses a single surface step. Numeric/date columns use tabular mono figures. Preserve horizontal scrolling on narrow screens rather than removing columns or actions.
+- Tables share the standard card shell. Header rows are slightly raised, labels are compact and muted, body rows have 1px dividers, and row hover uses a single surface step. Numeric/date columns use tabular mono figures. Channels preserves its complete horizontally scrollable table on narrow screens; Sync history and Sync run detail use their dedicated information-dense cards on mobile.
 - `mat-paginator` is attached to the table/grid shell with a top divider and compact quiet styling. Page controls must look identical in Channels and Dashboard.
 
 ### Dialogs, Feedback & States
@@ -212,7 +212,7 @@ Use 150–180ms surface/color transitions only. Visible keyboard focus uses the 
 | `/dashboard` — Recent Shorts | Filter tray → four tabs → thin loading/error/empty state or fluid video-card grid → paginator. | Shell, page header, filter tray, tab bar, video card, status/score badges, empty/error/loading, paginator. |
 | `/dashboard` — Trending, Fast Growing, Saved tabs | Same structure and selected tab treatment; retain current pending explanations until their APIs exist. | Filter tray, tab bar, empty state. |
 | `/channels` | Add-channel form section → table card or empty state → paginator; actions stay in the final table column. Per-channel Sync remains here; never render global batch-sync progress or results on this page. | Shell, form field, primary button, table shell, avatar, row actions, dialog. |
-| `/sync-history` | Header with Sync all action → run filter → runs table on desktop / run cards on mobile. When an active run exists, Sync all is disabled and View active run deep-links to it. | Shell, page header, filter control, status chip, table/card shell, empty/error/loading. |
+| `/sync-history` | Persistent shell-header Sync all action → run filter → runs table on desktop / run cards on mobile. When an active run exists, Sync all is disabled and View active run deep-links to it. | Shell, page header, filter control, status chip, table/card shell, empty/error/loading. |
 | `/sync-history/:runId` | Back navigation → run metadata and status → progress/summary metrics → per-channel item table on desktop or cards on mobile; show selected error in a desktop side pane or mobile bottom sheet. | Shell, metric cards, progress state, status chip, table/card shell, error inspector. |
 | Channel edit dialog | Form fields + tracking toggle + Cancel/Save actions. | Dialog shell, input, toggle, button feedback. |
 | Delete-channel dialog | Consequence copy + Cancel + destructive Confirm with mutation spinner. | Dialog shell, error action. |

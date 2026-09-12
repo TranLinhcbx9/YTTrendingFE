@@ -1,7 +1,8 @@
 /* Shared shell for native Angular Material data tables. Feature styles own column widths and
    specialised cell content; this file owns the common M3 surface and responsive behaviour. */
 .app-data-table-shell {
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   border: 1px solid var(--color-border);
   border-radius: var(--mat-sys-corner-medium);
   background: var(--mat-sys-surface-container-lowest);
@@ -50,39 +51,33 @@ table[mat-table].app-data-table--legacy .mat-mdc-row:hover .mat-mdc-cell {
   --mat-paginator-container-background-color: var(--mat-sys-surface-container-lowest);
 }
 
-@media (min-width: 600px) and (max-width: 899px) {
-  .app-data-table-shell {
-    overflow-x: auto;
-  }
-}
-
 @media (max-width: 599px) {
-  .app-data-table-shell {
+  .app-data-table-shell:has(.app-data-table--cards-on-mobile) {
     overflow: visible;
     border: 0;
     background: transparent;
   }
 
-  table[mat-table].app-data-table,
-  .app-data-table tbody,
-  .app-data-table .mat-mdc-row,
-  .app-data-table .mat-mdc-cell {
+  table[mat-table].app-data-table--cards-on-mobile,
+  .app-data-table--cards-on-mobile tbody,
+  .app-data-table--cards-on-mobile .mat-mdc-row,
+  .app-data-table--cards-on-mobile .mat-mdc-cell {
     display: block;
     min-width: 0;
     width: 100%;
   }
 
-  .app-data-table .mat-mdc-header-row {
+  .app-data-table--cards-on-mobile .mat-mdc-header-row {
     display: none;
   }
 
-  .app-data-table tbody {
+  .app-data-table--cards-on-mobile tbody {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 
-  .app-data-table .mat-mdc-row {
+  .app-data-table--cards-on-mobile .mat-mdc-row {
     display: grid;
     height: auto;
     min-height: 0;
@@ -94,7 +89,7 @@ table[mat-table].app-data-table--legacy .mat-mdc-row:hover .mat-mdc-cell {
     padding: 12px;
   }
 
-  .app-data-table .mat-mdc-cell {
+  .app-data-table--cards-on-mobile .mat-mdc-cell {
     display: flex;
     min-height: 0;
     align-items: center;
@@ -105,11 +100,11 @@ table[mat-table].app-data-table--legacy .mat-mdc-row:hover .mat-mdc-cell {
     text-align: right;
   }
 
-  table[mat-table].app-data-table--legacy .mat-mdc-cell {
+  table[mat-table].app-data-table--legacy.app-data-table--cards-on-mobile .mat-mdc-cell {
     padding: 0;
   }
 
-  .app-data-table .mat-mdc-cell::before {
+  .app-data-table--cards-on-mobile .mat-mdc-cell::before {
     flex: none;
     color: var(--color-text-muted);
     content: attr(data-label);
@@ -117,25 +112,25 @@ table[mat-table].app-data-table--legacy .mat-mdc-row:hover .mat-mdc-cell {
     text-align: left;
   }
 
-  .app-data-table .app-data-table__primary-cell {
+  .app-data-table--cards-on-mobile .app-data-table__primary-cell {
     display: block;
     grid-column: 1 / -1;
     padding-bottom: 4px;
     text-align: left;
   }
 
-  .app-data-table .app-data-table__primary-cell::before,
-  .app-data-table .app-data-table__action-cell::before {
+  .app-data-table--cards-on-mobile .app-data-table__primary-cell::before,
+  .app-data-table--cards-on-mobile .app-data-table__action-cell::before {
     display: none;
   }
 
-  .app-data-table .app-data-table__action-cell {
+  .app-data-table--cards-on-mobile .app-data-table__action-cell {
     grid-column: 1 / -1;
     justify-content: flex-start;
     padding-top: 4px;
   }
 
-  .app-data-table .app-data-table__detail-cell {
+  .app-data-table--cards-on-mobile .app-data-table__detail-cell {
     grid-column: 1 / -1;
     align-items: flex-start;
     flex-direction: column;
@@ -144,7 +139,7 @@ table[mat-table].app-data-table--legacy .mat-mdc-row:hover .mat-mdc-cell {
     text-align: left;
   }
 
-  .app-data-table__paginator {
+  .app-data-table-shell:has(.app-data-table--cards-on-mobile) .app-data-table__paginator {
     margin-top: 8px;
     border: 1px solid var(--color-border);
     border-radius: var(--mat-sys-corner-medium);

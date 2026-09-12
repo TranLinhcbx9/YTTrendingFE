@@ -34,6 +34,7 @@ import { StatusChip } from '@shared/ui/status-chip/status-chip';
     StatusChip,
   ],
   templateUrl: './video-detail.html',
+  styleUrl: './video-detail.css',
 })
 export class VideoDetail {
   private readonly router = inject(Router);

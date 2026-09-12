@@ -1,7 +1,16 @@
 <h2 mat-dialog-title>{{ data.title }}</h2>
-<mat-dialog-content>{{ data.message }}</mat-dialog-content>
+<mat-dialog-content>
+  @if (data.tone === 'danger') {
+    <p class="confirm-dialog__warning" role="alert">
+      This action permanently removes the channel and its tracked videos.
+    </p>
+  }
+  <p>{{ data.message }}</p>
+</mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button matButton mat-dialog-close [disabled]="isSubmitting()">{{ data.cancelLabel ?? 'Cancel' }}</button>
+  <button matButton mat-dialog-close [disabled]="isSubmitting()">
+    {{ data.cancelLabel ?? 'Cancel' }}
+  </button>
   <button
     matButton="filled"
     [class.confirm-dialog__action--danger]="data.tone === 'danger'"

@@ -3,49 +3,49 @@
   "title": "Shorts Trend Monitor — Unified UI System",
   "screens": [
     {
-      "screenId": "f32e57d3328d4455af758a49c35ca416",
+      "screenId": "25cc8bca962749bb96320e88542962ce",
       "title": "Recent Shorts Dashboard (Standardized)",
       "route": "/dashboard",
       "deviceType": "DESKTOP"
     },
     {
-      "screenId": "86e6d30267f9476badd8a8ec22ad43e1",
+      "screenId": "6be29aea3f7b442b8be441c88b5822a9",
       "title": "Recent Shorts Dashboard Mobile (Standardized)",
       "route": "/dashboard",
       "deviceType": "MOBILE"
     },
     {
-      "screenId": "c191bf5433fd44fb8ab34616eaa5cf41",
+      "screenId": "bf743b96468246beb469be591182e603",
       "title": "Channel Management (Standardized)",
       "route": "/channels",
       "deviceType": "DESKTOP"
     },
     {
-      "screenId": "9e3ffb54f87d4f9db69e0c99d7cf8fb5",
+      "screenId": "3a0630c6bed84ea4bb101b45b33d6671",
       "title": "Channel Management Mobile (Standardized)",
       "route": "/channels",
       "deviceType": "MOBILE"
     },
     {
-      "screenId": "73c481fa8ac2499abf35abd9cae18faa",
+      "screenId": "60164e26c11a4fe59d8cd95ae3defd01",
       "title": "Video Detail (Standardized)",
       "route": "/videos/:id",
       "deviceType": "DESKTOP"
     },
     {
-      "screenId": "9c224743049c4b699382e13b5e7b13eb",
+      "screenId": "355cd68ba1874b4fb270f0f9e4b6337f",
       "title": "Video Detail Mobile (Standardized)",
       "route": "/videos/:id",
       "deviceType": "MOBILE"
     },
     {
-      "screenId": "07a0200f973448b38de9dfd4a999c3de",
+      "screenId": "d872d89a4bac46d38bf9d6300550f3ac",
       "title": "Edit Channel Dialog (Standardized)",
       "route": "/channels (dialog state)",
       "deviceType": "DESKTOP"
     },
     {
-      "screenId": "af0b375eea7e4ceda6d2aa5649445935",
+      "screenId": "df5717f73ced4140840c824565935d54",
       "title": "Delete Confirmation (Standardized)",
       "route": "/channels (dialog state)",
       "deviceType": "DESKTOP"

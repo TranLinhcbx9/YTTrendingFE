@@ -48,8 +48,12 @@
 }
 
 /* Toggle thủ công thắng cài đặt hệ điều hành */
-:root[data-theme='light'] { color-scheme: light; }
-:root[data-theme='dark'] { color-scheme: dark; }
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
 
 /* Material Symbols là variable font — `FILL 1` cho icon đang chọn/đang bật
    (`docs/design-tokens.md` §Icon). Khai 1 lần ở đây thay vì viết arbitrary
@@ -88,6 +92,54 @@ body {
   --mat-button-filled-label-text-color: var(--mat-sys-on-error);
   --mat-button-filled-state-layer-color: var(--mat-sys-on-error);
   --mat-button-filled-ripple-color: color-mix(in srgb, var(--mat-sys-on-error) 12%, transparent);
+}
+
+/* Dialogs render through the CDK overlay. This is the shared presentation shell
+   for normal forms and destructive confirmations; feature components only own
+   their field/content layout. */
+.app-dialog-panel .mat-mdc-dialog-surface {
+  border: 1px solid var(--color-border-strong);
+}
+
+.app-dialog-panel .mat-mdc-dialog-title {
+  padding: 24px 24px 8px;
+}
+
+.app-dialog-panel .mat-mdc-dialog-content {
+  padding: 16px 24px;
+}
+
+.app-dialog-panel .mat-mdc-dialog-actions {
+  gap: 8px;
+  padding: 8px 24px 20px;
+}
+
+.confirm-dialog__warning {
+  margin: 0 0 12px;
+  border-left: 3px solid var(--mat-sys-error);
+  border-radius: var(--mat-sys-corner-extra-small);
+  background: var(--mat-sys-error-container);
+  padding: 10px 12px;
+  color: var(--mat-sys-on-error-container);
+  font: var(--mat-sys-body-small);
+}
+
+.app-dialog-panel .mat-mdc-dialog-content > p:last-child {
+  margin: 0;
+}
+
+@media (max-width: 599px) {
+  .app-dialog-panel .mat-mdc-dialog-title {
+    padding: 20px 20px 8px;
+  }
+
+  .app-dialog-panel .mat-mdc-dialog-content {
+    padding: 16px 20px;
+  }
+
+  .app-dialog-panel .mat-mdc-dialog-actions {
+    padding: 8px 20px 16px;
+  }
 }
 
 /* Bottom sheet failure inspector cần bỏ padding mặc định của CDK overlay để

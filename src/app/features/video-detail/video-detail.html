@@ -12,7 +12,7 @@
      field and SavedIdeas is still blocked (`ai/current.md`), same rolling
      "cuốn chiếu" treatment already used by VideoCard's score badge and
      bookmark button. Mockup: Screens §VideoDetail. -->
-<div class="flex flex-col gap-3 sm:gap-4">
+<div class="video-detail flex flex-col gap-3 sm:gap-4">
   @if (store.isLoading()) {
     <mat-progress-bar mode="indeterminate" class="!h-0.5" />
   }
@@ -32,10 +32,10 @@
     </a>
 
     <div
-      class="flex flex-col gap-6 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] p-5 shadow-[inset_0_0_0_1px_var(--color-border)] sm:flex-row"
+      class="video-detail__hero flex flex-col gap-6 rounded-[var(--mat-sys-corner-medium)] bg-[var(--mat-sys-surface-container-lowest)] p-5 shadow-[inset_0_0_0_1px_var(--color-border)] sm:flex-row"
     >
       <div
-        class="relative aspect-[9/16] w-[150px] flex-none self-center overflow-hidden rounded-[var(--mat-sys-corner-medium)] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] sm:w-[198px] sm:self-auto"
+        class="video-detail__media relative aspect-[9/16] w-[150px] flex-none self-center overflow-hidden rounded-[var(--mat-sys-corner-small)] bg-[linear-gradient(158deg,var(--mat-sys-surface-container-high),var(--mat-sys-primary-container))] sm:w-[198px] sm:self-auto"
       >
         @if (video.thumbnailUrl; as thumb) {
           <img
@@ -69,7 +69,7 @@
             </div>
           </div>
 
-          <div class="flex flex-wrap gap-2 self-start">
+          <div class="video-detail__actions flex flex-wrap gap-2 self-start">
             <a
               matButton="filled"
               [href]="video.youtubeVideoUrl"
@@ -96,53 +96,53 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div class="video-detail__metrics grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div
-            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+            class="video-detail__metric flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
           >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Views</span>
             <span
-              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums"
+              class="font-[family-name:var(--font-mono)] text-[22px] leading-[1.15] font-semibold tabular-nums"
             >
               {{ video.latestViews | number }}
             </span>
           </div>
           <div
-            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+            class="video-detail__metric flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
           >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Likes</span>
             <span
-              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums"
+              class="font-[family-name:var(--font-mono)] text-[22px] leading-[1.15] font-semibold tabular-nums"
             >
               {{ video.latestLikes | number }}
             </span>
           </div>
           <div
-            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+            class="video-detail__metric flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
           >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]">Comments</span>
             <span
-              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold tabular-nums"
+              class="font-[family-name:var(--font-mono)] text-[22px] leading-[1.15] font-semibold tabular-nums"
             >
               {{ video.latestComments | number }}
             </span>
           </div>
           <div
-            class="flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
+            class="video-detail__metric flex flex-col gap-0.5 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-3.5 py-3"
             matTooltip="Waiting for 2 sync cycles"
           >
             <span class="text-[11px] font-semibold text-[var(--color-text-muted)]"
               >Trending Score</span
             >
             <span
-              class="font-[family-name:var(--font-display)] text-[22px] leading-[1.15] font-bold text-[var(--color-text-muted)]"
+              class="font-[family-name:var(--font-mono)] text-[22px] leading-[1.15] font-semibold text-[var(--color-text-muted)]"
             >
               —
             </span>
           </div>
         </div>
 
-        <div class="flex flex-wrap gap-2.5">
+        <div class="video-detail__pending-metrics flex flex-wrap gap-2.5">
           <span
             class="inline-flex h-[30px] items-center gap-1.5 rounded-full px-3 text-[12.5px] text-[var(--color-text-muted)] shadow-[inset_0_0_0_1px_var(--color-border)]"
             matTooltip="Waiting on growth snapshot data"
@@ -159,14 +159,14 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-3">
+    <section class="video-detail__section flex flex-col gap-3">
       <h2 class="text-[15px] font-bold">View Growth Timeline</h2>
       <app-empty-state
         icon="show_chart"
         title="No growth data yet"
         message="This chart needs snapshot history — it'll populate once the backend runs multiple sync cycles for this video."
       />
-    </div>
+    </section>
 
     <div
       [class]="
@@ -175,18 +175,18 @@
           : 'grid grid-cols-1 gap-4'
       "
     >
-      <div class="flex flex-col gap-3">
+      <section class="video-detail__section flex flex-col gap-3">
         <h2 class="text-[15px] font-bold">Idea note</h2>
         <app-empty-state
           icon="edit_note"
           title="Notes not available yet"
           message="Saving notes is waiting on the backend to open up the SavedIdeas API."
         />
-      </div>
+      </section>
 
       @if (video.status === 'Archived') {
         <div
-          class="flex flex-col gap-3 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface-2)] px-5 py-[18px]"
+          class="video-detail__archived flex flex-col gap-3 rounded-[var(--mat-sys-corner-medium)] bg-[var(--color-surface-2)] px-5 py-[18px]"
         >
           <h2 class="text-sm font-bold">When a video becomes ARCHIVED</h2>
           <div class="flex items-start gap-3">

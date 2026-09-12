@@ -6,6 +6,22 @@
 
 ## Đang làm
 
+- **UI parity với Stitch — batch 1–7: code complete; `ng build`/`ng lint` pass.**
+  - Shell dùng gutter chuẩn 24px desktop / 16px mobile, đã bỏ padding chồng
+    tại Channels, Sync history và Sync run detail. Card, empty state và metric
+    dùng cùng surface/border/mono treatment.
+  - Channels có panel thêm channel, heading **Tracked channels**, header
+    **Actions**, dialog spacing/warning rõ hơn và vẫn giữ bảng cuộn ngang trên
+    mobile; Sync history/run detail giữ card riêng ở mobile.
+  - Dashboard/VideoCard, Sync flows và Video Detail đã đồng nhất mật độ,
+    touch target/action mobile, hero/metric/pending/archived presentation;
+    store, service, API, filter, polling và CRUD không đổi.
+  - Batch 8 đã edit trực tiếp 12 screen chuẩn trong project Stitch hiện có và
+    đồng bộ HTML/PNG cùng metadata local ở `.stitch/`. `DESIGN.md` local đã
+    phản ánh filter/table/mobile rules mới. Chỉ còn checkpoint xác nhận trước
+    khi cập nhật design system đang active của project (ảnh hưởng mọi screen
+    sinh sau này).
+
 - **Global Sync all header action: code complete; build/lint/Prettier pass.**
   - The persistent header is now the sole entry point for a global sync; it
     retains the existing loading, error, and run-detail navigation flow.

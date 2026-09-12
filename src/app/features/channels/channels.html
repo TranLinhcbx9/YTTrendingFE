@@ -1,175 +1,193 @@
-<div class="flex flex-col gap-4 p-4">
-  <form class="flex flex-col gap-1" (submit)="$event.preventDefault(); onAddSubmit()">
-    <div class="flex flex-wrap items-start gap-3.5 sm:flex-nowrap">
-      <app-clearable-input
-        class="w-full max-w-[560px]"
-        label="Channel handle or channel URL"
-        [(value)]="newChannelInput"
-        [errorMessage]="store.formError()?.errors?.['youtubeHandle']?.[0] ?? null"
+<div class="channels-page">
+  <section class="channels__add-panel" aria-labelledby="add-channel-title">
+    <div class="channels__section-heading">
+      <div>
+        <h2 id="add-channel-title">Add a channel</h2>
+        <p>Paste a YouTube channel URL or @handle to begin monitoring its Shorts.</p>
+      </div>
+    </div>
+
+    <form class="flex flex-col gap-1" (submit)="$event.preventDefault(); onAddSubmit()">
+      <div class="channels__add-controls flex flex-wrap items-start gap-3.5 sm:flex-nowrap">
+        <app-clearable-input
+          class="w-full max-w-[560px]"
+          label="Channel handle or channel URL"
+          [(value)]="newChannelInput"
+          [errorMessage]="store.formError()?.errors?.['youtubeHandle']?.[0] ?? null"
+        />
+        <button matButton="filled" type="submit" class="mt-2" [disabled]="store.isSubmitting()">
+          @if (store.isSubmitting()) {
+            <mat-progress-spinner diameter="18" mode="indeterminate" />
+          } @else {
+            <ng-container>
+              <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle">add</mat-icon>
+              Add channel
+            </ng-container>
+          }
+        </button>
+      </div>
+      @if (!store.formError()?.errors?.['youtubeHandle']?.[0] && store.formErrorMessage(); as msg) {
+        <small class="text-[var(--color-danger)]">{{ msg }}</small>
+      }
+    </form>
+  </section>
+
+  <section class="channels__tracked" aria-labelledby="tracked-channels-title">
+    <div class="channels__section-heading channels__section-heading--list">
+      <div>
+        <h2 id="tracked-channels-title">Tracked channels</h2>
+        <p>Manage channel tracking and sync individual channels when you need a refresh.</p>
+      </div>
+    </div>
+
+    @if (store.loadError()) {
+      <div class="flex items-center gap-2">
+        <span class="text-[var(--color-danger)]">Failed to load the list.</span>
+        <button matButton type="button" (click)="store.reload()">Retry</button>
+      </div>
+    } @else if (store.items().length === 0 && !store.isLoading()) {
+      <app-empty-state
+        icon="subscriptions"
+        title="No channels tracked yet"
+        message="Add your first channel to get started — paste a URL or @handle in the form above."
       />
-      <button matButton="filled" type="submit" class="mt-2" [disabled]="store.isSubmitting()">
-        @if (store.isSubmitting()) {
-          <mat-progress-spinner diameter="18" mode="indeterminate" />
-        } @else {
-          <ng-container>
-            <mat-icon class="!h-[18px] !w-[18px] !text-[18px] align-middle">add</mat-icon>
-            Add channel
+    } @else {
+      <div class="app-data-table-shell">
+        <table
+          mat-table
+          [dataSource]="store.items()"
+          class="app-data-table app-data-table--legacy channels__table"
+        >
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Channel</th>
+            <td
+              mat-cell
+              *matCellDef="let c"
+              data-label="Channel"
+              class="app-data-table__primary-cell whitespace-nowrap"
+            >
+              <button
+                type="button"
+                class="flex max-w-[150px] items-center gap-2 hover:underline"
+                (click)="viewVideos(c)"
+                [attr.aria-label]="'View videos for channel ' + c.name"
+              >
+                <app-channel-avatar [name]="c.name" />
+                <span class="min-w-0 truncate font-medium" [title]="c.name">{{ c.name }}</span>
+              </button>
+            </td>
           </ng-container>
-        }
-      </button>
-    </div>
-    @if (!store.formError()?.errors?.['youtubeHandle']?.[0] && store.formErrorMessage(); as msg) {
-      <small class="text-[var(--color-danger)]">{{ msg }}</small>
-    }
-  </form>
 
-  @if (store.loadError()) {
-    <div class="flex items-center gap-2">
-      <span class="text-[var(--color-danger)]">Failed to load the list.</span>
-      <button matButton type="button" (click)="store.reload()">Retry</button>
-    </div>
-  } @else if (store.items().length === 0 && !store.isLoading()) {
-    <app-empty-state
-      icon="subscriptions"
-      title="No channels tracked yet"
-      message="Add your first channel to get started — paste a URL or @handle in the form above."
-    />
-  } @else {
-    <div class="app-data-table-shell">
-      <table
-        mat-table
-        [dataSource]="store.items()"
-        class="app-data-table app-data-table--legacy channels__table"
-      >
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef>Channel</th>
-          <td
-            mat-cell
-            *matCellDef="let c"
-            data-label="Channel"
-            class="app-data-table__primary-cell whitespace-nowrap"
-          >
-            <button
-              type="button"
-              class="flex max-w-[150px] items-center gap-2 hover:underline"
-              (click)="viewVideos(c)"
-              [attr.aria-label]="'View videos for channel ' + c.name"
-            >
-              <app-channel-avatar [name]="c.name" />
-              <span class="min-w-0 truncate font-medium" [title]="c.name">{{ c.name }}</span>
-            </button>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="url">
-          <th mat-header-cell *matHeaderCellDef>URL</th>
-          <td mat-cell *matCellDef="let c" data-label="URL" class="whitespace-nowrap">
-            <a
-              [href]="c.url"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]"
-            >
-              {{ displayUrl(c.url) }}
-              <mat-icon class="!h-[15px] !w-[15px] !text-[15px]">open_in_new</mat-icon>
-            </a>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="isEnabled">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let c" data-label="Status" class="whitespace-nowrap">
-            <mat-slide-toggle
-              [checked]="c.isEnabled"
-              [disabled]="store.isActionRunning()"
-              (change)="onToggleEnabled(c, $event)"
-            />
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="lastSyncAt">
-          <th mat-header-cell *matHeaderCellDef>Last synced</th>
-          <td
-            mat-cell
-            *matCellDef="let c"
-            data-label="Last synced"
-            class="whitespace-nowrap tabular-nums"
-          >
-            {{ c.lastSyncAt | relativeTime }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="createdAt">
-          <th mat-header-cell *matHeaderCellDef>Added on</th>
-          <td
-            mat-cell
-            *matCellDef="let c"
-            data-label="Added on"
-            class="whitespace-nowrap tabular-nums"
-          >
-            {{ c.createdAt | date: 'dd/MM/yyyy' }}
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td
-            mat-cell
-            *matCellDef="let c"
-            data-label=""
-            class="app-data-table__action-cell whitespace-nowrap"
-          >
-            <span class="flex gap-1">
-              <button matIconButton type="button" (click)="openEdit(c)" aria-label="Edit channel">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button
-                matIconButton
-                type="button"
-                [disabled]="!c.isEnabled || store.isActionRunning()"
-                [matTooltip]="
-                  !c.isEnabled
-                    ? 'Enable tracking to sync this channel.'
-                    : store.syncingChannelId() === c.id
-                      ? 'Syncing channel…'
-                      : 'Sync channel'
-                "
-                [attr.aria-label]="
-                  store.syncingChannelId() === c.id ? 'Syncing channel' : 'Sync channel'
-                "
-                (click)="syncChannel(c)"
+          <ng-container matColumnDef="url">
+            <th mat-header-cell *matHeaderCellDef>URL</th>
+            <td mat-cell *matCellDef="let c" data-label="URL" class="whitespace-nowrap">
+              <a
+                [href]="c.url"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-1.5 text-[var(--color-text-muted)]"
               >
-                @if (store.syncingChannelId() === c.id) {
-                  <mat-progress-spinner diameter="18" mode="indeterminate" />
-                } @else {
-                  <mat-icon>sync</mat-icon>
-                }
-              </button>
-              <button
-                matIconButton
-                type="button"
+                {{ displayUrl(c.url) }}
+                <mat-icon class="!h-[15px] !w-[15px] !text-[15px]">open_in_new</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="isEnabled">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let c" data-label="Status" class="whitespace-nowrap">
+              <mat-slide-toggle
+                [checked]="c.isEnabled"
                 [disabled]="store.isActionRunning()"
-                (click)="confirmDelete(c)"
-                aria-label="Delete channel"
-              >
-                <mat-icon>delete</mat-icon>
-              </button>
-            </span>
-          </td>
-        </ng-container>
+                (change)="onToggleEnabled(c, $event)"
+              />
+            </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
+          <ng-container matColumnDef="lastSyncAt">
+            <th mat-header-cell *matHeaderCellDef>Last synced</th>
+            <td
+              mat-cell
+              *matCellDef="let c"
+              data-label="Last synced"
+              class="whitespace-nowrap tabular-nums"
+            >
+              {{ c.lastSyncAt | relativeTime }}
+            </td>
+          </ng-container>
 
-      <mat-paginator
-        class="app-data-table__paginator app-data-table__paginator--legacy"
-        [length]="store.totalCount()"
-        [pageSize]="store.pageSize()"
-        [pageIndex]="store.page() - 1"
-        [hidePageSize]="true"
-        (page)="onPageChange($event)"
-      />
-    </div>
-  }
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Added on</th>
+            <td
+              mat-cell
+              *matCellDef="let c"
+              data-label="Added on"
+              class="whitespace-nowrap tabular-nums"
+            >
+              {{ c.createdAt | date: 'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="channels__actions-header">Actions</th>
+            <td
+              mat-cell
+              *matCellDef="let c"
+              data-label=""
+              class="app-data-table__action-cell whitespace-nowrap"
+            >
+              <span class="channels__actions">
+                <button matIconButton type="button" (click)="openEdit(c)" aria-label="Edit channel">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  matIconButton
+                  type="button"
+                  [disabled]="!c.isEnabled || store.isActionRunning()"
+                  [matTooltip]="
+                    !c.isEnabled
+                      ? 'Enable tracking to sync this channel.'
+                      : store.syncingChannelId() === c.id
+                        ? 'Syncing channel…'
+                        : 'Sync channel'
+                  "
+                  [attr.aria-label]="
+                    store.syncingChannelId() === c.id ? 'Syncing channel' : 'Sync channel'
+                  "
+                  (click)="syncChannel(c)"
+                >
+                  @if (store.syncingChannelId() === c.id) {
+                    <mat-progress-spinner diameter="18" mode="indeterminate" />
+                  } @else {
+                    <mat-icon>sync</mat-icon>
+                  }
+                </button>
+                <button
+                  matIconButton
+                  type="button"
+                  [disabled]="store.isActionRunning()"
+                  (click)="confirmDelete(c)"
+                  aria-label="Delete channel"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </span>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+
+        <mat-paginator
+          class="app-data-table__paginator app-data-table__paginator--legacy"
+          [length]="store.totalCount()"
+          [pageSize]="store.pageSize()"
+          [pageIndex]="store.page() - 1"
+          [hidePageSize]="true"
+          (page)="onPageChange($event)"
+        />
+      </div>
+    }
+  </section>
 </div>

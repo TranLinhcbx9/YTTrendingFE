@@ -1,11 +1,55 @@
-/* Token của mat-table — utility Tailwind không thắng được specificity `.mat-mdc-*`
-   (`docs/components.md` §Quy tắc style 1). Mặc định M3 dùng `surface` (thường trùng
-   màu nền trang) + `outline` (đậm) nên table trông như không có nền/viền, đè mất
-   background+border của khung bọc ngoài trong `channels.html`. Đổi sang đúng 2 token
-   khung bọc đang dùng — `surface-container-low` (nền) + `outline-variant` (viền) —
-   để table và khung bọc đồng nhất như mockup Channels.tablecard. */
+:host {
+  display: block;
+}
+
+.channels-page,
+.channels__add-panel,
+.channels__tracked {
+  display: flex;
+  flex-direction: column;
+}
+
+.channels-page {
+  gap: 24px;
+}
+
+.channels__add-panel {
+  gap: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--mat-sys-corner-medium);
+  background: var(--mat-sys-surface-container-lowest);
+  padding: 16px;
+}
+
+.channels__tracked {
+  gap: 12px;
+}
+
+.channels__section-heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font: var(--mat-sys-title-large);
+  font-weight: 700;
+}
+
+.channels__section-heading p {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
+  font: var(--mat-sys-body-small);
+}
+
 .channels__table {
-  min-width: 760px;
+  min-width: 800px;
+}
+
+.channels__actions-header {
+  text-align: right;
+}
+
+.channels__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
 }
 
 /* Mobile: field "Add channel" mặc định cao hơn hẳn 40px đã dùng ở
@@ -24,5 +68,16 @@
     --mat-table-header-container-height: 40px;
     --mat-table-row-item-container-height: 40px;
     --mat-table-row-item-label-text-size: 12.5px;
+  }
+
+  .channels__add-controls button {
+    width: 100%;
+    min-height: 44px;
+    margin-top: 0;
+  }
+
+  .channels__actions button {
+    min-width: 44px;
+    min-height: 44px;
   }
 }

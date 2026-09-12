@@ -4,9 +4,29 @@
   transition: opacity 160ms ease;
 }
 
+article:hover {
+  background: var(--mat-sys-surface-container-low);
+}
+
+article:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.video-card-actions {
+  align-items: center;
+  gap: 4px;
+}
+
 .video-card-control:hover,
 .video-card-control:focus-visible,
 .video-card-actions:hover,
 .video-card-actions:focus-within {
   opacity: 0.82;
+}
+
+@media (max-width: 599px) {
+  .video-card-actions {
+    opacity: 1;
+  }
 }
