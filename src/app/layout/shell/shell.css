@@ -5,16 +5,61 @@
 }
 
 .app-toolbar {
+  --mat-toolbar-container-background-color: var(--mat-sys-surface-container-lowest);
+  --mat-toolbar-container-text-color: var(--mat-sys-on-surface);
+
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 16px;
   border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+.app-toolbar__identity,
+.app-toolbar__actions,
+.app-toolbar__last-sync {
+  display: flex;
+  align-items: center;
+}
+
+.app-toolbar__identity {
+  min-width: 0;
+  gap: 12px;
+}
+
+.app-toolbar__actions {
+  flex: none;
+  gap: 20px;
 }
 
 .app-toolbar__title {
   min-width: 0;
-  flex: 1;
+  font: var(--mat-sys-headline-small);
+  letter-spacing: -0.01em;
   overflow: hidden;
-  font-family: var(--font-display);
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.app-toolbar__last-sync {
+  order: -1;
+  flex: none;
+  gap: 8px;
+  color: var(--mat-sys-outline);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+.app-toolbar__sync-status {
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: var(--mat-sys-corner-full);
+  background: var(--mat-sys-primary);
+  animation: sync-status-pulse 2s ease-in-out infinite;
 }
 
 .app-toolbar__sync-button {
@@ -24,6 +69,18 @@
 
 .app-toolbar__sync-button mat-progress-spinner {
   --mat-progress-spinner-active-indicator-color: var(--mat-sys-on-primary);
+}
+
+@keyframes sync-status-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-toolbar__sync-status {
+    animation: none;
+  }
 }
 
 .rail-item {
@@ -99,6 +156,10 @@
   .app-sidenav {
     display: none;
   }
+
+  .app-toolbar {
+    padding: 0 24px;
+  }
 }
 
 .drawer-nav {
@@ -142,8 +203,35 @@
 }
 
 @media (max-width: 599px) {
+  .app-toolbar__workspace,
   .app-toolbar__sync-label,
   .app-toolbar__last-sync {
     display: none;
+  }
+
+  .app-toolbar__identity {
+    gap: 4px;
+  }
+
+  .app-toolbar__title {
+    font: var(--mat-sys-title-large);
+  }
+
+  .app-toolbar__actions {
+    gap: 0;
+  }
+
+  .app-toolbar__sync-button {
+    --mat-button-filled-container-color: transparent;
+    --mat-button-filled-label-text-color: var(--mat-sys-primary);
+    --mat-button-filled-state-layer-color: var(--mat-sys-primary);
+    --mat-button-filled-ripple-color: color-mix(in srgb, var(--mat-sys-primary) 12%, transparent);
+    --mat-button-filled-horizontal-padding: 8px;
+    min-width: 40px;
+    padding: 0;
+  }
+
+  .app-toolbar__sync-button mat-progress-spinner {
+    --mat-progress-spinner-active-indicator-color: var(--mat-sys-primary);
   }
 }

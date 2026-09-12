@@ -31,37 +31,42 @@
   </aside>
 
   <div class="flex min-w-0 flex-1 flex-col">
-    <mat-toolbar class="app-toolbar !bg-[var(--color-bg)] !px-4">
-      <button
-        matIconButton
-        class="mobile-menu-button"
-        aria-label="Open navigation menu"
-        (click)="drawer.toggle()"
-      >
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span class="app-toolbar__title">{{ pageTitle() }}</span>
-      <button
-        matButton="filled"
-        type="button"
-        class="app-toolbar__sync-button"
-        aria-label="Sync all channels"
-        [disabled]="syncHistoryStore.isActionRunning()"
-        (click)="startSync()"
-      >
-        @if (syncHistoryStore.isActionRunning()) {
-          <mat-progress-spinner diameter="18" mode="indeterminate" />
-        } @else {
-          <ng-container>
-            <mat-icon>sync</mat-icon>
-            <span class="app-toolbar__sync-label">Sync all</span>
-          </ng-container>
-        }
-      </button>
-      <span class="app-toolbar__last-sync flex items-center gap-2 text-[var(--color-text-muted)]">
-        <mat-icon class="!h-5 !w-5 !text-[20px]">sync</mat-icon>
-        <span class="text-sm">Last synced: —</span>
-      </span>
+    <mat-toolbar class="app-toolbar">
+      <div class="app-toolbar__identity">
+        <button
+          matIconButton
+          class="mobile-menu-button"
+          aria-label="Open navigation menu"
+          (click)="drawer.toggle()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span class="app-toolbar__title">{{ pageTitle() }}</span>
+      </div>
+
+      <div class="app-toolbar__actions">
+        <button
+          matButton="filled"
+          type="button"
+          class="app-toolbar__sync-button"
+          aria-label="Sync all channels"
+          [disabled]="syncHistoryStore.isActionRunning()"
+          (click)="startSync()"
+        >
+          @if (syncHistoryStore.isActionRunning()) {
+            <mat-progress-spinner diameter="18" mode="indeterminate" />
+          } @else {
+            <ng-container>
+              <mat-icon>sync</mat-icon>
+              <span class="app-toolbar__sync-label">Sync all</span>
+            </ng-container>
+          }
+        </button>
+        <span class="app-toolbar__last-sync">
+          <span class="app-toolbar__sync-status" aria-hidden="true"></span>
+          <span>Last synced: —</span>
+        </span>
+      </div>
     </mat-toolbar>
 
     <mat-sidenav-container class="app-sidenav-container flex-1">
