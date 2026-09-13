@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Signal Desk - Channels Management</title>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Be Vietnam Pro, Inter, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary-container": "#635397",
+            "outline-variant": "#bec9c6",
+            "surface-lowest": "#FFFFFF",
+            "surface-high": "#DCECE8",
+            "background": "#EDFDF9",
+            "inverse-primary": "#84d5c8",
+            "on-surface": "#101E1C",
+            "primary": "#005048",
+            "surface-variant": "#dae5e2",
+            "surface-low": "#E7F7F3",
+            "primary-fixed-dim": "#84d5c8",
+            "on-tertiary": "#ffffff",
+            "on-tertiary-fixed-variant": "#4c3c7e",
+            "error": "#BA1A1A",
+            "secondary-container": "#b5eae1",
+            "primary-fixed": "#9ff2e4",
+            "on-tertiary-container": "#ddd1ff",
+            "on-primary-fixed": "#00201c",
+            "on-primary-fixed-variant": "#005048",
+            "surface-bright": "#f0fcf9",
+            "on-tertiary-fixed": "#1f0b50",
+            "surface": "#f0fcf9",
+            "on-surface-variant": "#3E4947",
+            "on-background": "#131d1c",
+            "secondary-fixed": "#b8ede4",
+            "surface-tint": "#016a60",
+            "inverse-surface": "#283231",
+            "inverse-on-surface": "#e8f3f0",
+            "on-error-container": "#93000a",
+            "surface-container-low": "#ebf6f3",
+            "primary-container": "#61F9E6",
+            "on-secondary-fixed": "#00201c",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#dae5e2",
+            "on-primary": "#ffffff",
+            "on-secondary": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "error-container": "#ffdad6",
+            "surface-container": "#E1F1ED",
+            "on-secondary-fixed-variant": "#194f48",
+            "tertiary-fixed": "#e8deff",
+            "on-secondary-container": "#386b64",
+            "tertiary": "#4b3b7d",
+            "surface-dim": "#d1dcda",
+            "outline": "#6e7977",
+            "secondary": "#346760",
+            "secondary-fixed-dim": "#9cd1c8",
+            "on-primary-container": "#00201c",
+            "tertiary-fixed-dim": "#cdbdff",
+            "surface-container-high": "#dfebe8"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "xs": "4px",
+            "3xl": "40px",
+            "md": "12px",
+            "2xl": "32px",
+            "unit": "4px",
+            "xl": "24px",
+            "lg": "16px",
+            "gutter-mobile": "16px",
+            "sm": "8px",
+            "gutter-desktop": "24px"
+          },
+          "fontFamily": {
+            "label-md": ["Inter"],
+            "headline-md": ["Be Vietnam Pro"],
+            "body-md": ["Inter"],
+            "title-md": ["Inter"],
+            "metric-md": ["JetBrains Mono"],
+            "headline-lg": ["Be Vietnam Pro"],
+            "body-sm": ["Inter"],
+            "metric-sm": ["JetBrains Mono"],
+            "display-lg": ["Be Vietnam Pro"]
+          },
+          "fontSize": {
+            "label-md": ["11px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "title-md": ["15px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "metric-md": ["20px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "headline-lg": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+            "metric-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen">
+<!-- 1. PERSISTENT VERTICAL NAVIGATION RAIL -->
+<aside class="fixed left-0 top-0 h-full w-20 z-40 flex flex-col justify-between items-center bg-surface border-r border-outline-variant py-lg">
+<!-- Brand Logo Mark Area -->
+<div class="flex flex-col items-center gap-1">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary font-headline-md font-bold tracking-tight shadow-sm">
+        SD
+      </div>
+<span class="font-label-md text-[10px] text-outline tracking-wider font-semibold">SIGNAL</span>
+</div>
+<!-- Navigation Tabs -->
+<nav class="flex flex-col items-center gap-4 w-full px-2">
+<!-- Inactive: Dashboard -->
+<a class="flex flex-col items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors group" href="#" title="Dashboard">
+<span class="material-symbols-outlined text-[22px]">insights</span>
+<span class="font-label-md text-[9px] tracking-tight mt-0.5 opacity-80 group-hover:opacity-100">Dashboard</span>
+</a>
+<!-- Active: Channels -->
+<a class="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-primary-container text-on-primary-container transition-colors shadow-xs" href="#" title="Channels">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">subscriptions</span>
+<span class="font-label-md text-[9px] tracking-tight mt-0.5 font-bold">Channels</span>
+</a>
+<!-- Inactive: Sync history -->
+<a class="flex flex-col items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors group" href="#" title="Sync history">
+<span class="material-symbols-outlined text-[22px]">history</span>
+<span class="font-label-md text-[9px] tracking-tight mt-0.5 opacity-80 group-hover:opacity-100">Syncs</span>
+</a>
+</nav>
+<!-- Bottom Footer: Settings & Version -->
+<div class="flex flex-col items-center gap-3 w-full px-2">
+<a class="flex flex-col items-center justify-center w-12 h-12 rounded-xl text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors group" href="#" title="Settings">
+<span class="material-symbols-outlined text-[22px]">settings</span>
+<span class="font-label-md text-[9px] tracking-tight mt-0.5 opacity-80 group-hover:opacity-100">Settings</span>
+</a>
+<span class="font-metric-sm text-[10px] text-outline font-medium">v1.0</span>
+</div>
+</aside>
+<!-- 2. TOP PERSISTENT CONTEXT BAR -->
+<header class="fixed top-0 right-0 h-16 w-[calc(100%-80px)] z-30 flex justify-between items-center px-gutter-desktop bg-surface-container-lowest border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Channels</h1>
+<span class="text-xs bg-surface-container px-2 py-0.5 rounded text-secondary font-medium border border-outline-variant/40">Workspace</span>
+</div>
+<div class="flex items-center gap-5">
+<!-- Quiet metadata -->
+<div class="flex items-center gap-2 text-on-surface-variant font-body-sm text-body-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-metric-sm text-metric-sm text-outline">Last synced: 12 min ago</span>
+</div>
+<!-- Sync all CTA -->
+<button class="bg-primary text-white font-title-md text-body-md font-medium px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-opacity-95 transition-all shadow-none active:scale-95 duration-100">
+<span class="material-symbols-outlined text-lg">sync</span>
+<span>Sync all</span>
+</button>
+</div>
+</header>
+<!-- 3. MAIN SCROLLABLE CONTENT CANVAS -->
+<main class="pt-24 pb-16 px-gutter-desktop ml-20 max-w-7xl mx-auto space-y-8">
+<!-- SECTION 1: ADD CHANNEL PANEL -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-none">
+<div class="max-w-3xl">
+<h2 class="font-title-md text-lg text-on-surface font-semibold">Add a channel</h2>
+<p class="font-body-md text-body-sm text-on-surface-variant mt-1 mb-5">Paste a YouTube channel URL or @handle to begin monitoring its Shorts.</p>
+<form class="flex flex-col md:flex-row items-start gap-4">
+<div class="w-full md:w-[480px]">
+<label class="font-label-md text-label-md text-on-surface-variant block mb-1.5 uppercase tracking-wider" for="channel-input">
+              Channel handle or channel URL
+            </label>
+<div class="relative">
+<input class="w-full border border-outline-variant rounded-lg px-4 py-2.5 bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:border-primary focus:bg-white focus:ring-0 focus:outline-none transition-colors" id="channel-input" name="channel-input" placeholder="e.g. @mkbhd or https://youtube.com/@mkbhd" type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-2.5 text-outline pointer-events-none text-xl">smart_display</span>
+</div>
+<p class="font-body-sm text-[11px] text-outline mt-1.5 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">info</span>
+              Enter a valid YouTube handle (@name) or full channel link.
+            </p>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2.5 rounded-lg text-body-md font-medium flex items-center gap-2 hover:opacity-95 shadow-none transition-all h-[42px] self-start md:mt-6 cursor-pointer active:scale-95 duration-100" type="button">
+<span class="material-symbols-outlined text-lg">add</span>
+<span>Add channel</span>
+</button>
+</form>
+</div>
+</section>
+<!-- SECTION 2: TRACKED CHANNELS SECTION -->
+<section class="space-y-4">
+<!-- Section Header Area -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+<div>
+<div class="flex items-center gap-2.5">
+<h2 class="font-headline-md text-xl font-bold text-on-surface">Tracked channels</h2>
+<span class="bg-secondary-container text-on-secondary-container font-label-md text-xs px-2.5 py-0.5 rounded-full font-semibold">5 channels</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage channel tracking and sync individual channels when you need a refresh.</p>
+</div>
+</div>
+<!-- Wide Card-based Data Table Shell -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-none">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant text-on-surface-variant font-label-md text-label-md uppercase tracking-wider select-none">
+<th class="py-3.5 px-6 min-w-[240px]" scope="col">Channel</th>
+<th class="py-3.5 px-6 min-w-[220px]" scope="col">URL</th>
+<th class="py-3.5 px-6 min-w-[130px]" scope="col">Status</th>
+<th class="py-3.5 px-6 min-w-[140px]" scope="col">Last synced</th>
+<th class="py-3.5 px-6 min-w-[120px]" scope="col">Added on</th>
+<th class="py-3.5 px-6 min-w-[140px] text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/60 font-body-md text-body-md">
+<!-- ROW 1: MrBeast -->
+<tr class="hover:bg-surface-container/40 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center">
+<div class="w-9 h-9 rounded-full bg-teal-100 text-teal-800 font-headline-md font-bold text-sm flex items-center justify-center mr-3 shrink-0">
+                      MB
+                    </div>
+<div>
+<div class="font-title-md font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-tight">
+                        MrBeast
+                      </div>
+<div class="text-xs text-outline font-body-sm">@MrBeast</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<a class="text-primary text-xs font-body-sm hover:underline inline-flex items-center gap-1" href="https://youtube.com/@mrbeast" rel="noopener noreferrer" target="_blank">
+<span>youtube.com/@mrbeast</span>
+<span class="material-symbols-outlined text-xs">open_in_new</span>
+</a>
+</td>
+<td class="py-4 px-6">
+<label class="relative inline-flex items-center cursor-pointer gap-2 select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="font-label-md text-xs font-medium text-on-surface">Tracking</span>
+</label>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant tabular-nums">10 min ago</span>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">Oct 12, 2023</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Edit channel details">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary-container/40 transition-colors" title="Sync this channel now">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:text-error hover:bg-error-container transition-colors" title="Delete channel">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 2: Kurzgesagt -->
+<tr class="hover:bg-surface-container/40 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center">
+<div class="w-9 h-9 rounded-full bg-purple-100 text-purple-800 font-headline-md font-bold text-sm flex items-center justify-center mr-3 shrink-0">
+                      KG
+                    </div>
+<div>
+<div class="font-title-md font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-tight">
+                        Kurzgesagt – In a Nutshell
+                      </div>
+<div class="text-xs text-outline font-body-sm">@inanutshell</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<a class="text-primary text-xs font-body-sm hover:underline inline-flex items-center gap-1" href="https://youtube.com/@inanutshell" rel="noopener noreferrer" target="_blank">
+<span>youtube.com/@inanutshell</span>
+<span class="material-symbols-outlined text-xs">open_in_new</span>
+</a>
+</td>
+<td class="py-4 px-6">
+<label class="relative inline-flex items-center cursor-pointer gap-2 select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="font-label-md text-xs font-medium text-on-surface">Tracking</span>
+</label>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant tabular-nums">42 min ago</span>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">Nov 05, 2023</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Edit channel details">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary-container/40 transition-colors" title="Sync this channel now">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:text-error hover:bg-error-container transition-colors" title="Delete channel">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 3: Ali Abdaal -->
+<tr class="hover:bg-surface-container/40 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center">
+<div class="w-9 h-9 rounded-full bg-blue-100 text-blue-800 font-headline-md font-bold text-sm flex items-center justify-center mr-3 shrink-0">
+                      AA
+                    </div>
+<div>
+<div class="font-title-md font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-tight">
+                        Ali Abdaal
+                      </div>
+<div class="text-xs text-outline font-body-sm">@aliabdaal</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<a class="text-primary text-xs font-body-sm hover:underline inline-flex items-center gap-1" href="https://youtube.com/@aliabdaal" rel="noopener noreferrer" target="_blank">
+<span>youtube.com/@aliabdaal</span>
+<span class="material-symbols-outlined text-xs">open_in_new</span>
+</a>
+</td>
+<td class="py-4 px-6">
+<label class="relative inline-flex items-center cursor-pointer gap-2 select-none">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="font-label-md text-xs font-medium text-outline">Paused</span>
+</label>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">Yesterday, 18:30</span>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">Dec 01, 2023</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Edit channel details">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline opacity-40 cursor-not-allowed" disabled="" title="Tracking is paused - Sync unavailable">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:text-error hover:bg-error-container transition-colors" title="Delete channel">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 4: Marques Brownlee -->
+<tr class="hover:bg-surface-container/40 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center">
+<div class="w-9 h-9 rounded-full bg-emerald-100 text-emerald-800 font-headline-md font-bold text-sm flex items-center justify-center mr-3 shrink-0">
+                      MB
+                    </div>
+<div>
+<div class="font-title-md font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-tight">
+                        Marques Brownlee
+                      </div>
+<div class="text-xs text-outline font-body-sm">@mkbhd</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<a class="text-primary text-xs font-body-sm hover:underline inline-flex items-center gap-1" href="https://youtube.com/@mkbhd" rel="noopener noreferrer" target="_blank">
+<span>youtube.com/@mkbhd</span>
+<span class="material-symbols-outlined text-xs">open_in_new</span>
+</a>
+</td>
+<td class="py-4 px-6">
+<label class="relative inline-flex items-center cursor-pointer gap-2 select-none">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="font-label-md text-xs font-medium text-on-surface">Tracking</span>
+</label>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-on-surface-variant tabular-nums">2 hours ago</span>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">Jan 15, 2024</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Edit channel details">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-primary hover:bg-primary-container/40 transition-colors" title="Sync this channel now">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:text-error hover:bg-error-container transition-colors" title="Delete channel">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- ROW 5: Colin and Samir -->
+<tr class="hover:bg-surface-container/40 transition-colors group">
+<td class="py-4 px-6">
+<div class="flex items-center">
+<div class="w-9 h-9 rounded-full bg-amber-100 text-amber-800 font-headline-md font-bold text-sm flex items-center justify-center mr-3 shrink-0">
+                      CS
+                    </div>
+<div>
+<div class="font-title-md font-semibold text-on-surface group-hover:text-primary transition-colors cursor-pointer leading-tight">
+                        Colin and Samir
+                      </div>
+<div class="text-xs text-outline font-body-sm">@ColinandSamir</div>
+</div>
+</div>
+</td>
+<td class="py-4 px-6">
+<a class="text-primary text-xs font-body-sm hover:underline inline-flex items-center gap-1" href="https://youtube.com/@ColinandSamir" rel="noopener noreferrer" target="_blank">
+<span>youtube.com/@ColinandSamir</span>
+<span class="material-symbols-outlined text-xs">open_in_new</span>
+</a>
+</td>
+<td class="py-4 px-6">
+<label class="relative inline-flex items-center cursor-pointer gap-2 select-none">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-9 h-5 bg-outline-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+<span class="font-label-md text-xs font-medium text-outline">Paused</span>
+</label>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">3 days ago</span>
+</td>
+<td class="py-4 px-6">
+<span class="font-metric-sm text-metric-sm text-outline tabular-nums">Feb 20, 2024</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="inline-flex items-center gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Edit channel details">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline opacity-40 cursor-not-allowed" disabled="" title="Tracking is paused - Sync unavailable">
+<span class="material-symbols-outlined text-lg">sync</span>
+</button>
+<button class="p-1.5 rounded-lg text-outline hover:text-error hover:bg-error-container transition-colors" title="Delete channel">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer Pagination -->
+<div class="border-t border-outline-variant px-6 py-3.5 flex items-center justify-between text-body-sm font-body-sm text-on-surface-variant bg-surface-container-low/50 select-none">
+<div class="font-metric-sm text-xs">
+            Showing <span class="font-semibold text-on-surface">1–5</span> of <span class="font-semibold text-on-surface">5</span> channels
+          </div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="text-xs text-outline">Rows per page:</span>
+<div class="relative inline-block">
+<select class="bg-surface border border-outline-variant rounded px-2.5 py-1 text-xs font-metric-sm text-on-surface focus:border-primary focus:ring-0 focus:outline-none cursor-pointer pr-6 appearance-none">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+</select>
+<span class="material-symbols-outlined absolute right-1.5 top-1.5 text-xs pointer-events-none text-outline">arrow_drop_down</span>
+</div>
+</div>
+<div class="flex items-center gap-2 font-metric-sm text-xs">
+<button class="p-1 rounded text-outline opacity-40 cursor-not-allowed" disabled="" title="Previous page">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<span class="px-1 text-on-surface">1 of 1</span>
+<button class="p-1 rounded text-outline opacity-40 cursor-not-allowed" disabled="" title="Next page">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</body></html>

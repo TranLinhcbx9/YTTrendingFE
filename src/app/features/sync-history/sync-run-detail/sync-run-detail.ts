@@ -1,0 +1,197 @@
+import { DatePipe, DecimalPipe } from '@angular/common';
+import { Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTableModule } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+
+import { EmptyState } from '@shared/ui/empty-state/empty-state';
+import { ChannelAvatar } from '@shared/ui/channel-avatar/channel-avatar';
+import { FilterToolbar } from '@shared/ui/filter-toolbar/filter-toolbar';
+import { environment } from '@env/environment';
+import { isSyncRunPreviewName } from '../sync-history.fixtures';
+import {
+  formatSyncRunDuration,
+  SYNC_RUN_ITEM_STATUS_LABELS,
+  SyncRunItem,
+  SyncRunItemStatus,
+  SyncRunStatus,
+} from '../sync-history.models';
+import { SyncHistoryStore } from '../sync-history.store';
+import { SyncRunFailureDetails } from '../sync-run-failure-details/sync-run-failure-details';
+import { SyncStatusChip } from '../sync-status-chip/sync-status-chip';
+
+@Component({
+  selector: 'app-sync-run-detail-page',
+  imports: [
+    DatePipe,
+    DecimalPipe,
+    RouterLink,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatSelectModule,
+    MatTableModule,
+    ChannelAvatar,
+    EmptyState,
+    FilterToolbar,
+    SyncStatusChip,
+    SyncRunFailureDetails,
+  ],
+  templateUrl: './sync-run-detail.html',
+  styleUrl: './sync-run-detail.css',
+})
+export class SyncRunDetail implements OnInit, OnDestroy {
+  protected readonly store = inject(SyncHistoryStore);
+  private readonly route = inject(ActivatedRoute);
+  private readonly bottomSheet = inject(MatBottomSheet);
+
+  protected readonly invalidRunId = signal(false);
+  protected readonly statusAll = '';
+  protected readonly itemStatuses: readonly SyncRunItemStatus[] = [
+    'Pending',
+    'Running',
+    'Succeeded',
+    'Skipped',
+    'Failed',
+  ];
+  protected readonly itemStatusLabels = SYNC_RUN_ITEM_STATUS_LABELS;
+  protected readonly activeFilterCount = computed(() => (this.store.filter().status ? 1 : 0));
+  protected readonly displayedColumns = [
+    'channel',
+    'status',
+    'started',
+    'completed',
+    'duration',
+    'details',
+  ];
+  protected readonly trackByItemId = (_: number, item: SyncRunItem): number => item.id;
+  private routeSubscription: Subscription | null = null;
+
+  ngOnInit(): void {
+    this.routeSubscription = this.route.paramMap.subscribe((params) => {
+      this.openRunFromRoute(params.get('runId'));
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription?.unsubscribe();
+    this.store.stopPolling();
+    this.store.clearSelectedFailure();
+  }
+
+  protected outcomeIcon(status: SyncRunStatus): string {
+    switch (status) {
+      case 'Completed':
+        return 'check_circle';
+      case 'CompletedWithIssues':
+        return 'warning';
+      default:
+        return 'error';
+    }
+  }
+
+  protected outcomeTitle(status: SyncRunStatus): string {
+    switch (status) {
+      case 'Completed':
+        return 'This sync completed successfully.';
+      case 'CompletedWithIssues':
+        return 'This sync completed with issues.';
+      case 'Interrupted':
+        return 'This sync was interrupted.';
+      case 'Failed':
+        return 'This sync did not complete successfully.';
+      default:
+        return 'This sync is no longer active.';
+    }
+  }
+
+  protected outcomeTone(status: SyncRunStatus): string {
+    switch (status) {
+      case 'Completed':
+        return 'var(--color-sync-success)';
+      case 'Interrupted':
+      case 'Failed':
+        return 'var(--color-danger)';
+      default:
+        return 'var(--color-sync-issues)';
+    }
+  }
+
+  protected outcomeBackground(status: SyncRunStatus): string | null {
+    return status === 'Interrupted' || status === 'Failed'
+      ? 'var(--mat-sys-error-container)'
+      : null;
+  }
+
+  private openRunFromRoute(runIdParam: string | null): void {
+    const runId = Number(runIdParam);
+    if (!Number.isSafeInteger(runId) || runId <= 0) {
+      this.store.stopPolling();
+      this.store.clearSelectedFailure();
+      this.invalidRunId.set(true);
+      return;
+    }
+
+    this.invalidRunId.set(false);
+    const previewParam = environment.production
+      ? null
+      : this.route.snapshot.queryParamMap.get('preview');
+    const preview = isSyncRunPreviewName(previewParam) ? previewParam : null;
+
+    this.store.openRun(runId, preview);
+    this.store.startPolling();
+  }
+
+  protected onPageChange(event: PageEvent): void {
+    this.store.setItemPage(event.pageIndex + 1);
+  }
+
+  protected onStatusChange(status: SyncRunItemStatus | ''): void {
+    this.store.setItemStatus(status || undefined);
+  }
+
+  protected formatDuration(startedAt: string | null, completedAt: string | null): string {
+    return formatSyncRunDuration(startedAt, completedAt);
+  }
+
+  protected openFailureDetails(item: SyncRunItem): void {
+    if (window.matchMedia('(min-width: 900px)').matches) {
+      this.store.selectFailure(item);
+      return;
+    }
+
+    this.bottomSheet.open(SyncRunFailureDetails, {
+      ariaLabel: `Channel result details for ${item.channelName}`,
+      data: item,
+      panelClass: 'sync-run-failure-sheet',
+    });
+  }
+
+  protected errorTitle(): string {
+    return this.store.summaryError()?.code === 'syncRun.notFound'
+      ? 'Sync run not found'
+      : 'Could not load this sync run';
+  }
+
+  protected errorMessage(): string {
+    const error = this.store.summaryError();
+    if (error?.code === 'syncRun.notFound') {
+      return 'This sync run no longer exists, or the link is out of date.';
+    }
+    return error?.detail ?? 'Please check your connection and try again.';
+  }
+
+  protected hasResultDetails(item: SyncRunItem): boolean {
+    return item.errorCode != null || item.errorMessage != null;
+  }
+}

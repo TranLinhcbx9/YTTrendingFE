@@ -1,6 +1,13 @@
 import { computed } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { patchState, signalStoreFeature, withComputed, withMethods, withProps, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStoreFeature,
+  withComputed,
+  withMethods,
+  withProps,
+  withState,
+} from '@ngrx/signals';
 import { Observable } from 'rxjs';
 
 import { toProblemDetails } from '@core/http/problem-details';
@@ -98,6 +105,11 @@ export function withPagedResource<T, TFilter extends object = object>(
        */
       setFilter(filter: Partial<TFilter>): void {
         patchState(store, { filter: { ...store.filter(), ...filter } as TFilter, page: 1 });
+      },
+
+      /** Replaces all filters, including optional values that need to be removed. */
+      replaceFilter(filter: TFilter): void {
+        patchState(store, { filter, page: 1 });
       },
     })),
   );

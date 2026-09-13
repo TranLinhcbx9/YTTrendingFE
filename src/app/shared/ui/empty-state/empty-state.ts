@@ -7,10 +7,12 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [MatIconModule],
   template: `
     <div
-      class="flex flex-col items-center gap-2 rounded-[var(--mat-sys-corner-large)] bg-[var(--color-surface)] px-6 py-14 text-center text-[var(--color-text-muted)]"
+      class="flex flex-col items-center gap-2 rounded-[var(--mat-sys-corner-medium)] bg-[var(--mat-sys-surface-container-lowest)] px-6 py-12 text-center text-[var(--color-text-muted)] shadow-[inset_0_0_0_1px_var(--color-border)] sm:py-14"
     >
       <mat-icon class="!h-11 !w-11 !text-[44px] opacity-70">{{ icon() }}</mat-icon>
-      <span class="font-[family-name:var(--font-display)] text-base font-bold text-[var(--color-text)]">
+      <span
+        class="font-[family-name:var(--font-display)] text-base font-bold text-[var(--color-text)]"
+      >
         {{ title() }}
       </span>
       @if (message(); as msg) {

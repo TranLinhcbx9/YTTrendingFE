@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Delete Channel - Shorts Intelligence</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts: Inter, Be Vietnam Pro, JetBrains Mono -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+              "surface-high": "#DCECE8",
+              "primary-fixed": "#9ff2e4",
+              "on-secondary-fixed": "#00201c",
+              "on-tertiary-fixed": "#1f0b50",
+              "secondary-container": "#b5eae1",
+              "on-error": "#ffffff",
+              "surface-container": "#E1F1ED",
+              "background": "#EDFDF9",
+              "surface-container-highest": "#dae5e2",
+              "primary-container": "#61F9E6",
+              "surface": "#f0fcf9",
+              "tertiary-fixed": "#e8deff",
+              "tertiary": "#4b3b7d",
+              "on-primary-container": "#95e7da",
+              "on-tertiary-fixed-variant": "#4c3c7e",
+              "surface-container-low": "#ebf6f3",
+              "on-primary-fixed": "#00201c",
+              "tertiary-container": "#635397",
+              "surface-bright": "#f0fcf9",
+              "inverse-primary": "#84d5c8",
+              "surface-lowest": "#FFFFFF",
+              "secondary": "#346760",
+              "on-surface-variant": "#3E4947",
+              "error-container": "#ffdad6",
+              "surface-dim": "#d1dcda",
+              "surface-container-high": "#dfebe8",
+              "on-background": "#131d1c",
+              "surface-tint": "#016a60",
+              "on-secondary-fixed-variant": "#194f48",
+              "secondary-fixed-dim": "#9cd1c8",
+              "on-secondary-container": "#386b64",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#b8ede4",
+              "on-primary": "#ffffff",
+              "on-tertiary-container": "#ddd1ff",
+              "outline": "#6e7977",
+              "surface-low": "#E7F7F3",
+              "inverse-surface": "#283231",
+              "primary-fixed-dim": "#84d5c8",
+              "surface-variant": "#dae5e2",
+              "on-error-container": "#93000a",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#e8f3f0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#131d1c",
+              "outline-variant": "#bec9c6",
+              "error": "#BA1A1A",
+              "primary": "#005048",
+              "tertiary-fixed-dim": "#cdbdff",
+              "on-primary-fixed-variant": "#005048"
+            },
+            "borderRadius": {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            },
+            "spacing": {
+              "md": "12px",
+              "gutter-mobile": "16px",
+              "unit": "4px",
+              "sm": "8px",
+              "gutter-desktop": "24px",
+              "xl": "24px",
+              "xs": "4px",
+              "lg": "16px",
+              "3xl": "40px",
+              "2xl": "32px"
+            },
+            "fontFamily": {
+              "title-md": ["Inter"],
+              "headline-lg": ["Be Vietnam Pro"],
+              "label-md": ["Inter"],
+              "headline-md": ["Be Vietnam Pro"],
+              "body-sm": ["Inter"],
+              "metric-sm": ["JetBrains Mono"],
+              "body-md": ["Inter"],
+              "metric-md": ["JetBrains Mono"],
+              "display-lg": ["Be Vietnam Pro"]
+            },
+            "fontSize": {
+              "title-md": ["15px", {"lineHeight": "20px", "fontWeight": "600"}],
+              "headline-lg": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+              "label-md": ["11px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+              "headline-md": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+              "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+              "metric-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+              "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+              "metric-md": ["20px", {"lineHeight": "24px", "fontWeight": "600"}],
+              "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .spinner {
+            animation: rotate 2s linear infinite;
+        }
+        
+        .spinner .path {
+            stroke: currentColor;
+            stroke-linecap: round;
+            animation: dash 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes dash {
+            0% {
+                stroke-dasharray: 1, 150;
+                stroke-dashoffset: 0;
+            }
+            50% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -35;
+            }
+            100% {
+                stroke-dasharray: 90, 150;
+                stroke-dashoffset: -124;
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex overflow-hidden">
+<!-- Background Image -->
+<div class="fixed inset-0 z-0 opacity-20 pointer-events-none" data-alt="A macro shot of a sleek, brushed aluminum surface with delicate, mathematically precise grid lines faintly etched into the metal. The lighting is cool, clinical white, casting a high-density, analytical workspace mood typical of a modern scientific instrument or a high-end corporate intelligence dashboard." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCuv58Ga9ZXGwuxMa8gynSD5HZFdExTM-_gXnO_VaTdpnEkYOu2CNlYfVv_6qmaTEA0P2VhgZGoGi2I2y81C294VDYwAR8BezzwYlGtnMItR5Y9vbsmP4GKNANn5RfzrXZxx7O_wdgnu1PTpxxVN-NfD70nqBZ6sgXHqMSle6vrV7UIWdfNPrLe7hmYYNoCePFk07D5W156QSv0hIm9udEgxrqw6aJrM55hdQ-asB4xdqo_wxhxBpR1jZfqBU--SjqsjhrbMTWqriY')"></div>
+<!-- Scrim / Overlay -->
+<div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-50 flex items-center justify-center p-gutter-mobile md:p-gutter-desktop">
+<!-- Dialog Container -->
+<div class="bg-surface-container-high rounded-[28px] shadow-lg w-full max-w-[400px] flex flex-col pointer-events-auto overflow-hidden p-xl gap-xl">
+<!-- Dialog Header & Body -->
+<div class="flex flex-col gap-md">
+<div class="flex items-center text-error">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Delete channel Marques Brownlee?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    All videos tracked from this channel will also be deleted. This action cannot be undone.
+                </p>
+</div>
+<!-- Dialog Actions -->
+<div class="flex justify-end gap-sm">
+<!-- Cancel Button -->
+<button class="h-[40px] px-lg rounded-full font-title-md text-title-md text-primary hover:bg-surface-container-highest transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    Cancel
+                </button>
+<!-- Delete Button (Submitting State) -->
+<button class="h-[40px] px-lg rounded-full font-title-md text-title-md bg-error text-on-error hover:bg-error/90 transition-colors disabled:opacity-80 disabled:cursor-not-allowed flex items-center justify-center min-w-[88px]" disabled="">
+<svg class="spinner w-[20px] h-[20px]" viewbox="0 0 50 50">
+<circle class="path" cx="25" cy="25" fill="none" r="20" stroke-width="5"></circle>
+</svg>
+</button>
+</div>
+</div>
+</div>
+<!-- Background Screen: Channel Management Shell (from SCREEN_8) -->
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-[80px] z-40 flex flex-col items-center py-6 gap-6 bg-surface border-r border-outline-variant">
+<!-- Logo -->
+<div class="w-10 h-10 rounded bg-primary-container flex items-center justify-center mb-4">
+<span class="font-headline-md text-headline-md font-bold text-primary">SI</span>
+</div>
+<!-- Nav Items -->
+<div class="flex flex-col gap-sm w-full px-xs">
+<a class="flex flex-col items-center justify-center text-on-surface-variant p-2 rounded-lg hover:bg-surface-container-high transition-colors" href="#" title="Dashboard">
+<span class="material-symbols-outlined text-[24px]">dashboard</span>
+<span class="font-label-md text-label-md mt-1 hidden">Dashboard</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-lg p-2 transition-all opacity-90" href="#" title="Channels">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">subscriptions</span>
+<span class="font-label-md text-label-md mt-1 hidden">Channels</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-[80px] flex-1 flex flex-col min-h-screen relative z-10 opacity-60 pointer-events-none filter blur-[1px]">
+<!-- TopAppBar -->
+<header class="docked full-width top-0 sticky z-30 bg-surface border-b border-outline-variant flex justify-between items-center h-16 px-gutter-desktop">
+<div class="flex items-center gap-md">
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Shorts Intelligence</h1>
+<span class="text-on-surface-variant font-body-sm text-body-sm ml-lg hidden md:inline">Last synced: 2 mins ago</span>
+</div>
+<div class="flex items-center gap-sm">
+<button class="h-[40px] px-lg rounded-lg font-title-md text-title-md bg-primary text-on-primary hover:bg-primary/90 transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                    Add Channel
+                </button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="p-gutter-desktop max-w-[1200px] mx-auto w-full">
+<!-- Toolbar / Filters -->
+<div class="flex items-center justify-between mb-xl">
+<h2 class="font-title-md text-title-md text-on-surface">Tracked Channels (12)</h2>
+<div class="flex gap-sm">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+<input class="h-[40px] pl-2xl pr-md rounded-lg border border-outline-variant bg-surface-lowest text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none w-[240px]" placeholder="Search channels..." type="text"/>
+</div>
+<button class="h-[40px] px-md rounded-lg border border-outline font-title-md text-title-md text-on-surface hover:bg-surface-container transition-colors flex items-center gap-sm">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                        Filter
+                    </button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-surface-lowest rounded-xl border border-outline-variant overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-low border-b border-outline-variant">
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold">CHANNEL</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold text-right">SUBSCRIBERS</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold text-right">AVG VIEWS (30D)</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold text-right">LAST UPLOAD</th>
+<th class="py-md px-lg font-label-md text-label-md text-on-surface-variant font-semibold text-center">ACTIONS</th>
+</tr>
+</thead>
+<tbody class="font-body-sm text-on-surface">
+<!-- Target Row for Deletion -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors bg-error-container/20">
+<td class="py-md px-lg">
+<div class="flex items-center gap-md">
+<img class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A minimalist tech review studio setup with a sleek desk, soft warm rim lighting, and a shallow depth of field, reflecting the high-production value typical of Marques Brownlee's tech content." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8IHyDq35JDfbg-6x0SFc-DiiyLEW4yXKMNw13j4EI7GcYzraqWxhy7-k4CEP30uAfrpkEpqk414tX8qbEdNQzw2hovJzXCqJtUXKveaz9r616x-ool3do9w9YReZdeS3ngcit2mt5bTRUnTUZ0RzugVATGKP691Xc3mk_pJEunJixDSJjoV9o9oAHXGpWB80W-QwfaE_L8XVaezW6GIn54udBZduhKcg1D4AM_ngySYcNDWAOs0518pVPSCJVQVU5yWgRZzjfA9M"/>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Marques Brownlee</div>
+<div class="text-on-surface-variant text-xs">@MKBHD</div>
+</div>
+</div>
+</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm">18.5M</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm text-primary">2.1M</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm text-on-surface-variant">2h ago</td>
+<td class="py-md px-lg text-center">
+<button class="p-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+<!-- Other Rows -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant border border-outline-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">MrBeast</div>
+<div class="text-on-surface-variant text-xs">@MrBeast</div>
+</div>
+</div>
+</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm">240M</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm text-primary">85M</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm text-on-surface-variant">1d ago</td>
+<td class="py-md px-lg text-center">
+<button class="p-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="py-md px-lg">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant border border-outline-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface">Cleo Abram</div>
+<div class="text-on-surface-variant text-xs">@CleoAbram</div>
+</div>
+</div>
+</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm">2.4M</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm text-primary">850K</td>
+<td class="py-md px-lg text-right font-metric-sm text-metric-sm text-on-surface-variant">3d ago</td>
+<td class="py-md px-lg text-center">
+<button class="p-sm rounded text-on-surface-variant hover:bg-surface-container hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</body></html>

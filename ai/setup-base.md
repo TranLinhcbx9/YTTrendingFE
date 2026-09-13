@@ -11,12 +11,12 @@
 
 ## 0. Chuyển PrimeNG → Angular Material 3
 > Quyết định đổi UI lib sau khi base đã dựng bằng PrimeNG. Code từng batch
-> (copy được) ở [`ai/temp/material-redesign-plan.md`](temp/material-redesign-plan.md).
-> Các mục bên dưới đã bỏ tick chính là phần phải làm lại.
+> Plan chi tiết đã hoàn tất và được dọn khỏi `ai/temp`. Các mục bên dưới đã
+> bỏ tick chính là phần phải làm lại.
 
 - [x] Batch 0–6: gỡ lib, dựng theme, tokens, `app.config.ts`, interceptor
 - [x] Batch 7: Shell → nav rail + toolbar
-- [~] Batch 8: `StatusChip` xong; các component còn lại ở mục 5
+- [x] Batch 8: hoàn tất các shared component theo Material 3
 - [x] Batch 9: cập nhật docs (`AGENTS.md`, `architecture.md`,
       `design-tokens.md`, `components.md`, file này)
 - [x] Redesign artifact Blueprint + Screens sang M3

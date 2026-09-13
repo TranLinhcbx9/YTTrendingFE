@@ -1,0 +1,95 @@
+{
+  "projectId": "5794602541391723591",
+  "title": "Shorts Trend Monitor — Unified UI System",
+  "screens": [
+    {
+      "screenId": "25cc8bca962749bb96320e88542962ce",
+      "title": "Recent Shorts Dashboard (Standardized)",
+      "route": "/dashboard",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "6be29aea3f7b442b8be441c88b5822a9",
+      "title": "Recent Shorts Dashboard Mobile (Standardized)",
+      "route": "/dashboard",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "bf743b96468246beb469be591182e603",
+      "title": "Channel Management (Standardized)",
+      "route": "/channels",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "3a0630c6bed84ea4bb101b45b33d6671",
+      "title": "Channel Management Mobile (Standardized)",
+      "route": "/channels",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "60164e26c11a4fe59d8cd95ae3defd01",
+      "title": "Video Detail (Standardized)",
+      "route": "/videos/:id",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "355cd68ba1874b4fb270f0f9e4b6337f",
+      "title": "Video Detail Mobile (Standardized)",
+      "route": "/videos/:id",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "d872d89a4bac46d38bf9d6300550f3ac",
+      "title": "Edit Channel Dialog (Standardized)",
+      "route": "/channels (dialog state)",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "df5717f73ced4140840c824565935d54",
+      "title": "Delete Confirmation (Standardized)",
+      "route": "/channels (dialog state)",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "d642083659434cf09648bcc6da0d1db7",
+      "title": "Sync History (Refined Sync Flow)",
+      "route": "/sync-history",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "4100dd6bb0f3470e9d1c59f0fe94c67c",
+      "title": "Sync Run Detail (Side-by-Side Investigation)",
+      "route": "/sync-history/:runId",
+      "deviceType": "DESKTOP"
+    },
+    {
+      "screenId": "44bd66b4f58f4d80859fce06e3797e32",
+      "title": "Sync History Mobile (Refined Sync Flow)",
+      "route": "/sync-history",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "ca1609a5fb5a49fdab087ddf47588b76",
+      "title": "Sync Run Detail (Mobile Investigation)",
+      "route": "/sync-history/:runId",
+      "deviceType": "MOBILE"
+    },
+    {
+      "screenId": "8615278145743362869",
+      "title": "Recent Shorts Dashboard (Desktop)",
+      "route": "/dashboard",
+      "deviceType": "DESKTOP"
+    }
+  ],
+  "designSystem": {
+    "assetId": "ea783bc24bfb448c97e1957222610ad5",
+    "displayName": "Shorts Trend Monitor — Signal Desk",
+    "colorMode": "LIGHT",
+    "primaryColor": "#006A60",
+    "secondaryColor": "#346760",
+    "backgroundColor": "#EDFDF9",
+    "headlineFont": "BE_VIETNAM_PRO",
+    "bodyFont": "INTER",
+    "roundness": "ROUND_EIGHT"
+  }
+}

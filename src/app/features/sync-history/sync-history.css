@@ -1,0 +1,126 @@
+.sync-history-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sync-history-page__header,
+.sync-history-page__section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sync-history-page__header h1,
+.sync-history-page__section-heading h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.sync-history-page__header h1 {
+  font: var(--mat-sys-headline-medium);
+}
+
+.sync-history-page__section-heading h2 {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.sync-history-page__header p,
+.sync-history-page__section-heading p {
+  margin: 4px 0 0;
+  color: var(--color-text-muted);
+  font: var(--mat-sys-body-small);
+}
+
+.sync-history-page__history {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sync-history-page__filters {
+  min-width: 0;
+}
+
+.sync-history-page__filters mat-form-field {
+  min-width: 180px;
+}
+
+.sync-history-page__filter-error {
+  margin: -8px 0 0;
+  color: var(--color-danger);
+  font: var(--mat-sys-body-small);
+}
+
+.sync-history-page__loading {
+  --mat-progress-bar-active-indicator-color: var(--color-accent);
+  --mat-progress-bar-track-color: var(--mat-sys-surface-container-high);
+  height: 2px;
+}
+
+.sync-history-page__table {
+  min-width: 940px;
+}
+
+.sync-history-page__compact-cell {
+  font-size: 12px;
+}
+
+.sync-history-page__run-id,
+.sync-history-page__created {
+  display: block;
+}
+
+.sync-history-page__run-id {
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.sync-history-page__created {
+  margin-top: 2px;
+  font: var(--mat-sys-body-small);
+}
+
+.sync-history-page__counter {
+  display: block;
+  font: var(--mat-sys-body-small);
+}
+
+.sync-history-page__counter--success {
+  color: var(--color-sync-success);
+}
+
+.sync-history-page__counter--failed {
+  color: var(--color-danger);
+}
+
+@media (max-width: 599px) {
+  .sync-history-page {
+    gap: 24px;
+  }
+
+  .sync-history-page__header,
+  .sync-history-page__section-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .sync-history-page__filters mat-form-field {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .sync-history-page__counter {
+    display: inline;
+  }
+
+  .sync-history-page__counter + .sync-history-page__counter::before {
+    color: var(--color-text-muted);
+    content: ' · ';
+  }
+}

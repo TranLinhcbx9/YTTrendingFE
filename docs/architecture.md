@@ -23,7 +23,13 @@
         │   ├── dashboard.store.ts
         │   ├── dashboard.service.ts      # VideosService — gọi /api/videos
         │   └── video-filter-bar/
-        └── video-detail/
+        ├── video-detail/
+        └── sync-history/
+            ├── sync-history.ts/.html      # list route /sync-history
+            ├── sync-history.store.ts
+            ├── sync-history.service.ts
+            ├── sync-history.models.ts
+            └── sync-run-detail/           # route /sync-history/:runId
 
 1 feature = 1 folder — component, store, service, model cạnh nhau, sửa
 tính năng chỉ mở đúng 1 folder.
@@ -42,6 +48,9 @@ tính năng chỉ mở đúng 1 folder.
 ## Nguyên tắc
 
 - **1 SignalStore / feature**, không có 1 store khổng lồ dùng chung.
+- Khi API SyncRun có mặt, Global Sync all thuộc feature Sync history: sau khi
+  Service tạo run thành công, Store cập nhật state và route component điều hướng
+  đến run detail. Channels chỉ giữ mutation Sync của từng channel.
 - **Service (`*.service.ts`) là tầng data-access duy nhất** gọi
   `HttpClient`/`httpResource()` — trả `Observable`/`Promise`/resource,
   **không giữ state**, không biết Angular Material/UI.
