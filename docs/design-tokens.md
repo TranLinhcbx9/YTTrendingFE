@@ -132,5 +132,6 @@ View/like/comment là `BIGINT` — luôn rút gọn (`1,204,000 → 1.2M`). Áp
 
 ## Nội dung file thật
 
-Xem `ai/temp/material-redesign-plan.md` Batch 1–3 (code đầy đủ, copy
-được). Không chép lại ở đây để tránh 2 bản lệch nhau.
+Nguồn triển khai là `src/styles/_theme-colors.scss`,
+`src/styles/material-theme.scss` và `src/styles/tokens.css`. Không chép lại
+ở đây để tránh 2 bản lệch nhau.
